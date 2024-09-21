@@ -4,6 +4,7 @@
 import { sql } from "drizzle-orm";
 import {
   index,
+  json,
   pgTableCreator,
   serial,
   timestamp,
@@ -33,4 +34,22 @@ export const posts = createTable(
   (example) => ({
     nameIndex: index("name_idx").on(example.name),
   })
+);
+
+export const expenses = createTable(
+  "expense",
+  {
+    id: serial("id").primaryKey(),
+    userId: varchar("user_id", { length: 256 }),
+    expense: json("expense").default("{}"),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+      () => new Date()
+    ),
+  },
+  // (example) => ({
+  //   nameIndex: index("user_idx").on(example.userId),
+  // })
 );

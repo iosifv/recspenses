@@ -3,10 +3,11 @@ import Link from "next/link";
 import { LatestPost } from "~/app/_components/post";
 import { api, HydrateClient } from "~/trpc/server";
 
-export default async function Home() {
-  const hello = await api.post.hello({ text: "from tRPC" });
+export default async function Dashboard() {
+  const mine = await api.expense.getMine();
+  console.log(mine);
 
-  void api.post.getLatest.prefetch();
+  void api.expense.getMine.prefetch();
 
   return (
     <HydrateClient>
@@ -16,6 +17,18 @@ export default async function Home() {
             dashboard
           </h1>
           
+          <div className="flex flex-col items-center gap-2">
+            {
+             mine.map((item, index) => {
+              return (
+                <p className="text-2xl text-white" key={index}>
+                  {item.userId}
+                </p>
+              )
+            })
+            }
+            
+          </div>
         </div>
       </main>
     </HydrateClient>
