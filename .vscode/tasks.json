@@ -1,0 +1,46 @@
+{
+  "link": "https://code.visualstudio.com/docs/editor/tasks",
+  "version": "2.0.0",
+  "tasks": [
+      {
+          "label": "pnpm dev",
+          "type": "shell",
+          "command": "pnpm dev",
+          "presentation": {
+              "reveal": "always",
+              "panel": "new",
+              "group": "localhost-environment",
+              "close": true
+          }
+      },
+      {
+          "label": "pnpm db:studio",
+          "type": "shell",
+          "command": "pnpm db:studio",
+          "presentation": {
+              "reveal": "always",
+              "panel": "new",
+              "group": "localhost-environment",
+              "close": true
+          }
+      },
+      {
+          "label": "git count-files",
+          "type": "shell",
+          "command": "git ls-tree -r main --name-only | wc -l",
+          "presentation": {
+            "reveal": "always",
+             "group": "localhost-terminal",
+          }
+      },
+      {
+          "label": "git status",
+          "type": "shell",
+          "command": "git status",
+          "presentation": {
+              "reveal": "always",
+              "group": "localhost-terminal",
+          }
+      },
+  ]
+}
