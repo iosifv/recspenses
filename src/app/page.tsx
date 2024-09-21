@@ -3,6 +3,9 @@ import Link from "next/link";
 import { LatestPost } from "~/app/_components/post";
 import { api, HydrateClient } from "~/trpc/server";
 
+// Force the page to be server-side rendered and bypass the vercel caching
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const hello = await api.post.hello({ text: "from tRPC" });
 

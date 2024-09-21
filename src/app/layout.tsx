@@ -11,7 +11,7 @@ import Link from "next/link";
 // Helper to show the environment in the title
 let titleEnv = ''
 if(process.env.APPLICATION_ENV == "production"){
-  titleEnv += '<<production>>'
+  titleEnv += '<<prod>>'
 }
 else {
   titleEnv += '{dev}'
