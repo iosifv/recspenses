@@ -1,3 +1,4 @@
+import { SignedIn, SignedOut } from "@clerk/nextjs";
 import Link from "next/link";
 
 import { LatestPost } from "~/app/_components/post";
@@ -18,14 +19,24 @@ export default async function Home() {
           <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">
             Recspenses App
           </h1>
-          
+          <SignedOut>
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-2xl text-white">
+              Please sign in above to view the page.
+            </p>
+          </div>
+          </SignedOut>
+          <SignedIn>
           <div className="flex flex-col items-center gap-2">
             <p className="text-2xl text-white">
               {hello ? hello.greeting : "Loading tRPC query..."}
             </p>
           </div>
-
           <LatestPost />
+          </SignedIn>
+         
+
+          
         </div>
       </main>
     </HydrateClient>
