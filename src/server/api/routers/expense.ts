@@ -13,6 +13,19 @@ export const expenseRouter = createTRPCRouter({
       })
     }),
 
+  createMine: publicProcedure
+    .input(z.object({ expense: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const { userId } = auth()
+      if (!userId) {
+        throw new Error("Not logged in")
+      }
+      await ctx.db.insert(expenses).values({
+        userId: userId,
+        expense: input.expense,
+      })
+    }),
+
   getMine: publicProcedure.query(async ({ ctx }) => {
     const { userId } = auth()
     if (!userId) {

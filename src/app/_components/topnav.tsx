@@ -18,7 +18,9 @@ export function TopNav() {
               Home
             </Link>
           </div>
-          <SignInButton />
+          <SignInButton>
+            <button className="text-gray-300 hover:text-white">Sign in</button>
+          </SignInButton>
         </SignedOut>
         <SignedIn>
           <div className="text-l lg:flex-grow p-6">

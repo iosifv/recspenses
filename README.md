@@ -28,9 +28,20 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] Make sure deployment works
 - [x] Connect to DB
 - [x] Add authentication
-- [ ] Scaffold Basic UI
+- [x] Scaffold Basic UI
 - [ ] Read and write from a DB
 - [ ] Connect authentication with my db
 - [ ] Error management (w/ sentry)
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
+
+## Development
+
+### Setup
+
+1. Clone the repo
+2. Run `pnpm install`
+3. Run `pnpm dev`
+4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+Use VsCode's Task Explorer to run the app and drizzle studio.
