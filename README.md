@@ -11,10 +11,13 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [Drizzle](https://orm.drizzle.team) - Database ORM
 - [Tailwind CSS](https://tailwindcss.com) - CSS Framework
 - [Sentry](https://sentry.io) - Error Management
+- [Heroicons](https://heroicons.com/) - Icons
+- [Shadcn](https://ui.shadcn.com/) - UI Components
 
 ### Development Links (for easy access)
 
 - [Documentation - Youtube - Theo t3](https://www.youtube.com/watch?v=d5x0JCZbAJs)
+- [Documentation - Theo's Github Project](https://github.com/t3dotgg/t3gallery)
 - [Documentation - Clerk](https://clerk.com/docs/quickstarts/nextjs)
 - [Deployment Dashboard - GitHub](https://github.com/iosifv/recspenses)
 - [Deployment Dashboard - Vercel](https://vercel.com/iosifs-projects-fc6671c4/recspenses/2ySVBdG28NPG8yaAAf8uAm6ig4Ut)
