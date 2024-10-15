@@ -10,6 +10,7 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [Clerk](https://clerk.com) - Authentication
 - [Drizzle](https://orm.drizzle.team) - Database ORM
 - [Tailwind CSS](https://tailwindcss.com) - CSS Framework
+- [Sentry](https://sentry.io) - Error Management
 
 ### Development Links (for easy access)
 
