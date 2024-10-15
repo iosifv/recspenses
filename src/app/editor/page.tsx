@@ -1,4 +1,5 @@
 // import { useState } from "react"
+import { toast } from "sonner"
 import { api, HydrateClient } from "~/trpc/server"
 
 export default async function Dashboard() {

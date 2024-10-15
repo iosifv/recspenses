@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react"
+import { toast } from "sonner"
 
 import { api } from "~/trpc/react"
 
@@ -15,6 +16,8 @@ export function LatestPost() {
       setName("")
     },
   })
+
+  toast.success("This is a toast message")
 
   return (
     <div className="w-full max-w-xs">

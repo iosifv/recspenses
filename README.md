@@ -37,6 +37,7 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [ ] Read and write from a DB
 - [ ] Connect authentication with my db
 - [x] Error management (w/ sentry)
+- [x] Add ShadUI
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
 

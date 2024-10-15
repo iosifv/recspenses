@@ -8,6 +8,7 @@ import { type Metadata } from "next"
 
 import { TRPCReactProvider } from "~/trpc/react"
 import { titleEnv } from "./_components/titleEnv"
+import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   title: "Recspenses App | " + titleEnv(),
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
         <body>
           <TopNav />
           <TRPCReactProvider>{children}</TRPCReactProvider>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
