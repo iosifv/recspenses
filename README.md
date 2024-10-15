@@ -18,6 +18,7 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [Deployment Dashboard - GitHub](https://github.com/iosifv/recspenses)
 - [Deployment Dashboard - Vercel](https://vercel.com/iosifs-projects-fc6671c4/recspenses/2ySVBdG28NPG8yaAAf8uAm6ig4Ut)
 - [Deployment Dashboard - Clerk](https://dashboard.clerk.com/apps/app_2mLIvcMUGIPL5UVkyIwSiLkgFOi/instances/ins_2mLIvY2tu01h3OJw32AeWsb2byy)
+- [Deployment Dashboard - Sentry](https://casa4-zv.sentry.io/issues/)
 - [Deployed - App](https://recspenses.vercel.app/)
 - [Local - App](http://localhost:3000/)
 - [Local - Drizzle Studio](https://local.drizzle.studio/)
@@ -31,7 +32,7 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] Scaffold Basic UI
 - [ ] Read and write from a DB
 - [ ] Connect authentication with my db
-- [ ] Error management (w/ sentry)
+- [x] Error management (w/ sentry)
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
 
