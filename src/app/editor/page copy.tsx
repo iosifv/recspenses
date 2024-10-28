@@ -1,9 +1,6 @@
-"use client"
-
-import { useState } from "react"
+// import { useState } from "react"
 // import { toast } from "sonner"
 import { api, HydrateClient } from "~/trpc/server"
-import { api as apiReact } from "~/trpc/react"
 import { Expense, columns } from "./columns"
 import { DataTable } from "./data-table"
 
@@ -23,15 +20,6 @@ async function getData(): Promise<Expense[]> {
 export default async function Dashboard() {
   const mine = await api.expense.getMine()
   console.log(mine)
-
-  const utils = apiReact.useUtils()
-  const [name, setName] = useState("")
-  const createPost = apiReact.post.create.useMutation({
-    onSuccess: async () => {
-      await utils.post.invalidate()
-      setName("")
-    },
-  })
 
   function AddSvg() {
     return (
@@ -66,30 +54,35 @@ export default async function Dashboard() {
             <DataTable columns={columns} data={data} />
           </div>
 
-          {/* Display the list of existing expenses */}
+          {/* Form for creating a new expense */}
+          <div className="flex flex-col items-center gap-2">
+            <form className="flex flex-col items-center gap-4">
+              <input
+                type="text"
+                name="userId"
+                // value={formData.userId}
+                // onChange={handleInputChange}
+                placeholder="User ID"
+                className="px-4 py-2 text-black rounded"
+              />
+              <input
+                type="text"
+                name="amount"
+                // value={formData.amount}
+                // onChange={handleInputChange}
+                placeholder="Amount"
+                className="px-4 py-2 text-black rounded"
+              />
+              <button
+                type="submit"
+                className="px-6 py-2 bg-blue-500 rounded text-white cursor-pointer"
+              >
+                <AddSvg />
+              </button>
+            </form>
+          </div>
 
-          <form
-            onSubmit={(e) => {
-              e.preventDefault()
-              createPost.mutate({ name })
-            }}
-            className="flex flex-col gap-2"
-          >
-            <input
-              type="text"
-              placeholder="Title"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-full px-4 py-2 text-black"
-            />
-            <button
-              type="submit"
-              className="rounded-full bg-white/10 px-10 py-3 font-semibold transition hover:bg-white/20"
-              disabled={createPost.isPending}
-            >
-              {createPost.isPending ? "Submitting..." : "Submit"}
-            </button>
-          </form>
+          {/* Display the list of existing expenses */}
 
           <div className="flex flex-col items-center gap-2">
             {mine.map((item, index) => {

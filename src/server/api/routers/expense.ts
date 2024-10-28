@@ -4,14 +4,14 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { expenses } from "~/server/db/schema"
 
 export const expenseRouter = createTRPCRouter({
-  create: publicProcedure
-    .input(z.object({ userId: z.string(), expense: z.string() }))
-    .mutation(async ({ ctx, input }) => {
-      await ctx.db.insert(expenses).values({
-        userId: input.userId,
-        expense: input.expense,
-      })
-    }),
+  // create: publicProcedure
+  //   .input(z.object({ userId: z.string(), expense: z.string() }))
+  //   .mutation(async ({ ctx, input }) => {
+  //     await ctx.db.insert(expenses).values({
+  //       userId: input.userId,
+  //       expense: input.expense,
+  //     })
+  //   }),
 
   createMine: publicProcedure
     .input(z.object({ expense: z.string() }))
@@ -22,7 +22,11 @@ export const expenseRouter = createTRPCRouter({
       }
       await ctx.db.insert(expenses).values({
         userId: userId,
-        expense: input.expense,
+        name: "asb",
+        currency: "USD",
+        amount: 77,
+        frequency: "monthly",
+        extra: "{}",
       })
     }),
 
@@ -32,9 +36,12 @@ export const expenseRouter = createTRPCRouter({
       throw new Error("Not logged in")
     }
 
+    //test userid
+    console.log(userId)
+
     const expense = await ctx.db.query.expenses.findMany({
       where: (expenses, { eq }) => eq(expenses.userId, userId),
-      orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
+      // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
     })
 
     return expense ?? null

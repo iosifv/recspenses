@@ -2,7 +2,15 @@
 // https://orm.drizzle.team/docs/sql-schema-declaration
 
 import { sql } from "drizzle-orm"
-import { index, json, pgTableCreator, serial, timestamp, varchar } from "drizzle-orm/pg-core"
+import {
+  index,
+  integer,
+  json,
+  pgTableCreator,
+  serial,
+  timestamp,
+  varchar,
+} from "drizzle-orm/pg-core"
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -32,11 +40,15 @@ export const expenses = createTable(
   {
     id: serial("id").primaryKey(),
     userId: varchar("user_id", { length: 256 }),
-    expense: json("expense").default("{}"),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    name: varchar("name", { length: 256 }),
+    currency: varchar("currency", { length: 6 }),
+    amount: integer("amount").notNull(),
+    frequency: varchar("frequency", { length: 12 }),
+    extra: json("extra").default("{}"),
+    // createdAt: timestamp("created_at", { withTimezone: true })
+    //   .default(sql`CURRENT_TIMESTAMP`)
+    //   .notNull(),
+    // updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
   },
   // (example) => ({
   //   nameIndex: index("user_idx").on(example.userId),
