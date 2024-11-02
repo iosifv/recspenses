@@ -33,8 +33,8 @@ export const expenseRouter = createTRPCRouter({
     }
 
     const expense = await ctx.db.query.expenses.findMany({
-      where: (expenses, { eq }) => eq(expenses.userId, userId),
-      orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
+      // where: (expenses, { eq }) => eq(expenses.userId, userId),
+      // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
     })
 
     return expense ?? null
