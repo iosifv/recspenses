@@ -7,16 +7,20 @@ export const expenseRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ userId: z.string(), expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
+
+      const expenseData = JSON.parse(input.expense)
+
       await ctx.db.insert(expenses).values({
         userId: input.userId,
-        name: 'test Name',
-        currency: "USD", // Default value
-        amount: 0, // Default value since amount is required
-        frequency: "monthly", // Default value
+        name: expenseData.name,
+        currency: expenseData.currency,
+        amount: parseInt(expenseData.amount),
+        frequency: expenseData.frequency,
         extra: {} // Will use schema default
       })
     }),
 
+    // Todo: make this function call the create function above
   createMine: publicProcedure
     .input(z.object({ expense: z.string() }))
     .mutation(async ({ ctx, input }) => {

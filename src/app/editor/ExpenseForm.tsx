@@ -39,49 +39,59 @@ export function ExpenseForm() {
   }
 
   return (
-    <div className="flex flex-col items-center gap-2">
-      <form onSubmit={handleSubmit} className="flex flex-col items-center gap-4">
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          placeholder="Name"
-          className="px-4 py-2 text-black rounded"
-        />
-        <input
-          type="text"
-          name="currency"
-          value={formData.currency}
-          onChange={handleInputChange}
-          placeholder="Currency"
-          className="px-4 py-2 text-black rounded"
-        />
-        <input
-          type="number"
-          name="amount"
-          value={formData.amount}
-          onChange={handleInputChange}
-          placeholder="Amount"
-          className="px-4 py-2 text-black rounded"
-        />
-        <input
-          type="text"
-          name="frequency"
-          value={formData.frequency}
-          onChange={handleInputChange}
-          placeholder="Frequency"
-          className="px-4 py-2 text-black rounded"
-        />
-        <button
-          type="submit"
-          disabled={createExpense.isLoading}
-          className="px-6 py-2 bg-blue-500 rounded text-white cursor-pointer disabled:opacity-50"
-        >
-          <AddSvg />
-        </button>
+    // <div className="grid grid-cols-4 gap-4 w-full max-w-4xl">
+      <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4 w-full">
+        <div>
+          <input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleInputChange}
+            placeholder="Name"
+            className="px-4 py-2 text-black rounded w-full"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            name="currency" 
+            value={formData.currency}
+            onChange={handleInputChange}
+            placeholder="Currency"
+            className="px-4 py-2 text-black rounded w-full"
+          />
+        </div>
+        <div>
+          <input
+            type="number"
+            name="amount"
+            value={formData.amount}
+            onChange={handleInputChange}
+            placeholder="Amount"
+            className="px-4 py-2 text-black rounded w-full"
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            name="frequency"
+            value={formData.frequency}
+            onChange={handleInputChange}
+            placeholder="Frequency"
+            className="px-4 py-2 text-black rounded w-full"
+          />
+        </div>
+        <div className="col-span-4 flex justify-center">
+          <button
+            type="submit"
+            disabled={createExpense.isLoading}
+            className="px-6 py-2 bg-blue-500 rounded text-white cursor-pointer disabled:opacity-50"
+          >
+            <AddSvg />
+          </button>
+        </div>
       </form>
-    </div>
+    // </div>
   )
 }
 
