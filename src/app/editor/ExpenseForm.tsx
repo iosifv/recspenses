@@ -39,8 +39,7 @@ export function ExpenseForm() {
   }
 
   return (
-    // <div className="grid grid-cols-4 gap-4 w-full max-w-4xl">
-      <form onSubmit={handleSubmit} className="grid grid-cols-4 gap-4 w-full">
+      <form onSubmit={handleSubmit} className="grid grid-cols-5 gap-4 w-full">
         <div>
           <input
             type="text"
@@ -81,7 +80,7 @@ export function ExpenseForm() {
             className="px-4 py-2 text-black rounded w-full"
           />
         </div>
-        <div className="col-span-4 flex justify-center">
+        <div >
           <button
             type="submit"
             disabled={createExpense.isLoading}
@@ -91,7 +90,6 @@ export function ExpenseForm() {
           </button>
         </div>
       </form>
-    // </div>
   )
 }
 
