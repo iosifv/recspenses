@@ -7,7 +7,6 @@ export const expenseRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ userId: z.string(), expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
-
       const expenseData = JSON.parse(input.expense)
 
       await ctx.db.insert(expenses).values({
@@ -16,11 +15,11 @@ export const expenseRouter = createTRPCRouter({
         currency: expenseData.currency,
         amount: parseInt(expenseData.amount),
         frequency: expenseData.frequency,
-        extra: {} // Will use schema default
+        extra: {}, // Will use schema default
       })
     }),
 
-    // Todo: make this function call the create function above
+  // Todo: make this function call the create function above
   createMine: publicProcedure
     .input(z.object({ expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
@@ -30,14 +29,14 @@ export const expenseRouter = createTRPCRouter({
       }
 
       const expenseData = JSON.parse(input.expense)
-      
+
       await ctx.db.insert(expenses).values({
         userId: userId,
         name: expenseData.name,
         currency: expenseData.currency,
         amount: parseInt(expenseData.amount),
         frequency: expenseData.frequency,
-        extra: {} // Will use schema default
+        extra: {}, // Will use schema default
       })
     }),
 
@@ -48,7 +47,7 @@ export const expenseRouter = createTRPCRouter({
     }
 
     const expense = await ctx.db.query.expenses.findMany({
-      // where: (expenses, { eq }) => eq(expenses.userId, userId),
+      where: (expenses, { eq }) => eq(expenses.userId, userId),
       // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
     })
 

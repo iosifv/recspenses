@@ -1,9 +1,10 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { api } from "~/trpc/react"
 import { toast } from "sonner"
 
 export function ExpenseForm() {
+  const [mounted, setMounted] = useState(false)
   const [formData, setFormData] = useState({
     name: "",
     currency: "",
@@ -23,7 +24,11 @@ export function ExpenseForm() {
     },
   })
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target
     setFormData((prev) => ({
       ...prev,
@@ -34,62 +39,74 @@ export function ExpenseForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     createExpense.mutate({
-      expense: JSON.stringify(formData)
+      expense: JSON.stringify(formData),
     })
   }
 
+  if (!mounted) {
+    return null
+  }
+
   return (
-      <form onSubmit={handleSubmit} className="grid grid-cols-5 gap-4 w-full">
-        <div>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleInputChange}
-            placeholder="Name"
-            className="px-4 py-2 text-black rounded w-full"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="currency" 
-            value={formData.currency}
-            onChange={handleInputChange}
-            placeholder="Currency"
-            className="px-4 py-2 text-black rounded w-full"
-          />
-        </div>
-        <div>
-          <input
-            type="number"
-            name="amount"
-            value={formData.amount}
-            onChange={handleInputChange}
-            placeholder="Amount"
-            className="px-4 py-2 text-black rounded w-full"
-          />
-        </div>
-        <div>
-          <input
-            type="text"
-            name="frequency"
-            value={formData.frequency}
-            onChange={handleInputChange}
-            placeholder="Frequency"
-            className="px-4 py-2 text-black rounded w-full"
-          />
-        </div>
-        <div >
-          <button
-            type="submit"
-            disabled={createExpense.isLoading}
-            className="px-6 py-2 bg-blue-500 rounded text-white cursor-pointer disabled:opacity-50"
-          >
-            <AddSvg />
-          </button>
-        </div>
-      </form>
+    <form onSubmit={handleSubmit} className="grid grid-cols-5 gap-4 w-full">
+      <div>
+        <input
+          type="text"
+          name="name"
+          value={formData.name}
+          onChange={handleInputChange}
+          placeholder="Name"
+          className="px-4 py-2 text-black rounded w-full"
+        />
+      </div>
+      <div>
+        <select
+          name="currency"
+          value={formData.currency || "GBP"}
+          onChange={handleInputChange}
+          className="px-4 py-2 text-black rounded w-full"
+        >
+          <option value="GBP">GBP</option>
+          <option value="EUR">EUR</option>
+          <option value="USD">USD</option>
+          <option value="RON">RON</option>
+        </select>
+      </div>
+      <div>
+        <input
+          type="number"
+          name="amount"
+          value={formData.amount}
+          onChange={handleInputChange}
+          placeholder="Amount"
+          min="0"
+          step="1"
+          className="px-4 py-2 text-black rounded w-full"
+        />
+      </div>
+      <div>
+        <select
+          name="frequency"
+          value={formData.frequency || "monthly"}
+          onChange={handleInputChange}
+          className="px-4 py-2 text-black rounded w-full"
+        >
+          <option value="daily">Daily</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="yearly">Yearly</option>
+        </select>
+      </div>
+      <div>
+        <button
+          type="submit"
+          disabled={createExpense.isPending}
+          className="px-6 py-2 bg-blue-500 rounded text-white cursor-pointer disabled:opacity-50"
+        >
+          <AddSvg />
+        </button>
+      </div>
+    </form>
   )
 }
 
