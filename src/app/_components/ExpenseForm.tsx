@@ -5,12 +5,13 @@ import { toast } from "sonner"
 
 export function ExpenseForm() {
   const [mounted, setMounted] = useState(false)
-  const [formData, setFormData] = useState({
+  const defaultFormData = {
     name: "",
-    currency: "",
+    currency: "GBP",
     amount: "",
-    frequency: "",
-  })
+    frequency: "monthly",
+  }
+  const [formData, setFormData] = useState(defaultFormData)
 
   const utils = api.useUtils()
   const createExpense = api.expense.createMine.useMutation({
@@ -37,6 +38,7 @@ export function ExpenseForm() {
   }
 
   const handleSubmit = (e: React.FormEvent) => {
+    handleInputChange
     e.preventDefault()
     createExpense.mutate({
       expense: JSON.stringify(formData),
@@ -62,7 +64,7 @@ export function ExpenseForm() {
       <div>
         <select
           name="currency"
-          value={formData.currency || "GBP"}
+          value={formData.currency}
           onChange={handleInputChange}
           className="px-4 py-2 text-black rounded w-full"
         >
@@ -87,7 +89,7 @@ export function ExpenseForm() {
       <div>
         <select
           name="frequency"
-          value={formData.frequency || "monthly"}
+          value={formData.frequency}
           onChange={handleInputChange}
           className="px-4 py-2 text-black rounded w-full"
         >

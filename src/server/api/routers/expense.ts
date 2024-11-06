@@ -30,6 +30,8 @@ export const expenseRouter = createTRPCRouter({
 
       const expenseData = JSON.parse(input.expense)
 
+      console.log(expenseData)
+
       await ctx.db.insert(expenses).values({
         userId: userId,
         name: expenseData.name,

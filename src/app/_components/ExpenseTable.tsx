@@ -1,4 +1,4 @@
-import { ExpenseForm } from "../editor/ExpenseForm"
+import { ExpenseForm } from "./ExpenseForm"
 
 interface Expense {
   name: string
@@ -32,4 +32,4 @@ export function ExpenseTable({ expenses }: ExpenseTableProps) {
       <ExpenseForm />
     </div>
   )
-} 
+}
