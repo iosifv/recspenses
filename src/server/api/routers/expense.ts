@@ -9,7 +9,11 @@ export const expenseRouter = createTRPCRouter({
     .mutation(async ({ ctx, input }) => {
       await ctx.db.insert(expenses).values({
         userId: input.userId,
-        expense: input.expense,
+        name: 'test Name',
+        currency: "USD", // Default value
+        amount: 0, // Default value since amount is required
+        frequency: "monthly", // Default value
+        extra: {} // Will use schema default
       })
     }),
 
@@ -20,9 +24,16 @@ export const expenseRouter = createTRPCRouter({
       if (!userId) {
         throw new Error("Not logged in")
       }
+
+      const expenseData = JSON.parse(input.expense)
+      
       await ctx.db.insert(expenses).values({
         userId: userId,
-        expense: input.expense,
+        name: expenseData.name,
+        currency: expenseData.currency,
+        amount: parseInt(expenseData.amount),
+        frequency: expenseData.frequency,
+        extra: {} // Will use schema default
       })
     }),
 
