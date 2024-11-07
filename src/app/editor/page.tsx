@@ -3,8 +3,7 @@ import { ExpenseTable } from "../_components/ExpenseTable"
 
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
-
-export default async function Dashboard() {
+export default async function Editor() {
   const myExpenses = await api.expense.getMine()
 
   return (

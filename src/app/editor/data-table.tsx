@@ -1,5 +1,6 @@
 "use client"
 
+import { Trash2 } from "lucide-react"
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import {
   Table,
@@ -9,6 +10,7 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table"
+import { Button } from "~/components/ui/button"
 import type { Expense } from "~/types/expense"
 
 interface DataTableProps {
@@ -50,6 +52,9 @@ export function DataTable({ columns, data }: DataTableProps) {
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
+                <Button variant="destructive" size="sm" className="p-2">
+                  <Trash2 />
+                </Button>
               </TableRow>
             ))
           ) : (
