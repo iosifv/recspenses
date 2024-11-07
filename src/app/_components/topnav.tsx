@@ -23,18 +23,22 @@ export function TopNav() {
           </SignInButton>
         </SignedOut>
         <SignedIn>
-          <div className="text-l lg:flex-grow p-6">
-            <Link className="mr-3 text-gray-300 hover:text-white" href="/">
-              Home
-            </Link>
-            <Link className="mr-3 text-gray-300 hover:text-white" href="/dashboard">
-              Dashboard
-            </Link>
-            <Link className="mr-3 text-gray-300 hover:text-white" href="/editor">
-              Editor
-            </Link>
+          <div className="flex justify-between items-center w-full">
+            <div className="text-l p-6">
+              <Link className="mr-3 text-gray-300 hover:text-white" href="/">
+                Home
+              </Link>
+              <Link className="mr-3 text-gray-300 hover:text-white" href="/dashboard">
+                Dashboard
+              </Link>
+              <Link className="mr-3 text-gray-300 hover:text-white" href="/editor">
+                Editor
+              </Link>
+            </div>
+            <div className="pr-6">
+              <UserButton />
+            </div>
           </div>
-          <UserButton />
         </SignedIn>
       </div>
     </nav>
