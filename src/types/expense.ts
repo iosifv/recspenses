@@ -1,12 +1,12 @@
 export type Expense = {
   id: number
-  name: string
   userId: string
+  categoryId: number | null
+  sourceId: number | null
+  name: string
   currency: "GBP" | "USD" | "EUR" | "RON"
   amount: number
   frequency: "daily" | "weekly" | "monthly" | "yearly"
-  categoryId: number
-  sourceId: number
   extra: unknown
   createdAt: Date
   updatedAt: Date | null
