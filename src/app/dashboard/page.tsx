@@ -51,19 +51,16 @@ export default async function Dashboard() {
       fill: `var(--color-${expense.name.toLowerCase()})`,
     }
   })
-  const expenseChartConfig = myExpenses.reduce(
-    (acc, expense, index) => {
-      return {
-        ...acc,
-        [expense.name.toLowerCase()]: {
-          label: expense.name.toUpperCase(),
-          color: `hsl(var(--chart-${(index % 5) + 1}))`,
-        },
-      }
-    },
-    { visitors: { label: "Visitors" } },
-  )
-  console.log(chartConfig)
+  const expenseChartConfig = myExpenses.reduce((acc, expense, index) => {
+    return {
+      ...acc,
+      [expense.name.toLowerCase()]: {
+        label: expense.name.toUpperCase(),
+        color: `hsl(var(--chart-${(index % 5) + 1}))`,
+      },
+    }
+  }, {}) satisfies ChartConfig
+
   console.log(expenseChartConfig)
   console.log(expenseChartData)
 
