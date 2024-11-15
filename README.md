@@ -46,11 +46,12 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] In my Editor Tab I can see all my expenses in their original currency
 - [x] In my Editor Tab I can add a new expense
 - [ ] In my Editor Tab I can edit an expense
-- [ ] In my Editor Tab I can delete an expense
+- [x] In my Editor Tab I can delete an expense
 - [ ] In my Settings Tab I can Edit my Categories, Sources and Tags
   - [ ] I can add a new Category, Source or Tag
   - [ ] I can edit a Category, Source or Tag
   - [ ] I can delete a Category, Source or Tag
+- [x] In my Settings Tab I can see information about me
 - [ ] In my Settings Tab I can Export all my expenses to a csv
 - [ ] In my Settings Tab I can Import my expenses from a csv
 - [ ] In my Dashboard Tab I can see my expenses analytics transformed into one currency

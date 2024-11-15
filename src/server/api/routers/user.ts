@@ -2,27 +2,17 @@ import { z } from "zod"
 import { auth } from "@clerk/nextjs/server"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { users } from "~/server/db/schema"
+import { getUserId, touchUser } from "~/server/controller/clerkController"
 
 export const userRouter = createTRPCRouter({
-  initialize: publicProcedure.mutation(async ({ ctx }) => {
-    const { userId } = auth()
-    if (!userId) {
-      throw new Error("Not logged in")
-    }
+  getMe: publicProcedure.query(async ({ ctx }) => {
+    const userId = getUserId()
 
-    await ctx.db.insert(users).values({
-      userId,
+    const myUser = await ctx.db.query.users.findFirst({
+      where: (users, { eq }) => eq(users.userId, userId),
     })
+    return myUser ?? null
   }),
-  // getMine: publicProcedure.query(async ({ ctx }) => {
-  //   const { userId } = auth()
-  //   if (!userId) {
-  //     throw new Error("Not logged in")
-  //   }
-  //   const expense = await ctx.db.query.expenses.findMany({
-  //     where: (expenses, { eq }) => eq(expenses.userId, userId),
-  //     // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
-  //   })
-  //   return expense ?? null
+
   // }),
 })

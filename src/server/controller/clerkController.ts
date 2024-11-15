@@ -1,4 +1,4 @@
-import { auth } from "@clerk/nextjs/server"
+import { auth, currentUser } from "@clerk/nextjs/server"
 import { db } from "~/server/db"
 import { users } from "~/server/db/schema"
 import { eq } from "drizzle-orm"
@@ -9,6 +9,14 @@ export const getUserId = () => {
     throw new Error("Not logged in")
   }
   return userId
+}
+
+export const getUser = () => {
+  const user = currentUser()
+  if (!user) {
+    throw new Error("Not logged in")
+  }
+  return user
 }
 
 export const touchUser = async (): Promise<string> => {
