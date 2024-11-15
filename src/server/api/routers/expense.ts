@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { expenses } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
+import { eq } from "drizzle-orm"
 
 export const expenseRouter = createTRPCRouter({
   create: publicProcedure
@@ -49,14 +50,11 @@ export const expenseRouter = createTRPCRouter({
     return expense ?? null
   }),
 
-  // deleteMine: publicProcedure
-  //   .input(z.object({ id: z.string() }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     const { userId } = auth()
-  //     if (!userId) {
-  //       throw new Error("Not logged in")
-  //     }
+  deleteMine: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ ctx, input }) => {
+      // const userId = getUserId()
 
-  //     await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
-  //   }),
+      await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
+    }),
 })
