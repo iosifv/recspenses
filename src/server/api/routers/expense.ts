@@ -2,6 +2,7 @@ import { z } from "zod"
 import { auth } from "@clerk/nextjs/server"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { expenses } from "~/server/db/schema"
+import { getUserId, touchUser } from "~/server/controller/clerkController"
 
 export const expenseRouter = createTRPCRouter({
   create: publicProcedure
@@ -23,14 +24,10 @@ export const expenseRouter = createTRPCRouter({
   createMine: publicProcedure
     .input(z.object({ expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const { userId } = auth()
-      if (!userId) {
-        throw new Error("Not logged in")
-      }
-
+      const userId = getUserId()
       const expenseData = JSON.parse(input.expense)
 
-      console.log(expenseData)
+      // console.log(expenseData)
 
       await ctx.db.insert(expenses).values({
         userId: userId,
@@ -41,12 +38,8 @@ export const expenseRouter = createTRPCRouter({
         extra: {}, // Will use schema default
       })
     }),
-
   getMine: publicProcedure.query(async ({ ctx }) => {
-    const { userId } = auth()
-    if (!userId) {
-      throw new Error("Not logged in")
-    }
+    const userId = await touchUser()
 
     const expense = await ctx.db.query.expenses.findMany({
       where: (expenses, { eq }) => eq(expenses.userId, userId),
@@ -55,4 +48,15 @@ export const expenseRouter = createTRPCRouter({
 
     return expense ?? null
   }),
+
+  // deleteMine: publicProcedure
+  //   .input(z.object({ id: z.string() }))
+  //   .mutation(async ({ ctx, input }) => {
+  //     const { userId } = auth()
+  //     if (!userId) {
+  //       throw new Error("Not logged in")
+  //     }
+
+  //     await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
+  //   }),
 })

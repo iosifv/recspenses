@@ -61,8 +61,8 @@ export default async function Dashboard() {
     }
   }, {}) satisfies ChartConfig
 
-  console.log(expenseChartConfig)
-  console.log(expenseChartData)
+  // console.log(expenseChartConfig)
+  // console.log(expenseChartData)
 
   return (
     <HydrateClient>

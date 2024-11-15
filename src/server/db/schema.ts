@@ -24,6 +24,21 @@ export const createTable = pgTableCreator((name) => `recspenses_${name}`)
 // Custom enum-like types
 export const CURRENCIES = ["GBP", "USD", "EUR", "RON"] as const
 export const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"] as const
+export const users = createTable(
+  "user",
+  {
+    userId: varchar("user_id", { length: 256 }).primaryKey(),
+    metadata: json("metadata").default("{}").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
+    seenAt: timestamp("seen_at", { withTimezone: true }).$onUpdate(() => new Date()),
+  },
+  (table) => ({
+    userIdIndex: index("user_idx").on(table.userId),
+  }),
+)
 
 export const categories = createTable(
   "category",
