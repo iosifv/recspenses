@@ -34,6 +34,9 @@ export function TopNav() {
               <Link className="mr-3 text-gray-300 hover:text-white" href="/editor">
                 Editor
               </Link>
+              <Link className="mr-3 text-gray-300 hover:text-white" href="/settings">
+                Settings
+              </Link>
             </div>
             <div className="pr-6">
               <UserButton />

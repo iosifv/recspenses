@@ -34,12 +34,28 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] Connect to DB
 - [x] Add authentication
 - [x] Scaffold Basic UI
-- [ ] Read and write from a DB
-- [ ] Connect authentication with my db
+- [x] Read and write from a DB
+- [x] Connect authentication with my db
 - [x] Error management (w/ sentry)
 - [x] Add ShadUI
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
+
+## Todo User Journeys
+
+- [x] In my Editor Tab I can see all my expenses in their original currency
+- [x] In my Editor Tab I can add a new expense
+- [ ] In my Editor Tab I can edit an expense
+- [ ] In my Editor Tab I can delete an expense
+- [ ] In my Settings Tab I can Edit my Categories, Sources and Tags
+  - [ ] I can add a new Category, Source or Tag
+  - [ ] I can edit a Category, Source or Tag
+  - [ ] I can delete a Category, Source or Tag
+- [ ] In my Settings Tab I can Export all my expenses to a csv
+- [ ] In my Settings Tab I can Import my expenses from a csv
+- [ ] In my Dashboard Tab I can see my expenses analytics transformed into one currency
+- [ ] In my Dashboard Tab I can pick which currency I want to see my expenses in
+- [ ]
 
 ## Development
 
