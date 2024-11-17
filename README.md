@@ -39,8 +39,8 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] Error management (w/ sentry)
 - [x] Add ShadUI
 - [ ] Decide on a final database design schema
-- [ ] Add docker compose for a local database
-- [ ] Create a script for seeing information to the db
+- [x] Add docker compose for a local database
+- [ ] Create a script for seeding information to the db (actually maybe just wait until the release of drizzle-seed package)
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
 
@@ -59,7 +59,6 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [ ] In my Settings Tab I can Import my expenses from a csv
 - [ ] In my Dashboard Tab I can see my expenses analytics transformed into one currency
 - [ ] In my Dashboard Tab I can pick which currency I want to see my expenses in
-- [ ]
 
 ## Development
 
@@ -69,6 +68,7 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 2. Run `pnpm install`
 3. Run `pnpm dev`
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Use VsCode's Task Explorer to run the app and drizzle studio.
 
 ### Run the database locally with docker compose
 
@@ -83,5 +83,3 @@ Drop all tables if you want to start fresh
 - Regenerate the schema: `npx drizzle-kit generate`
 - Migrate the database: `npx drizzle-kit migrate`
 - Or Push the schema: `npx drizzle-kit push`
-
-Use VsCode's Task Explorer to run the app and drizzle studio.
