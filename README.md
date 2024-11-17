@@ -38,6 +38,9 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] Connect authentication with my db
 - [x] Error management (w/ sentry)
 - [x] Add ShadUI
+- [ ] Decide on a final database design schema
+- [ ] Add docker compose for a local database
+- [ ] Create a script for seeing information to the db
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
 
@@ -66,5 +69,19 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 2. Run `pnpm install`
 3. Run `pnpm dev`
 4. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+### Run the database locally with docker compose
+
+1. Start Docker Compose `docker compose up`
+2. Connect to the container `docker exec -it local_postgres psql -U postgres -d my_local_db`
+3. Run `SELECT * FROM pg_catalog.pg_tables WHERE schemaname='public';` to see the tables
+
+Drop all tables if you want to start fresh
+
+- Drop all tables in the container: `docker exec -it local_postgres psql -U postgres -d my_local_db -c "DROP SCHEMA public CASCADE; CREATE SCHEMA public;"`
+- Delete the migrations folder: `rm -rf drizzle/`
+- Regenerate the schema: `npx drizzle-kit generate`
+- Migrate the database: `npx drizzle-kit migrate`
+- Or Push the schema: `npx drizzle-kit push`
 
 Use VsCode's Task Explorer to run the app and drizzle studio.
