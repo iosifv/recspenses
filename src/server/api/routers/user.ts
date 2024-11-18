@@ -8,9 +8,15 @@ export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }) => {
     const userId = getUserId()
 
-    const myUser = await ctx.db.query.users.findFirst({
-      where: (users, { eq }) => eq(users.userId, userId),
-    })
-    return myUser ?? null
+    try {
+      const myUser = await ctx.db.query.users.findFirst({
+        where: (users, { eq }) => eq(users.userId, userId),
+      })
+
+      return myUser ?? null
+    } catch (error) {
+      console.error("Database error:\n", error)
+      throw error
+    }
   }),
 })

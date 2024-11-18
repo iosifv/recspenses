@@ -1,10 +1,15 @@
 import { SignedIn, SignedOut } from "@clerk/nextjs"
-import Link from "next/link"
+import { touchUser } from "~/server/controller/clerkController"
 
 import { api, HydrateClient } from "~/trpc/server"
 
 // Force the page to be server-side rendered and bypass the vercel caching
 export const dynamic = "force-dynamic"
+
+async function TouchUserComponent() {
+  await touchUser()
+  return null
+}
 
 export default async function Home() {
   return (
@@ -19,6 +24,7 @@ export default async function Home() {
           </SignedOut>
           <SignedIn>
             <div className="flex flex-col items-center gap-2">
+              <TouchUserComponent />
               <p className="text-2xl text-white">Fancy description goes here</p>
             </div>
           </SignedIn>

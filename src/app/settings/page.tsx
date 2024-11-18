@@ -5,8 +5,8 @@ export default async function Settings() {
   const recspensesUser = await api.user.getMe()
   const clerkUser = await getUser()
 
-  console.log(recspensesUser)
-  console.log(clerkUser)
+  // console.log(recspensesUser)
+  // console.log(clerkUser)
 
   return (
     <HydrateClient>

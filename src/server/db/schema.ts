@@ -27,7 +27,10 @@ export const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"] as const
 export const users = createTable(
   "user",
   {
+    // Todo: maybe rename userId to whatever Clerk uses ?
     userId: varchar("user_id", { length: 256 }).primaryKey(),
+    tags: json("tags").default("[]").notNull(),
+    tagTypes: json("tag_types").default("[]").notNull(),
     metadata: json("metadata").default("{}").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
@@ -40,51 +43,12 @@ export const users = createTable(
   }),
 )
 
-export const categories = createTable(
-  "category",
-  {
-    id: serial("id").primaryKey(),
-    userId: varchar("user_id", { length: 256 }).notNull(),
-    name: varchar("name", { length: 64 }).notNull(),
-    extra: json("extra").default("{}").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  },
-  (table) => ({
-    userIdIndex: index("category_user_idx").on(table.userId),
-  }),
-)
-
-export const sources = createTable(
-  "source",
-  {
-    id: serial("id").primaryKey(),
-    userId: varchar("user_id", { length: 256 }).notNull(),
-    name: varchar("name", { length: 64 }).notNull(),
-    extra: json("extra").default("{}").notNull(),
-    createdAt: timestamp("created_at", { withTimezone: true })
-      .default(sql`CURRENT_TIMESTAMP`)
-      .notNull(),
-    updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(() => new Date()),
-  },
-  (table) => ({
-    userIdIndex: index("source_user_idx").on(table.userId),
-  }),
-)
-
 export const expenses = createTable(
   "expense",
   {
     id: serial("id").primaryKey(),
     userId: varchar("user_id", { length: 256 }).notNull(),
-    categoryId: integer("category_id")
-      // .notNull()
-      .references(() => categories.id),
-    sourceId: integer("source_id")
-      // .notNull()
-      .references(() => sources.id),
+    tags: json("tags").default("[]").notNull(),
     name: varchar("name", { length: 256 }).notNull(),
     amount: integer("amount").notNull(),
     currency: varchar("currency", { length: 3, enum: CURRENCIES }).notNull(),
@@ -99,55 +63,17 @@ export const expenses = createTable(
   },
   (table) => ({
     userIdIndex: index("expense_user_idx").on(table.userId),
-    categoryIndex: index("expense_category_idx").on(table.categoryId),
-    sourceIndex: index("expense_source_idx").on(table.sourceId),
   }),
 )
 
 // Relations
 export const expenseRelations = relations(expenses, ({ one }) => ({
-  category: one(categories, {
-    fields: [expenses.categoryId],
-    references: [categories.id],
-  }),
-  source: one(sources, {
-    fields: [expenses.sourceId],
-    references: [sources.id],
+  user: one(users, {
+    fields: [expenses.userId],
+    references: [users.userId],
   }),
 }))
 
-// Example seed data
-export const seedCategories = [
-  { name: "Food & Groceries", userId: "user123" },
-  { name: "Transport", userId: "user123" },
-  { name: "Utilities", userId: "user123" },
-]
-
-export const seedSources = [
-  { name: "Bank Account", userId: "user123" },
-  { name: "Credit Card", userId: "user123" },
-  { name: "Cash", userId: "user123" },
-]
-
-export const seedExpenses = [
-  {
-    name: "Groceries",
-    userId: "user123",
-    currency: "GBP",
-    amount: 20000, // £200.00
-    frequency: "weekly",
-    categoryId: 1,
-    sourceId: 1,
-    extra: {},
-  },
-  {
-    name: "Electricity",
-    userId: "user123",
-    currency: "GBP",
-    amount: 15000, // £150.00
-    frequency: "monthly",
-    categoryId: 3,
-    sourceId: 1,
-    extra: {},
-  },
-]
+export const usersRelations = relations(users, ({ many }) => ({
+  expenses: many(expenses),
+}))

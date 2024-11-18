@@ -1,8 +1,7 @@
 export type Expense = {
   id: number
   userId: string
-  categoryId: number | null
-  sourceId: number | null
+  tags: string[]
   name: string
   currency: "GBP" | "USD" | "EUR" | "RON"
   amount: number
