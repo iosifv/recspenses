@@ -1,5 +1,4 @@
 import { api, HydrateClient } from "~/trpc/server"
-import { ExpenseTable } from "../_components/ExpenseTable"
 
 import { columns } from "./columns"
 import { DataTable } from "./data-table"

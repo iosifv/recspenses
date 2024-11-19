@@ -1,47 +1,129 @@
 import { api, HydrateClient } from "~/trpc/server"
 import { getUser } from "~/server/controller/clerkController"
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "~/components/ui/hover-card"
+
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "~/components/ui/card"
+
+import { DataTable } from "./data-table"
+import { columns } from "./columns"
+import { Tag, TagType } from "~/types/recspensesTypes"
+
+function mergeTagTypesAndTags(tagTypes: TagType[], tags: Tag[]) {
+  const tagTypesMap = new Map(tagTypes.map((tagType) => [tagType.id, tagType]))
+  const tagsMap = new Map(tags.map((tag) => [tag.id, tag]))
+  const mergedTags = Array.from(tagsMap.values()).map((tag) => {
+    const tagType = tagTypesMap.get(tag.type)
+    if (!tagType) {
+      throw new Error("Tag type not found")
+    }
+    return {
+      tagType: tagType.name,
+      tagTypeColor: tagType.color,
+      tag: tag.name,
+      tagColor: tag.color,
+    }
+  })
+
+  return mergedTags
+}
 
 export default async function Settings() {
   const recspensesUser = await api.user.getMe()
   const clerkUser = await getUser()
+  const tagTableData = mergeTagTypesAndTags(recspensesUser.tagTypes, recspensesUser.tags)
 
   // console.log(recspensesUser)
   // console.log(clerkUser)
 
   return (
     <HydrateClient>
-      <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white">
+      <main className="flex min-h-screen flex-col  bg-black text-white">
         <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[5rem]">Settings</h1>
-
+          <h1 className="text-5xl font-extrabold tracking-tight sm:text-[3rem]">Settings</h1>
           {recspensesUser && clerkUser && (
-            <div className="flex flex-col items-center gap-4">
-              <img src={clerkUser.imageUrl} alt="Profile" className="h-24 w-24 rounded-full" />
-              <div className="text-xl">
-                <p>User ID: {recspensesUser.userId}</p>
-                <p>
-                  Name: {clerkUser.firstName} {clerkUser.lastName}
-                </p>
-                <p>Email: {clerkUser.emailAddresses[0]?.emailAddress}</p>
-                <p>
-                  Created:{" "}
-                  {recspensesUser.createdAt
-                    ? new Date(recspensesUser.createdAt).toLocaleString()
-                    : "N/A"}
-                </p>
-                <p>
-                  Updated:{" "}
-                  {recspensesUser.updatedAt
-                    ? new Date(recspensesUser.updatedAt).toLocaleString()
-                    : "N/A"}
-                </p>
-                <p>
-                  Seen At:{" "}
-                  {recspensesUser.seenAt ? new Date(recspensesUser.seenAt).toLocaleString() : "N/A"}
-                </p>
-              </div>
-            </div>
+            <HoverCard>
+              <HoverCardTrigger>
+                <img src={clerkUser.imageUrl} alt="Profile" className="h-24 w-24 rounded-full" />
+                Hover for user information
+              </HoverCardTrigger>
+              <HoverCardContent className="w-120 bg-black text-white">
+                <div className="text-m">
+                  <p>User ID: {recspensesUser.userId}</p>
+                  <p>
+                    Name: {clerkUser.firstName} {clerkUser.lastName}
+                  </p>
+                  <p>Email: {clerkUser.emailAddresses[0]?.emailAddress}</p>
+                  <p>
+                    Created:{" "}
+                    {recspensesUser.createdAt
+                      ? new Date(recspensesUser.createdAt).toLocaleString()
+                      : "N/A"}
+                  </p>
+                  <p>
+                    Updated:{" "}
+                    {recspensesUser.updatedAt
+                      ? new Date(recspensesUser.updatedAt).toLocaleString()
+                      : "N/A"}
+                  </p>
+                  <p>
+                    Seen At:{" "}
+                    {recspensesUser.seenAt
+                      ? new Date(recspensesUser.seenAt).toLocaleString()
+                      : "N/A"}
+                  </p>
+                </div>
+              </HoverCardContent>
+            </HoverCard>
           )}
+          <div className="container mx-auto py-10">
+            <DataTable columns={columns} data={tagTableData} />
+          </div>
+          <div className="flex justify-between">
+            <div className="flex-1 text-center">
+              <Card className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-black text-white">
+                <CardHeader>
+                  <CardTitle>Card Title</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter>
+                  <p>Card Footer</p>
+                </CardFooter>
+              </Card>
+            </div>
+            <div className="flex-1 text-center">
+              <Card className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-black text-white">
+                <CardHeader>
+                  <CardTitle>Card Title</CardTitle>
+                  <CardDescription>Card Description</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <p>Card Content</p>
+                </CardContent>
+                <CardFooter>
+                  <p>Card Footer</p>
+                </CardFooter>
+              </Card>
+            </div>
+          </div>
+          <br />
+          <div className="flex justify-between">
+            <div className="flex-1 text-center">
+              <pre className="text-left">{JSON.stringify(recspensesUser.tagTypes, null, 2)}</pre>
+            </div>
+            <div className="flex-1 text-center">
+              <pre className="text-left">{JSON.stringify(recspensesUser.tags, null, 2)}</pre>
+            </div>
+          </div>
         </div>
       </main>
     </HydrateClient>

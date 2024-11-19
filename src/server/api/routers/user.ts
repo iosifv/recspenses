@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { users } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
+import { eq } from "drizzle-orm"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }) => {
@@ -10,7 +11,7 @@ export const userRouter = createTRPCRouter({
 
     try {
       const myUser = await ctx.db.query.users.findFirst({
-        where: (users, { eq }) => eq(users.userId, userId),
+        where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
       })
 
       return myUser
@@ -18,5 +19,13 @@ export const userRouter = createTRPCRouter({
       console.error("Database error:\n", error)
       throw error
     }
+  }),
+  updateMyTagTypes: publicProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
+    const userId = getUserId()
+    await ctx.db.update(users).set({ tagTypes: input }).where(eq(users.userId, userId))
+  }),
+  updateMyTags: publicProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
+    const userId = getUserId()
+    await ctx.db.update(users).set({ tags: input }).where(eq(users.userId, userId))
   }),
 })

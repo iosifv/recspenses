@@ -1,4 +1,4 @@
-import { type CURRENCIES, type FREQUENCIES } from "~/server/db/schema"
+import { type CURRENCIES, type FREQUENCIES } from "~/server/db/defaults"
 
 export type User = {
   userId: string
