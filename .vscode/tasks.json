@@ -25,13 +25,24 @@
       }
     },
     {
-      "label": "truncate entire database",
+      "label": "docker: start database",
+      "type": "shell",
+      "command": "docker compose up",
+      "presentation": {
+        "reveal": "never",
+        "panel": "new",
+        "group": "localhost-environment-background",
+        "close": true
+      }
+    },
+    {
+      "label": "docker: truncate database",
       "type": "shell",
       "command": "docker exec -it local_postgres psql -U postgres -d my_local_db -c \"DROP SCHEMA public CASCADE; CREATE SCHEMA public;\" && rm -rf drizzle/ && npx drizzle-kit generate && npx drizzle-kit migrate && npx drizzle-kit push",
       "presentation": {
         "reveal": "always",
         "panel": "new",
-        "group": "localhost-environment-background",
+        "group": "localhost-environment",
         "close": true
       }
     },

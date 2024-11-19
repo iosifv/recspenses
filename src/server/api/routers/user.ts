@@ -13,7 +13,7 @@ export const userRouter = createTRPCRouter({
         where: (users, { eq }) => eq(users.userId, userId),
       })
 
-      return myUser ?? null
+      return myUser
     } catch (error) {
       console.error("Database error:\n", error)
       throw error

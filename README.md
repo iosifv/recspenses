@@ -38,7 +38,7 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] Connect authentication with my db
 - [x] Error management (w/ sentry)
 - [x] Add ShadUI
-- [ ] Decide on a final database design schema
+- [x] Decide on a final database design schema
 - [x] Add docker compose for a local database
 - [ ] Create a script for seeding information to the db (actually maybe just wait until the release of drizzle-seed package)
 - [ ] Analytics (w/ posthog)
