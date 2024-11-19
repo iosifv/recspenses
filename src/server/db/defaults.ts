@@ -6,40 +6,57 @@ export const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"] as const
 
 export const DEFAULT_TAG_TYPES: TagType[] = [
   {
-    id: "housing",
-    name: "Housing",
+    id: "category",
+    name: "Category",
     color: "#FFA500",
   },
   {
-    id: "entertainment",
-    name: "Entertainment",
+    id: "source",
+    name: "Source",
     color: "#9370DB",
+  },
+  {
+    id: "account",
+    name: "Account",
+    color: "#448AFF",
   },
 ] satisfies TagType[]
 
 export const DEFAULT_TAGS: Tag[] = [
   {
-    id: "rent",
-    name: "Rent",
+    id: "living",
+    name: "Living",
     color: "#FF8C00",
     type: DEFAULT_TAG_TYPES[0]!.id,
   },
   {
-    id: "electricity",
-    name: "Electricity",
+    id: "entertainment",
+    name: "Entertainment",
     color: "#228B22",
     type: DEFAULT_TAG_TYPES[0]!.id,
   },
   {
-    id: "netflix",
-    name: "Netflix",
+    id: "salary",
+    name: "Salary",
     color: "#8A2BE2",
     type: DEFAULT_TAG_TYPES[1]!.id,
   },
   {
-    id: "spotify",
-    name: "Spotify",
+    id: "savings",
+    name: "Savings",
     color: "#8A2BE2",
     type: DEFAULT_TAG_TYPES[1]!.id,
+  },
+  {
+    id: "credit-card",
+    name: "Credit Card",
+    color: "#8A2BE2",
+    type: DEFAULT_TAG_TYPES[2]!.id,
+  },
+  {
+    id: "debit-card",
+    name: "Debit Card",
+    color: "#8A2BE2",
+    type: DEFAULT_TAG_TYPES[2]!.id,
   },
 ] satisfies Tag[]

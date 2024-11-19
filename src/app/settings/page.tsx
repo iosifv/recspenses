@@ -11,8 +11,6 @@ import {
   CardTitle,
 } from "~/components/ui/card"
 
-import { DataTable } from "./data-table"
-import { columns } from "./columns"
 import { Tag, TagType } from "~/types/recspensesTypes"
 
 function mergeTagTypesAndTags(tagTypes: TagType[], tags: Tag[]) {
@@ -82,38 +80,42 @@ export default async function Settings() {
               </HoverCardContent>
             </HoverCard>
           )}
-          <div className="container mx-auto py-10">
+          {/* <div className="container mx-auto py-10">
             <DataTable columns={columns} data={tagTableData} />
-          </div>
-          <div className="flex justify-between">
-            <div className="flex-1 text-center">
-              <Card className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-black text-white">
+          </div> */}
+          <div className="flex flex-wrap justify-center gap-4">
+            {recspensesUser.tagTypes.map((tagType: TagType) => (
+              <Card
+                key={tagType.id}
+                className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-black text-white"
+              >
                 <CardHeader>
-                  <CardTitle>Card Title</CardTitle>
+                  <CardTitle>{tagType.name}</CardTitle>
                   <CardDescription>Card Description</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p>Card Content</p>
+                  <ul className="list-disc list-inside">
+                    {recspensesUser.tags
+                      .filter((tag: Tag) => tag.type === tagType.id)
+                      .map((tag: Tag) => (
+                        <li key={tag.id}>{tag.name}</li>
+                      ))}
+                  </ul>
                 </CardContent>
                 <CardFooter>
-                  <p>Card Footer</p>
+                  Colour:
+                  <div
+                    style={{
+                      marginLeft: "10px",
+                      width: "15px",
+                      height: "15px",
+                      borderRadius: "50%",
+                      backgroundColor: tagType.color,
+                    }}
+                  ></div>
                 </CardFooter>
               </Card>
-            </div>
-            <div className="flex-1 text-center">
-              <Card className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-black text-white">
-                <CardHeader>
-                  <CardTitle>Card Title</CardTitle>
-                  <CardDescription>Card Description</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>Card Content</p>
-                </CardContent>
-                <CardFooter>
-                  <p>Card Footer</p>
-                </CardFooter>
-              </Card>
-            </div>
+            ))}
           </div>
           <br />
           <div className="flex justify-between">
