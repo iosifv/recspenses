@@ -2,6 +2,7 @@ import { auth, currentUser } from "@clerk/nextjs/server"
 import { db } from "~/server/db"
 import { users } from "~/server/db/schema"
 import { eq } from "drizzle-orm"
+import { DEFAULT_TAG_TYPES, DEFAULT_TAGS } from "~/server/db/defaults"
 
 export const getUserId = () => {
   const { userId } = auth()
@@ -36,8 +37,8 @@ export const touchUser = async (): Promise<string> => {
     // Create new user if doesn't exist
     const newUser = await db.insert(users).values({
       userId: userId,
-      tags: [],
-      tagTypes: [],
+      tagTypes: DEFAULT_TAG_TYPES,
+      tags: DEFAULT_TAGS,
       metadata: {},
     })
     console.log("newUser", newUser)

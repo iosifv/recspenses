@@ -12,6 +12,8 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
+import type { TagType, Tag } from "~/types/recspensesTypes"
+import { DEFAULT_TAG_TYPES, DEFAULT_TAGS, CURRENCIES, FREQUENCIES } from "~/server/db/defaults"
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -21,16 +23,13 @@ import { relations } from "drizzle-orm"
  */
 export const createTable = pgTableCreator((name) => `recspenses_${name}`)
 
-// Custom enum-like types
-export const CURRENCIES = ["GBP", "USD", "EUR", "RON"] as const
-export const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"] as const
 export const users = createTable(
   "user",
   {
     // Todo: maybe rename userId to whatever Clerk uses ?
     userId: varchar("user_id", { length: 256 }).primaryKey(),
-    tags: json("tags").default("[]").notNull(),
-    tagTypes: json("tag_types").default("[]").notNull(),
+    tagTypes: json("tag_types").$type<TagType[]>().default(DEFAULT_TAG_TYPES).notNull(),
+    tags: json("tags").$type<Tag[]>().default(DEFAULT_TAGS).notNull(),
     metadata: json("metadata").default("{}").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)
