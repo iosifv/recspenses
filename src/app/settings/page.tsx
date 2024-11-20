@@ -1,6 +1,7 @@
 import { api, HydrateClient } from "~/trpc/server"
 import { getUser } from "~/server/controller/clerkController"
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "~/components/ui/hover-card"
+import { Input } from "~/components/ui/input"
 
 import {
   Card,
@@ -12,30 +13,12 @@ import {
 } from "~/components/ui/card"
 
 import { Tag, TagType } from "~/types/recspensesTypes"
-
-function mergeTagTypesAndTags(tagTypes: TagType[], tags: Tag[]) {
-  const tagTypesMap = new Map(tagTypes.map((tagType) => [tagType.id, tagType]))
-  const tagsMap = new Map(tags.map((tag) => [tag.id, tag]))
-  const mergedTags = Array.from(tagsMap.values()).map((tag) => {
-    const tagType = tagTypesMap.get(tag.type)
-    if (!tagType) {
-      throw new Error("Tag type not found")
-    }
-    return {
-      tagType: tagType.name,
-      tagTypeColor: tagType.color,
-      tag: tag.name,
-      tagColor: tag.color,
-    }
-  })
-
-  return mergedTags
-}
+import { Button } from "~/components/ui/button"
+import NewTagTypeCard from "./NewTagTypeCard"
 
 export default async function Settings() {
   const recspensesUser = await api.user.getMe()
   const clerkUser = await getUser()
-  const tagTableData = mergeTagTypesAndTags(recspensesUser.tagTypes, recspensesUser.tags)
 
   // console.log(recspensesUser)
   // console.log(clerkUser)
@@ -87,7 +70,7 @@ export default async function Settings() {
             {recspensesUser.tagTypes.map((tagType: TagType) => (
               <Card
                 key={tagType.id}
-                className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-black text-white"
+                className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-gray-900 text-white"
               >
                 <CardHeader>
                   <CardTitle>{tagType.name}</CardTitle>
@@ -100,9 +83,7 @@ export default async function Settings() {
                       .map((tag: Tag) => (
                         <li key={tag.id}>{tag.name}</li>
                       ))}
-                  </ul>
-                </CardContent>
-                <CardFooter>
+                  </ul>{" "}
                   Colour:
                   <div
                     style={{
@@ -113,9 +94,14 @@ export default async function Settings() {
                       backgroundColor: tagType.color,
                     }}
                   ></div>
+                </CardContent>
+                <CardFooter>
+                  <Input type="text" id="new-tag" placeholder="New Tag" />
+                  <Button>Add</Button>
                 </CardFooter>
               </Card>
             ))}
+            <NewTagTypeCard />
           </div>
           <br />
           <div className="flex justify-between">
