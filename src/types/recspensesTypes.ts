@@ -10,6 +10,7 @@ export type User = {
   seenAt: Date | null
 }
 
+// Todo: create an abstract tag type and extend it into Tag and TagType
 export type TagType = {
   id: string
   name: string
