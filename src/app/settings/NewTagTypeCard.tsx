@@ -1,4 +1,5 @@
-import { api } from "~/trpc/server"
+"use client"
+
 import {
   Card,
   CardHeader,
@@ -9,8 +10,24 @@ import {
 } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
+import { useState } from "react"
+// type Props = { addTagTypeComponent: (tagType: string) => void }
 
 const NewTagTypeCard = () => {
+  const [tagType, setTagType] = useState("")
+
+  const onButtonClick = () => {
+    console.log("tagType", tagType)
+
+    fetch("/api/user/addTagType", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tagType }),
+    })
+  }
+
   return (
     <Card
       key="new-tag-type"
@@ -21,8 +38,14 @@ const NewTagTypeCard = () => {
         <CardDescription>Card Description</CardDescription>
       </CardHeader>
       <CardContent>
-        <Input type="text" id="new-tag-type" placeholder="Create New Tag Type" />
-        <Button>Create</Button>
+        <Input
+          type="text"
+          id="new-tag-type"
+          placeholder="Create New Tag Type"
+          onChange={(e) => setTagType(e.target.value)}
+          value={tagType}
+        />
+        <Button onClick={onButtonClick}>Create</Button>
         <br />
       </CardContent>
       <CardFooter>Footer</CardFooter>

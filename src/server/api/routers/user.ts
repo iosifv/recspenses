@@ -4,6 +4,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { users } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
 import { eq } from "drizzle-orm"
+import { TagType } from "~/types/recspensesTypes"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }) => {
@@ -57,7 +58,13 @@ export const userRouter = createTRPCRouter({
       })
 
       console.log("myUsers tagTypes", myUser.tagTypes)
-      myUser.tagTypes.push(input)
+      const newTagType: TagType = {
+        id: input,
+        name: input,
+        color: getRandomColor(),
+      }
+
+      myUser.tagTypes.push(newTagType)
       await ctx.db.update(users).set({ tagTypes: myUser.tagTypes }).where(eq(users.userId, userId))
 
       console.log("myUsers tagTypes", myUser.tagTypes)
@@ -69,3 +76,9 @@ export const userRouter = createTRPCRouter({
     }
   }),
 })
+
+// Function to generate a random color in hex format
+function getRandomColor() {
+  const randomColor = Math.floor(Math.random() * 16777215).toString(16)
+  return `#${randomColor}`
+}
