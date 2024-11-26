@@ -98,4 +98,41 @@ export const userRouter = createTRPCRouter({
         throw error
       }
     }),
+
+  deleteTagType: publicProcedure
+    .input(z.object({ existingTagTypeId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = getUserId()
+
+      try {
+        const myUser = await ctx.db.query.users.findFirst({
+          where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
+        })
+
+        const tagsUsingTagType = myUser.tags.filter(
+          (tag: Tag) => tag.type === input.existingTagTypeId,
+        )
+
+        console.log("tagsUsingTagType", tagsUsingTagType)
+
+        if (tagsUsingTagType.length > 0) {
+          throw new Error(
+            `Can not delete Tag Type as it is being used by ${tagsUsingTagType.length} tags`,
+          )
+        }
+
+        myUser.tagTypes = myUser.tagTypes.filter(
+          (tagType: TagType) => tagType.id !== input.existingTagTypeId,
+        )
+        await ctx.db
+          .update(users)
+          .set({ tagTypes: myUser.tagTypes })
+          .where(eq(users.userId, userId))
+
+        return myUser
+      } catch (error: any) {
+        console.error("Error in user.deleteTagType:\n", error.message)
+        throw error
+      }
+    }),
 })

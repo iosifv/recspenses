@@ -16,7 +16,11 @@ export async function DELETE(req: Request) {
   const body = await req.json()
   const { tagId } = body
 
-  await api.user.deleteTag({ existingTagId: tagId })
+  try {
+    await api.user.deleteTag({ existingTagId: tagId })
 
-  return NextResponse.json({ message: "success" })
+    return NextResponse.json({ message: "success" })
+  } catch (error) {
+    console.error(" error:\n")
+  }
 }
