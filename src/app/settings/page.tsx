@@ -1,19 +1,7 @@
 import { api, HydrateClient } from "~/trpc/server"
 import { getUser } from "~/server/controller/clerkController"
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "~/components/ui/hover-card"
-import { Input } from "~/components/ui/input"
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "~/components/ui/card"
-
-import { Tag, TagType } from "~/types/recspensesTypes"
-import { Button } from "~/components/ui/button"
+import { TagType } from "~/types/recspensesTypes"
 import NewTagTypeCard from "./NewTagTypeCard"
 import ExistingTagTypeCard from "./ExistingTagTypeCard"
 import UserInformationHoverCard from "./UserInformationHoverCard"

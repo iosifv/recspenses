@@ -4,7 +4,7 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { users } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
 import { eq } from "drizzle-orm"
-import { TagType } from "~/types/recspensesTypes"
+import { Tag, TagType } from "~/types/recspensesTypes"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }) => {
@@ -21,34 +21,38 @@ export const userRouter = createTRPCRouter({
       throw error
     }
   }),
-  updateMyTagTypes: publicProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
-    const userId = getUserId()
-    await ctx.db.update(users).set({ tagTypes: input }).where(eq(users.userId, userId))
-  }),
-  updateMyTags: publicProcedure.input(z.array(z.string())).mutation(async ({ ctx, input }) => {
-    const userId = getUserId()
-    await ctx.db.update(users).set({ tags: input }).where(eq(users.userId, userId))
-  }),
-  addTag: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    const userId = getUserId()
 
-    try {
-      const myUser = await ctx.db.query.users.findFirst({
-        where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
-      })
+  addTag: publicProcedure
+    .input(z.object({ tag: z.string(), type: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = getUserId()
 
-      console.log("myUsers tags", myUser.tags)
-      myUser.tags.push(input)
-      await ctx.db.update(users).set({ tags: myUser.tags }).where(eq(users.userId, userId))
+      try {
+        const myUser = await ctx.db.query.users.findFirst({
+          where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
+        })
 
-      console.log("myUsers tags", myUser.tags)
+        console.log(" ===============> myUsers tags", myUser.tags)
 
-      return myUser
-    } catch (error) {
-      console.error("Database error:\n", error)
-      throw error
-    }
-  }),
+        const newTag: Tag = {
+          id: input.tag,
+          name: input.tag,
+          color: getRandomColor(),
+          type: input.type,
+        }
+
+        myUser.tags.push(newTag)
+        await ctx.db.update(users).set({ tags: myUser.tags }).where(eq(users.userId, userId))
+
+        console.log("------------------> myUsers tags", myUser.tags)
+
+        return myUser
+      } catch (error) {
+        console.error("Database error:\n", error)
+        throw error
+      }
+    }),
+
   addTagType: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
     const userId = getUserId()
 
@@ -57,7 +61,6 @@ export const userRouter = createTRPCRouter({
         where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
       })
 
-      console.log("myUsers tagTypes", myUser.tagTypes)
       const newTagType: TagType = {
         id: input,
         name: input,
@@ -66,8 +69,6 @@ export const userRouter = createTRPCRouter({
 
       myUser.tagTypes.push(newTagType)
       await ctx.db.update(users).set({ tagTypes: myUser.tagTypes }).where(eq(users.userId, userId))
-
-      console.log("myUsers tagTypes", myUser.tagTypes)
 
       return myUser
     } catch (error) {

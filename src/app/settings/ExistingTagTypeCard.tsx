@@ -1,4 +1,6 @@
-import React from "react"
+"use client"
+
+import React, { useState } from "react"
 import {
   Card,
   CardHeader,
@@ -17,6 +19,20 @@ interface ExistingTagTypeCardProps {
 }
 
 const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags }) => {
+  const [tag, setTag] = useState("")
+
+  const onButtonClick = () => {
+    console.log("send back: ", { tagType: tagType.id, tag: tag })
+
+    fetch("/api/user/addTag", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tagType: tagType.id, tag: tag }),
+    })
+  }
+
   return (
     <Card className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-gray-900 text-white">
       <CardHeader>
@@ -43,8 +59,14 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
         ></div>
       </CardContent>
       <CardFooter>
-        <Input type="text" id="new-tag" placeholder="New Tag" />
-        <Button>Add</Button>
+        <Input
+          type="text"
+          id="new-tag"
+          placeholder="New Tag"
+          onChange={(e) => setTag(e.target.value)}
+          value={tag}
+        />
+        <Button onClick={onButtonClick}>Add</Button>
       </CardFooter>
     </Card>
   )
