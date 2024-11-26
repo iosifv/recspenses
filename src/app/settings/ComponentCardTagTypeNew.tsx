@@ -19,7 +19,7 @@ const NewTagTypeCard = () => {
   const onButtonClick = () => {
     console.log("tagType", tagType)
 
-    fetch("/api/user/addTagType", {
+    fetch("/api/user/tagType", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

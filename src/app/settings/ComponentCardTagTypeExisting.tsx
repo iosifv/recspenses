@@ -21,15 +21,23 @@ interface ExistingTagTypeCardProps {
 const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags }) => {
   const [tag, setTag] = useState("")
 
-  const onButtonClick = () => {
-    console.log("send back: ", { tagType: tagType.id, tag: tag })
-
-    fetch("/api/user/addTag", {
+  const onAddTagTypeButtonClick = () => {
+    fetch("/api/user/tag", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ tagType: tagType.id, tag: tag }),
+    })
+  }
+
+  const onDeleteTagButtonClick = (tagId: string) => () => {
+    fetch("/api/user/tag", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ tagId: tagId }),
     })
   }
 
@@ -44,7 +52,9 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
           {tags
             .filter((tag: Tag) => tag.type === tagType.id)
             .map((tag: Tag) => (
-              <li key={tag.id}>{tag.name}</li>
+              <li key={tag.id}>
+                {tag.name} <Button onClick={onDeleteTagButtonClick(tag.id)}>❌</Button>
+              </li>
             ))}
         </ul>{" "}
         Colour:
@@ -66,7 +76,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
           onChange={(e) => setTag(e.target.value)}
           value={tag}
         />
-        <Button onClick={onButtonClick}>Add</Button>
+        <Button onClick={onAddTagTypeButtonClick}>Add</Button>
       </CardFooter>
     </Card>
   )

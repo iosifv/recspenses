@@ -5,6 +5,7 @@ import { users } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
 import { eq } from "drizzle-orm"
 import { Tag, TagType } from "~/types/recspensesTypes"
+import { generateUniqueId, getRandomColour } from "~/server/api/utils/routeUtils"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }) => {
@@ -23,7 +24,7 @@ export const userRouter = createTRPCRouter({
   }),
 
   addTag: publicProcedure
-    .input(z.object({ tag: z.string(), type: z.string() }))
+    .input(z.object({ newTagName: z.string(), existingTagType: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = getUserId()
 
@@ -32,19 +33,15 @@ export const userRouter = createTRPCRouter({
           where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
         })
 
-        console.log(" ===============> myUsers tags", myUser.tags)
-
         const newTag: Tag = {
-          id: input.tag,
-          name: input.tag,
-          color: getRandomColor(),
-          type: input.type,
+          id: generateUniqueId(input.newTagName),
+          name: input.newTagName,
+          color: getRandomColour(),
+          type: input.existingTagType,
         }
 
         myUser.tags.push(newTag)
         await ctx.db.update(users).set({ tags: myUser.tags }).where(eq(users.userId, userId))
-
-        console.log("------------------> myUsers tags", myUser.tags)
 
         return myUser
       } catch (error) {
@@ -53,33 +50,52 @@ export const userRouter = createTRPCRouter({
       }
     }),
 
-  addTagType: publicProcedure.input(z.string()).mutation(async ({ ctx, input }) => {
-    const userId = getUserId()
+  deleteTag: publicProcedure
+    .input(z.object({ existingTagId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = getUserId()
 
-    try {
-      const myUser = await ctx.db.query.users.findFirst({
-        where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
-      })
+      try {
+        const myUser = await ctx.db.query.users.findFirst({
+          where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
+        })
 
-      const newTagType: TagType = {
-        id: input,
-        name: input,
-        color: getRandomColor(),
+        myUser.tags = myUser.tags.filter((tag: Tag) => tag.id !== input.existingTagId)
+        await ctx.db.update(users).set({ tags: myUser.tags }).where(eq(users.userId, userId))
+
+        return myUser
+      } catch (error) {
+        console.error("Database error:\n", error)
+        throw error
       }
+    }),
 
-      myUser.tagTypes.push(newTagType)
-      await ctx.db.update(users).set({ tagTypes: myUser.tagTypes }).where(eq(users.userId, userId))
+  addTagType: publicProcedure
+    .input(z.object({ newTagTypeName: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = getUserId()
 
-      return myUser
-    } catch (error) {
-      console.error("Database error:\n", error)
-      throw error
-    }
-  }),
+      try {
+        const myUser = await ctx.db.query.users.findFirst({
+          where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
+        })
+
+        const newTagType: TagType = {
+          id: generateUniqueId(input.newTagTypeName),
+          name: input.newTagTypeName,
+          color: getRandomColour(),
+        }
+
+        myUser.tagTypes.push(newTagType)
+        await ctx.db
+          .update(users)
+          .set({ tagTypes: myUser.tagTypes })
+          .where(eq(users.userId, userId))
+
+        return myUser
+      } catch (error) {
+        console.error("Database error:\n", error)
+        throw error
+      }
+    }),
 })
-
-// Function to generate a random color in hex format
-function getRandomColor() {
-  const randomColor = Math.floor(Math.random() * 16777215).toString(16)
-  return `#${randomColor}`
-}
