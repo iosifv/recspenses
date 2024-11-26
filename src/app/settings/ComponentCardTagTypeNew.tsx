@@ -11,12 +11,14 @@ import {
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 // type Props = { addTagTypeComponent: (tagType: string) => void }
 
 const NewTagTypeCard = () => {
   const [tagType, setTagType] = useState("")
+  const router = useRouter()
 
-  const onButtonClick = () => {
+  const onNewTagTypeButtonClick = () => {
     console.log("tagType", tagType)
 
     fetch("/api/user/tagType", {
@@ -26,6 +28,7 @@ const NewTagTypeCard = () => {
       },
       body: JSON.stringify({ tagType }),
     })
+    router.refresh()
   }
 
   return (
@@ -45,7 +48,7 @@ const NewTagTypeCard = () => {
           onChange={(e) => setTagType(e.target.value)}
           value={tagType}
         />
-        <Button onClick={onButtonClick}>Create</Button>
+        <Button onClick={onNewTagTypeButtonClick}>Create</Button>
         <br />
       </CardContent>
       <CardFooter>Footer</CardFooter>

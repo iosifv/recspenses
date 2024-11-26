@@ -24,15 +24,6 @@ export default async function Settings() {
             ))}
             <NewTagTypeCard />
           </div>
-          <br />
-          <div className="flex justify-between">
-            <div className="flex-1 text-center">
-              <pre className="text-left">{JSON.stringify(recspensesUser.tagTypes, null, 2)}</pre>
-            </div>
-            <div className="flex-1 text-center">
-              <pre className="text-left">{JSON.stringify(recspensesUser.tags, null, 2)}</pre>
-            </div>
-          </div>
         </div>
       </main>
     </HydrateClient>

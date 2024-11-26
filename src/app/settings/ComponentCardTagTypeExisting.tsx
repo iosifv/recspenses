@@ -33,7 +33,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
       },
       body: JSON.stringify({ tagType: tagType.id, tag: tag }),
     })
-    window.location.reload()
+    router.refresh()
   }
 
   const onDeleteTagButtonClick = (tagId: string) => async () => {
@@ -44,7 +44,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
       },
       body: JSON.stringify({ tagId: tagId }),
     })
-    window.location.reload()
+    router.refresh()
   }
 
   const onDeleteTagTypeButtonClick = (tagTypeId: string) => async () => {
@@ -57,17 +57,15 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
     })
 
     const json = await response.json()
-    console.log("message", json)
 
-    if (response.status === 200) {
-      router.refresh()
-    }
     if (response.status === 400) {
       toast.error("Failed to delete TagType.", {
         description: json.message,
       })
       return
     }
+
+    router.refresh()
   }
 
   return (

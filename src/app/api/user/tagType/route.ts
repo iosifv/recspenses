@@ -7,9 +7,12 @@ export async function POST(req: Request) {
   const body = await req.json()
   const { tagType } = body
 
-  await api.user.addTagType({ newTagTypeName: tagType })
-
-  return NextResponse.json({ message: "success" })
+  try {
+    await api.user.addTagType({ newTagTypeName: tagType })
+    return NextResponse.json({ message: "success" })
+  } catch (error: any) {
+    return NextResponse.json({ error: error.message }, { status: 400 })
+  }
 }
 
 export async function DELETE(req: Request) {
@@ -20,8 +23,6 @@ export async function DELETE(req: Request) {
     await api.user.deleteTagType({ existingTagTypeId: tagTypeId })
     return NextResponse.json({ message: "success" }, { status: 200 })
   } catch (error: any) {
-    console.error(" error in api/user/tagType/route.ts:\n")
     return NextResponse.json({ message: error.message }, { status: 400 })
   }
-    
 }
