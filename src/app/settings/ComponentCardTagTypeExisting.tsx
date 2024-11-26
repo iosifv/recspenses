@@ -15,6 +15,7 @@ import { Badge } from "~/components/ui/badge"
 import { Tag, TagType } from "~/types/recspensesTypes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
+import TrashIcon from "~/components/heroicons/TrashIcon"
 
 interface ExistingTagTypeCardProps {
   tagType: TagType
@@ -85,13 +86,9 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
             ></div>
             <CardDescription>Card Description</CardDescription>
           </div>
-          <div style={{ width: "125px", textAlign: "right" }}>
-            <div
-              className="ml-2 p-0 cursor-pointer"
-              onClick={onDeleteTagTypeButtonClick(tagType.id)}
-            >
-              ❌
-            </div>
+
+          <div className="ml-2 p-0 cursor-pointer" onClick={onDeleteTagTypeButtonClick(tagType.id)}>
+            <TrashIcon />
           </div>
         </div>
       </CardHeader>
@@ -106,7 +103,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
             >
               {tag.name}{" "}
               <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tag.id)}>
-                ❌
+                <TrashIcon />
               </div>
             </Badge>
           ))}
