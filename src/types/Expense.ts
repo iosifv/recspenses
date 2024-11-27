@@ -1,3 +1,4 @@
+import { Tag } from "./Tag"
 import { User } from "./User" // Import User for reference
 import { CURRENCIES, FREQUENCIES } from "~/server/db/defaults" // Adjust the import path as necessary
 
@@ -39,18 +40,7 @@ export class Expense {
 
     this.tags = dbExpense.tags.map((tagId) => {
       const foundTag = user.tags.find((tag) => tag.id === tagId)
-      return foundTag
-        ? foundTag
-        : {
-            id: tagId.toString(),
-            name: "Unknown",
-            color: "#FF0000",
-            type: {
-              id: "deleted-tag-types",
-              name: "Deleted Tag Type",
-              color: "#FF0000",
-            },
-          }
+      return foundTag ? foundTag : Tag.buildWithUnknownId(tagId)
     })
   }
 }

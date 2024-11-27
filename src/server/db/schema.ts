@@ -14,7 +14,7 @@ import {
 import { relations } from "drizzle-orm"
 import { DEFAULT_TAG_TYPES, DEFAULT_TAGS, CURRENCIES, FREQUENCIES } from "~/server/db/defaults"
 import { TagType } from "~/types/TagType"
-import { Tag } from "~/types/Tag"
+import { DBTag } from "~/types/Tag"
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -30,7 +30,7 @@ export const users = createTable(
     // Todo: maybe rename userId to whatever Clerk uses ?
     userId: varchar("user_id", { length: 256 }).primaryKey(),
     tagTypes: json("tag_types").$type<TagType[]>().default(DEFAULT_TAG_TYPES).notNull(),
-    tags: json("tags").$type<Tag[]>().default(DEFAULT_TAGS).notNull(),
+    tags: json("tags").$type<DBTag[]>().default(DEFAULT_TAGS).notNull(),
     metadata: json("metadata").default("{}").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)

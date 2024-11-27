@@ -1,5 +1,5 @@
 import { TagType } from "~/types/TagType"
-import { DBTag, Tag } from "~/types/Tag"
+import { DBTag } from "~/types/Tag"
 
 // Custom enum-like types
 export const CURRENCIES = ["GBP", "USD", "EUR", "RON"] as const
@@ -9,16 +9,19 @@ export const DEFAULT_TAG_TYPES: TagType[] = [
   {
     id: "category",
     name: "Category",
+    description: "A way to categorize your expenses",
     color: "#FFA500",
   },
   {
     id: "source",
     name: "Source",
+    description: "A source of income from where you pay your expenses",
     color: "#9370DB",
   },
   {
     id: "account",
     name: "Account",
+    description: "An account from which you pay your expenses",
     color: "#448AFF",
   },
 ] satisfies TagType[]
@@ -27,37 +30,37 @@ export const DEFAULT_TAGS: DBTag[] = [
   {
     id: "living",
     name: "Living",
-    color: "#FF8C00",
+    description: "All living expenses",
     type: DEFAULT_TAG_TYPES[0]!.id,
   },
   {
     id: "entertainment",
     name: "Entertainment",
-    color: "#228B22",
+    description: "All entertainment expenses",
     type: DEFAULT_TAG_TYPES[0]!.id,
   },
   {
     id: "salary",
     name: "Salary",
-    color: "#8A2BE2",
+    description: "All salary income",
     type: DEFAULT_TAG_TYPES[1]!.id,
   },
   {
     id: "savings",
     name: "Savings",
-    color: "#8A2BE2",
+    description: "All savings income",
     type: DEFAULT_TAG_TYPES[1]!.id,
   },
   {
     id: "credit-card",
     name: "Credit Card",
-    color: "#8A2BE2",
+    description: "All credit card expenses",
     type: DEFAULT_TAG_TYPES[2]!.id,
   },
   {
     id: "debit-card",
     name: "Debit Card",
-    color: "#8A2BE2",
+    description: "All debit card expenses",
     type: DEFAULT_TAG_TYPES[2]!.id,
   },
-] satisfies Tag[]
+] satisfies DBTag[]
