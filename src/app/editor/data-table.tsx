@@ -48,28 +48,31 @@ export function DataTable({ columns, data }: DataTableProps) {
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  className="p-2"
-                  onClick={() => {
-                    // alert("Are you sure you want to delete this expense?")
-                    deleteMutation.mutate({
-                      id: row.original.id,
-                    })
-                  }}
-                >
-                  <Trash2 />
-                </Button>
-              </TableRow>
-            ))
+            table.getRowModel().rows.map((row) => {
+              console.log(row)
+              return (
+                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    </TableCell>
+                  ))}
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    className="p-2"
+                    onClick={() => {
+                      // alert("Are you sure you want to delete this expense?")
+                      deleteMutation.mutate({
+                        id: row.original.id,
+                      })
+                    }}
+                  >
+                    <Trash2 />
+                  </Button>
+                </TableRow>
+              )
+            })
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">

@@ -8,6 +8,10 @@ import { Expense } from "~/types/recspensesTypes"
 
 export const columns: ColumnDef<Expense>[] = [
   {
+    accessorKey: "tags",
+    header: "Tags",
+  },
+  {
     accessorKey: "name",
     header: "Name",
   },

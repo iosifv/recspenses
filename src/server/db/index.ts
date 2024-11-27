@@ -7,7 +7,7 @@ import { env } from "~/env"
 
 import * as schema from "./schema"
 
-let db
+let db: ReturnType<typeof drizzleLocal> | ReturnType<typeof drizzleVercel>
 let databaseType: "local" | "vercel"
 
 if (env.POSTGRES_URL.includes("my_local_db")) {

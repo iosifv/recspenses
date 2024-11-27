@@ -3,6 +3,7 @@ import { db } from "~/server/db"
 import { users } from "~/server/db/schema"
 import { eq } from "drizzle-orm"
 import { DEFAULT_TAG_TYPES, DEFAULT_TAGS } from "~/server/db/defaults"
+import { User } from "~/types/recspensesTypes"
 
 export const getUserId = () => {
   const { userId } = auth()
@@ -20,15 +21,16 @@ export const getUser = () => {
   return user
 }
 
-export const touchUser = async (): Promise<string> => {
+export const touchUser = async (): Promise<User> => {
   const userId = getUserId()
   console.log("touching User", userId)
+
   if (!userId) {
     throw new Error("Not logged in")
   }
 
   const existingUser = await db.query.users.findFirst({
-    where: (users, { eq }) => eq(users.userId, userId),
+    where: (user: User, { eq }) => eq(user.userId, userId),
   })
 
   if (!existingUser) {
@@ -45,5 +47,5 @@ export const touchUser = async (): Promise<string> => {
     await db.update(users).set({ seenAt: new Date() }).where(eq(users.userId, userId))
   }
 
-  return userId
+  return existingUser
 }

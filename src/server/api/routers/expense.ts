@@ -1,10 +1,10 @@
-import { z } from "zod"
-import { auth } from "@clerk/nextjs/server"
+import { object, z } from "zod"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { expenses } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
 import { eq } from "drizzle-orm"
 
+import { DBExpense, Expense } from "~/types/recspensesTypes"
 export const expenseRouter = createTRPCRouter({
   create: publicProcedure
     .input(z.object({ userId: z.string(), expense: z.string() }))
@@ -39,16 +39,6 @@ export const expenseRouter = createTRPCRouter({
         extra: {}, // Will use schema default
       })
     }),
-  getMine: publicProcedure.query(async ({ ctx }) => {
-    const userId = await touchUser()
-
-    const expense = await ctx.db.query.expenses.findMany({
-      where: (expenses, { eq }) => eq(expenses.userId, userId),
-      // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
-    })
-
-    return expense ?? null
-  }),
 
   deleteMine: publicProcedure
     .input(z.object({ id: z.number() }))
@@ -57,4 +47,23 @@ export const expenseRouter = createTRPCRouter({
 
       await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
     }),
+
+  getMine: publicProcedure.query<Expense[]>(async ({ ctx }) => {
+    const user = await touchUser()
+
+    const dbExpenses = await ctx.db.query.expenses.findMany({
+      where: (expense: DBExpense, { eq }) => eq(expense.userId, user.userId),
+      // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
+    })
+
+    let expenses: Expense[] = []
+
+    dbExpenses.forEach((dbExpense: DBExpense) => {
+      expenses.push(new Expense(user, dbExpense))
+    })
+
+    console.log("expensessss", expenses)
+
+    return expenses
+  }),
 })
