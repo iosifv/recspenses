@@ -14,7 +14,6 @@ const UserInformationHoverCard: React.FC<UserInformationHoverCardProps> = ({
     <HoverCard>
       <HoverCardTrigger>
         <img src={clerkUser.imageUrl} alt="Profile" className="h-24 w-24 rounded-full" />
-        Hover for user information
       </HoverCardTrigger>
       <HoverCardContent className="w-120 bg-black text-white">
         <div className="text-m">
