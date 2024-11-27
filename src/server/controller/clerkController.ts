@@ -31,8 +31,6 @@ export const touchUser = async (): Promise<string> => {
     where: (users, { eq }) => eq(users.userId, userId),
   })
 
-  console.log("existingUser", existingUser)
-
   if (!existingUser) {
     // Create new user if doesn't exist
     const newUser = await db.insert(users).values({

@@ -2,7 +2,7 @@
 
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import Link from "next/link"
-import { titleEnv } from "./titleEnv"
+import { titleEnv } from "../lib/titleEnv"
 import { usePathname } from "next/navigation"
 
 export function TopNav() {

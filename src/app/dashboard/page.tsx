@@ -1,45 +1,12 @@
 import { api, HydrateClient } from "~/trpc/server"
-import { ExpenseTable } from "../_components/ExpenseTable"
-import type { Expense } from "~/types/expense"
+import { ExpenseTable } from "./ComponentTableExpense"
 import dynamic from "next/dynamic"
 
 import { ChartConfig } from "~/components/ui/chart"
-
-const chartData = [
-  { name: "chrome", amount: 275, fill: "var(--color-chrome)" },
-  { name: "safari", amount: 200, fill: "var(--color-safari)" },
-  { name: "firefox", amount: 187, fill: "var(--color-firefox)" },
-  { name: "edge", amount: 173, fill: "var(--color-edge)" },
-  { name: "other", amount: 90, fill: "var(--color-other)" },
-]
-const chartConfig = {
-  visitors: {
-    label: "Visitors",
-  },
-  chrome: {
-    label: "Chrome",
-    color: "hsl(var(--chart-1))",
-  },
-  safari: {
-    label: "Safari",
-    color: "hsl(var(--chart-2))",
-  },
-  firefox: {
-    label: "Firefox",
-    color: "hsl(var(--chart-3))",
-  },
-  edge: {
-    label: "Edge",
-    color: "hsl(var(--chart-4))",
-  },
-  other: {
-    label: "Other",
-    color: "hsl(var(--chart-5))",
-  },
-} satisfies ChartConfig
+import { Expense } from "~/types/recspensesTypes"
 
 // Move chart to client-side only
-const DynamicChart = dynamic(() => import("~/app/_components/Chart"), { ssr: false })
+const DynamicChart = dynamic(() => import("./ComponentChart"), { ssr: false })
 
 export default async function Dashboard() {
   const myExpenses = (await api.expense.getMine()) as Expense[]
@@ -60,9 +27,6 @@ export default async function Dashboard() {
       },
     }
   }, {}) satisfies ChartConfig
-
-  // console.log(expenseChartConfig)
-  // console.log(expenseChartData)
 
   return (
     <HydrateClient>

@@ -1,4 +1,4 @@
-import { ExpenseForm } from "./ExpenseForm"
+import { ExpenseForm } from "./ComponentFormExpense"
 
 interface Expense {
   name: string
