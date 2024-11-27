@@ -33,6 +33,10 @@ export const userRouter = createTRPCRouter({
           where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
         })
 
+        if (input.newTagName.trim() === "") {
+          throw new Error("Tag name can not be empty")
+        }
+
         const newTag: Tag = {
           id: generateUniqueId(input.newTagName),
           name: input.newTagName,
@@ -44,8 +48,8 @@ export const userRouter = createTRPCRouter({
         await ctx.db.update(users).set({ tags: myUser.tags }).where(eq(users.userId, userId))
 
         return myUser
-      } catch (error) {
-        console.error("Database error:\n", error)
+      } catch (error: any) {
+        console.error("Error in user.addTag:\n", error.message)
         throw error
       }
     }),
@@ -113,12 +117,8 @@ export const userRouter = createTRPCRouter({
           (tag: Tag) => tag.type === input.existingTagTypeId,
         )
 
-        console.log("tagsUsingTagType", tagsUsingTagType)
-
         if (tagsUsingTagType.length > 0) {
-          throw new Error(
-            `Can not delete Tag Type as it is being used by ${tagsUsingTagType.length} tags`,
-          )
+          throw new Error(`This TagType is being used by ${tagsUsingTagType.length} Tags`)
         }
 
         myUser.tagTypes = myUser.tagTypes.filter(

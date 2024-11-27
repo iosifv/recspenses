@@ -16,6 +16,7 @@ import { Tag, TagType } from "~/types/recspensesTypes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import TrashIcon from "~/components/heroicons/TrashIcon"
+import PlusIcon from "~/components/heroicons/PlusIcon"
 
 interface ExistingTagTypeCardProps {
   tagType: TagType
@@ -27,13 +28,23 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
   const router = useRouter()
 
   const onAddTagTypeButtonClick = async () => {
-    await fetch("/api/user/tag", {
+    const response = await fetch("/api/user/tag", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({ tagType: tagType.id, tag: tag }),
     })
+
+    const json = await response.json()
+
+    if (response.status === 400) {
+      toast.error("Failed to add Tag.", {
+        description: json.error,
+      })
+      return
+    }
+
     router.refresh()
   }
 
@@ -61,7 +72,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
 
     if (response.status === 400) {
       toast.error("Failed to delete TagType.", {
-        description: json.message,
+        description: json.error,
       })
       return
     }
@@ -116,7 +127,9 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
           onChange={(e) => setTag(e.target.value)}
           value={tag}
         />
-        <Button onClick={onAddTagTypeButtonClick}>Add</Button>
+        <Button onClick={onAddTagTypeButtonClick}>
+          <PlusIcon />
+        </Button>
       </CardFooter>
     </Card>
   )
