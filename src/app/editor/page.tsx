@@ -6,7 +6,7 @@ import { DataTable } from "./data-table"
 export default async function Editor() {
   const myExpenses = await api.expense.getMine()
 
-  console.log("myExpensessssssss", myExpenses[0].tags[0])
+  console.log("myExpensessssssss", myExpenses[0]?.tags[0])
 
   const simplifiedExpenses = myExpenses.map((expense) => {
     return {
@@ -32,7 +32,7 @@ export default async function Editor() {
           </div>
 
           <pre>{JSON.stringify(myExpenses, null, 2)}</pre>
-          <pre>{JSON.stringify(myExpenses[0].tags[0], null, 2)}</pre>
+          <pre>{JSON.stringify(myExpenses[0]?.tags[0], null, 2)}</pre>
         </div>
       </main>
     </HydrateClient>

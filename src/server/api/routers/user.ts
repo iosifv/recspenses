@@ -4,8 +4,9 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { users } from "~/server/db/schema"
 import { getUserId } from "~/server/controller/clerkController"
 import { eq } from "drizzle-orm"
-import { Tag, TagType } from "~/types/recspensesTypes"
 import { generateUniqueId, getRandomColour } from "~/server/api/utils/routeUtils"
+import { Tag } from "~/types/Tag"
+import { TagType } from "~/types/TagType"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }) => {

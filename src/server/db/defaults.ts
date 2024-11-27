@@ -1,4 +1,5 @@
-import type { TagType, Tag } from "~/types/recspensesTypes"
+import { TagType } from "~/types/TagType"
+import { DBTag, Tag } from "~/types/Tag"
 
 // Custom enum-like types
 export const CURRENCIES = ["GBP", "USD", "EUR", "RON"] as const
@@ -22,7 +23,7 @@ export const DEFAULT_TAG_TYPES: TagType[] = [
   },
 ] satisfies TagType[]
 
-export const DEFAULT_TAGS: Tag[] = [
+export const DEFAULT_TAGS: DBTag[] = [
   {
     id: "living",
     name: "Living",

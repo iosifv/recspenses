@@ -1,10 +1,10 @@
 import { api, HydrateClient } from "~/trpc/server"
 import { getUser } from "~/server/controller/clerkController"
 
-import { TagType } from "~/types/recspensesTypes"
 import NewTagTypeCard from "./ComponentCardTagTypeNew"
 import ExistingTagTypeCard from "./ComponentCardTagTypeExisting"
 import UserInformationHoverCard from "./ComponentHoverUserInfo"
+import { TagType } from "~/types/TagType"
 
 export default async function Settings() {
   const recspensesUser = await api.user.getMe()

@@ -1,27 +1,17 @@
-import { type CURRENCIES, type FREQUENCIES } from "~/server/db/defaults"
+import { User } from "./User" // Import User for reference
+import { CURRENCIES, FREQUENCIES } from "~/server/db/defaults" // Adjust the import path as necessary
 
-export type User = {
+export type DBExpense = {
+  id: number
   userId: string
-  tags: Tag[] // stored as JSON in DB
-  tagTypes: TagType[] // stored as JSON in DB
-  metadata: Record<string, unknown> // stored as JSON in DB
+  tags: string[] // stored as JSON in DB
+  name: string
+  amount: number
+  currency: (typeof CURRENCIES)[number]
+  frequency: (typeof FREQUENCIES)[number]
+  extra: Record<string, unknown> // stored as JSON in DB
   createdAt: Date
-  updatedAt: Date | null
-  seenAt: Date | null
-}
-
-// Todo: create an abstract tag type and extend it into Tag and TagType
-export type TagType = {
-  id: string
-  name: string
-  color?: string
-}
-
-export type Tag = {
-  id: string
-  name: string
-  color?: string
-  type: TagType
+  updatedAt: Date
 }
 
 export class Expense {
@@ -63,16 +53,4 @@ export class Expense {
           }
     })
   }
-}
-export type DBExpense = {
-  id: number
-  userId: string
-  tags: string[] // stored as JSON in DB
-  name: string
-  amount: number
-  currency: (typeof CURRENCIES)[number]
-  frequency: (typeof FREQUENCIES)[number]
-  extra: Record<string, unknown> // stored as JSON in DB
-  createdAt: Date
-  updatedAt: Date
 }

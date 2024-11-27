@@ -12,8 +12,9 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
-import type { TagType, Tag } from "~/types/recspensesTypes"
 import { DEFAULT_TAG_TYPES, DEFAULT_TAGS, CURRENCIES, FREQUENCIES } from "~/server/db/defaults"
+import { TagType } from "~/types/TagType"
+import { Tag } from "~/types/Tag"
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same

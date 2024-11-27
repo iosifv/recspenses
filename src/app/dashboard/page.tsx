@@ -3,7 +3,7 @@ import { ExpenseTable } from "./ComponentTableExpense"
 import dynamic from "next/dynamic"
 
 import { ChartConfig } from "~/components/ui/chart"
-import { Expense } from "~/types/recspensesTypes"
+import { Expense } from "~/types/Expense"
 
 // Move chart to client-side only
 const DynamicChart = dynamic(() => import("./ComponentChart"), { ssr: false })

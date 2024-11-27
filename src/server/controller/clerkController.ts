@@ -3,7 +3,7 @@ import { db } from "~/server/db"
 import { users } from "~/server/db/schema"
 import { eq } from "drizzle-orm"
 import { DEFAULT_TAG_TYPES, DEFAULT_TAGS } from "~/server/db/defaults"
-import { User } from "~/types/recspensesTypes"
+import { User } from "~/types/User"
 
 export const getUserId = () => {
   const { userId } = auth()

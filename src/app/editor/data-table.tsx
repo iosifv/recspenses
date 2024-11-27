@@ -11,8 +11,8 @@ import {
   TableRow,
 } from "~/components/ui/table"
 import { Button } from "~/components/ui/button"
-import type { Expense } from "~/types/recspensesTypes"
 import { api } from "~/trpc/react"
+import { Expense } from "~/types/Expense"
 
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
@@ -57,19 +57,21 @@ export function DataTable({ columns, data }: DataTableProps) {
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
-                  <Button
-                    variant="destructive"
-                    size="sm"
-                    className="p-2"
-                    onClick={() => {
-                      // alert("Are you sure you want to delete this expense?")
-                      deleteMutation.mutate({
-                        id: row.original.id,
-                      })
-                    }}
-                  >
-                    <Trash2 />
-                  </Button>
+                  <TableCell>
+                    <Button
+                      variant="destructive"
+                      size="sm"
+                      className="p-2"
+                      onClick={() => {
+                        // alert("Are you sure you want to delete this expense?")
+                        deleteMutation.mutate({
+                          id: row.original.id,
+                        })
+                      }}
+                    >
+                      <Trash2 />
+                    </Button>
+                  </TableCell>
                 </TableRow>
               )
             })

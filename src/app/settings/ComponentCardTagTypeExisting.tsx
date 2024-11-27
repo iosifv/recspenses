@@ -12,11 +12,12 @@ import {
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
 import { Badge } from "~/components/ui/badge"
-import { Tag, TagType } from "~/types/recspensesTypes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import TrashIcon from "~/components/hero-icons/TrashIcon"
 import PlusIcon from "~/components/hero-icons/PlusIcon"
+import { Tag } from "~/types/Tag"
+import { TagType } from "~/types/TagType"
 
 interface ExistingTagTypeCardProps {
   tagType: TagType
