@@ -15,8 +15,8 @@ import { Badge } from "~/components/ui/badge"
 import { Tag, TagType } from "~/types/recspensesTypes"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
-import TrashIcon from "~/components/heroicons/TrashIcon"
-import PlusIcon from "~/components/heroicons/PlusIcon"
+import TrashIcon from "~/components/hero-icons/TrashIcon"
+import PlusIcon from "~/components/hero-icons/PlusIcon"
 
 interface ExistingTagTypeCardProps {
   tagType: TagType
