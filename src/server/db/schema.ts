@@ -12,7 +12,6 @@ import {
   varchar,
 } from "drizzle-orm/pg-core"
 import { relations } from "drizzle-orm"
-import { DEFAULT_TAG_TYPES, DEFAULT_TAGS, CURRENCIES, FREQUENCIES } from "~/server/db/defaults"
 import { TagType } from "~/types/TagType"
 import { DBTag } from "~/types/Tag"
 
@@ -24,13 +23,17 @@ import { DBTag } from "~/types/Tag"
  */
 export const createTable = pgTableCreator((name) => `recspenses_${name}`)
 
+// Custom enum-like types
+export const CURRENCIES = ["GBP", "USD", "EUR", "RON"] as const
+export const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"] as const
+
 export const users = createTable(
   "user",
   {
     // Todo: maybe rename userId to whatever Clerk uses ?
     userId: varchar("user_id", { length: 256 }).primaryKey(),
-    tagTypes: json("tag_types").$type<TagType[]>().default(DEFAULT_TAG_TYPES).notNull(),
-    tags: json("tags").$type<DBTag[]>().default(DEFAULT_TAGS).notNull(),
+    tagTypes: json("tag_types").$type<TagType[]>().default([]).notNull(),
+    tags: json("tags").$type<DBTag[]>().default([]).notNull(),
     metadata: json("metadata").default("{}").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)

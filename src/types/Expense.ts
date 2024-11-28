@@ -1,9 +1,9 @@
 import { Tag } from "./Tag"
 import { User } from "./User" // Import User for reference
-import { CURRENCIES, FREQUENCIES } from "~/server/db/defaults" // Adjust the import path as necessary
+import { CURRENCIES, FREQUENCIES } from "~/server/db/schema" // Adjust the import path as necessary
 
 export type DBExpense = {
-  id: number
+  id?: number
   userId: string
   tags: string[] // stored as JSON in DB
   name: string
@@ -16,7 +16,7 @@ export type DBExpense = {
 }
 
 export class Expense {
-  id: number
+  id?: number
   userId: string
   tags: Tag[] // stored as JSON in DB
   name: string

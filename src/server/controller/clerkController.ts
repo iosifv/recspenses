@@ -1,8 +1,8 @@
 import { auth, currentUser } from "@clerk/nextjs/server"
 import { db } from "~/server/db"
-import { users } from "~/server/db/schema"
+import { expenses, users } from "~/server/db/schema"
 import { eq } from "drizzle-orm"
-import { DEFAULT_TAG_TYPES, DEFAULT_TAGS } from "~/server/db/defaults"
+import { DEFAULT_TAG_TYPES, DEFAULT_TAGS, exampleExpenses } from "~/server/db/seedNewUser"
 import { User } from "~/types/User"
 
 export const getUserId = () => {
@@ -41,6 +41,10 @@ export const touchUser = async (): Promise<User> => {
       tags: DEFAULT_TAGS,
       metadata: {},
     })
+    // Create example expenses for the new user
+
+    await db.insert(expenses).values(exampleExpenses(userId))
+
     console.log("newUser", newUser)
   } else {
     // Update existing user's seenAt timestamp

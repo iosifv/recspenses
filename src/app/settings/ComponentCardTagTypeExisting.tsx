@@ -96,7 +96,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
                 backgroundColor: tagType.color,
               }}
             ></div>
-            <CardDescription>Card Description</CardDescription>
+            <CardDescription>{tagType.description}</CardDescription>
           </div>
 
           <div className="ml-2 p-0 cursor-pointer" onClick={onDeleteTagTypeButtonClick(tagType.id)}>
