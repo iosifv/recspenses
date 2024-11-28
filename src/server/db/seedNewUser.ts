@@ -69,12 +69,16 @@ export const DEFAULT_TAGS: DBTag[] = [
   },
 ] satisfies DBTag[]
 
+function generateRandomInt(max: number): number {
+  return Math.floor(Math.random() * (max + 1))
+}
+
 export function exampleExpenses(userId: string): DBExpense[] {
   return exampleExpenseArray.map((expense, index) => ({
     ...expense,
     userId: userId,
-    currency: CURRENCIES[0],
-    frequency: FREQUENCIES[2],
+    currency: CURRENCIES[generateRandomInt(CURRENCIES.length)] || "USD",
+    frequency: FREQUENCIES[generateRandomInt(FREQUENCIES.length)] || "monthly",
     extra: {},
     createdAt: new Date(),
     updatedAt: new Date(),
