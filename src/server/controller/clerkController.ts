@@ -23,7 +23,6 @@ export const getUser = () => {
 
 export const touchUser = async (): Promise<User> => {
   const userId = getUserId()
-  console.log("touching User", userId)
 
   if (!userId) {
     throw new Error("Not logged in")
@@ -44,8 +43,6 @@ export const touchUser = async (): Promise<User> => {
     // Create example expenses for the new user
 
     await db.insert(expenses).values(exampleExpenses(userId))
-
-    console.log("newUser", newUser)
   } else {
     // Update existing user's seenAt timestamp
     await db.update(users).set({ seenAt: new Date() }).where(eq(users.userId, userId))

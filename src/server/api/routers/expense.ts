@@ -2,7 +2,7 @@ import { object, z } from "zod"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { expenses } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
-import { eq } from "drizzle-orm"
+import { asc, eq } from "drizzle-orm"
 import { DBExpense, Expense } from "~/types/Expense"
 
 export const expenseRouter = createTRPCRouter({
@@ -28,8 +28,6 @@ export const expenseRouter = createTRPCRouter({
       const userId = getUserId()
       const expenseData = JSON.parse(input.expense)
 
-      // console.log(expenseData)
-
       await ctx.db.insert(expenses).values({
         userId: userId,
         name: expenseData.name,
@@ -53,7 +51,7 @@ export const expenseRouter = createTRPCRouter({
 
     const dbExpenses = await ctx.db.query.expenses.findMany({
       where: (expense: DBExpense, { eq }) => eq(expense.userId, user.userId),
-      // orderBy: (expenses, { desc }) => [desc(expenses.createdAt)],
+      orderBy: (expenses, { asc }) => [asc(expenses.name)],
     })
 
     let expenses: Expense[] = []
@@ -62,8 +60,28 @@ export const expenseRouter = createTRPCRouter({
       expenses.push(new Expense(user, dbExpense))
     })
 
-    console.log("expensessss", expenses)
-
     return expenses
   }),
+  removeMyTag: publicProcedure
+    .input(z.object({ expenseId: z.number(), tagId: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      // const userId = getUserId()
+
+      const dbExpense = await ctx.db.query.expenses.findFirst({
+        where: (expense: DBExpense, { eq }) => eq(expense.id, input.expenseId),
+      })
+
+      console.log("dbExpense", dbExpense)
+
+      console.log("dbExpense.tags =>", dbExpense.tags)
+      dbExpense.tags = dbExpense.tags.filter((tagId: string) => tagId !== input.tagId)
+
+      console.log("dbExpense.tags =>", dbExpense.tags)
+      await ctx.db
+        .update(expenses)
+        .set({ tags: dbExpense.tags })
+        .where(eq(expenses.id, input.expenseId))
+
+      return dbExpense
+    }),
 })

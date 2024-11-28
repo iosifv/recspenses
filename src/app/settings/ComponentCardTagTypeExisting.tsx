@@ -11,13 +11,13 @@ import {
 } from "~/components/ui/card"
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
-import { Badge } from "~/components/ui/badge"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import TrashIcon from "~/components/hero-icons/TrashIcon"
 import PlusIcon from "~/components/hero-icons/PlusIcon"
 import { Tag } from "~/types/Tag"
 import { TagType } from "~/types/TagType"
+import { SettingTagBadge } from "~/components/custom/SettingTagBadge"
 
 interface ExistingTagTypeCardProps {
   tagType: TagType
@@ -108,16 +108,17 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
         {tags
           .filter((tag: Tag) => tag.type === tagType.id)
           .map((tag: Tag) => (
-            <Badge
-              variant={"default"}
-              key={tag.id}
-              className="mr-2 mb-2 rounded-full cursor-default hover:bg-slate-500"
-            >
-              {tag.name}{" "}
-              <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tag.id)}>
-                <TrashIcon />
-              </div>
-            </Badge>
+            // <Badge
+            //   variant={"default"}
+            //   key={tag.id}
+            //   className="mr-2 mb-2 rounded-full cursor-default hover:bg-slate-500"
+            // >
+            //   {tag.name}{" "}
+            //   <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tag.id)}>
+            //     <TrashIcon />
+            //   </div>
+            // </Badge>
+            <SettingTagBadge id={tag.id} name={tag.name} />
           ))}
       </CardContent>
       <CardFooter>

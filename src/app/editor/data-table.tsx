@@ -11,8 +11,10 @@ import {
   TableRow,
 } from "~/components/ui/table"
 import { Button } from "~/components/ui/button"
+import { Badge } from "~/components/ui/badge"
 import { api } from "~/trpc/react"
 import { Expense } from "~/types/Expense"
+import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
 
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
@@ -49,14 +51,27 @@ export function DataTable({ columns, data }: DataTableProps) {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => {
-              console.log(row)
+              // console.log(row.original)
               return (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
+                  {row.getVisibleCells().map((cell) => {
+                    const rowTags = row.original.tags
+                    // console.log(rowTags)
+
+                    return (
+                      <TableCell key={cell.id}>
+                        {cell.column.columnDef.header === "Tags"
+                          ? rowTags.map((tag) => (
+                              <ExpenseTagBadge
+                                expenseId={row.original.id}
+                                tagId={tag.id}
+                                tagName={tag.name}
+                              />
+                            ))
+                          : flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    )
+                  })}
                   <TableCell>
                     <Button
                       variant="destructive"

@@ -6,8 +6,6 @@ import { DataTable } from "./data-table"
 export default async function Editor() {
   const myExpenses = await api.expense.getMine()
 
-  console.log("myExpensessssssss", myExpenses[0]?.tags[0])
-
   const simplifiedExpenses = myExpenses.map((expense) => {
     return {
       id: expense.id,
@@ -15,7 +13,7 @@ export default async function Editor() {
       amount: expense.amount,
       currency: expense.currency,
       frequency: expense.frequency,
-      tags: expense.tags.map((tag) => tag.name),
+      tags: expense.tags.map((tag) => ({ id: tag.id, name: tag.name })),
       createdAt: expense.createdAt.toISOString(),
       updatedAt: expense.updatedAt.toISOString(),
     }

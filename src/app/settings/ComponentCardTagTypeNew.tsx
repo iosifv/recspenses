@@ -19,8 +19,6 @@ const NewTagTypeCard = () => {
   const router = useRouter()
 
   const onNewTagTypeButtonClick = () => {
-    console.log("tagType", tagType)
-
     fetch("/api/user/tagType", {
       method: "POST",
       headers: {
