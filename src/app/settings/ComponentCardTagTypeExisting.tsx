@@ -49,16 +49,16 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
     router.refresh()
   }
 
-  const onDeleteTagButtonClick = (tagId: string) => async () => {
-    await fetch("/api/user/tag", {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ tagId: tagId }),
-    })
-    router.refresh()
-  }
+  // const onDeleteTagButtonClick = (tagId: string) => async () => {
+  //   await fetch("/api/user/tag", {
+  //     method: "DELETE",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({ tagId: tagId }),
+  //   })
+  //   router.refresh()
+  // }
 
   const onDeleteTagTypeButtonClick = (tagTypeId: string) => async () => {
     const response = await fetch("/api/user/tagType", {
@@ -106,18 +106,8 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
       </CardHeader>
       <CardContent>
         {tags
-          .filter((tag: Tag) => tag.type === tagType.id)
+          .filter((tag: Tag) => tag.type.id === tagType.id)
           .map((tag: Tag) => (
-            // <Badge
-            //   variant={"default"}
-            //   key={tag.id}
-            //   className="mr-2 mb-2 rounded-full cursor-default hover:bg-slate-500"
-            // >
-            //   {tag.name}{" "}
-            //   <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tag.id)}>
-            //     <TrashIcon />
-            //   </div>
-            // </Badge>
             <SettingTagBadge id={tag.id} name={tag.name} />
           ))}
       </CardContent>

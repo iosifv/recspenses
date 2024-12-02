@@ -1,8 +1,8 @@
-import { object, z } from "zod"
+import { z } from "zod"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { expenses } from "~/server/db/schema"
 import { getUserId, touchUser } from "~/server/controller/clerkController"
-import { asc, eq } from "drizzle-orm"
+import { eq } from "drizzle-orm"
 import { DBExpense, Expense } from "~/types/Expense"
 
 export const expenseRouter = createTRPCRouter({
@@ -44,6 +44,33 @@ export const expenseRouter = createTRPCRouter({
       // const userId = getUserId()
 
       await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
+    }),
+
+  updateMine: publicProcedure
+    .input(z.object({ expense: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = getUserId()
+      const expenseData = JSON.parse(input.expense)
+
+      const dbExpense = await ctx.db.query.expenses.findFirst({
+        where: (expense: DBExpense, { eq }) => eq(expense.id, expenseData.id),
+      })
+
+      if (!dbExpense) {
+        throw new Error("Expense not found")
+      }
+
+      if (dbExpense.userId !== userId) {
+        throw new Error("You are not authorized to edit this expense")
+      }
+
+      dbExpense.name = expenseData.name
+      dbExpense.amount = expenseData.amount
+      dbExpense.currency = expenseData.currency
+      dbExpense.frequency = expenseData.frequency
+      dbExpense.tags = expenseData.tags
+
+      await ctx.db.update(expenses).set(dbExpense).where(eq(expenses.id, expenseData.id))
     }),
 
   getMine: publicProcedure.query<Expense[]>(async ({ ctx }) => {

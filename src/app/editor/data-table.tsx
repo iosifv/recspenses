@@ -1,6 +1,5 @@
 "use client"
 
-import { Trash2 } from "lucide-react"
 import { ColumnDef, flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table"
 import {
   Table,
@@ -11,10 +10,11 @@ import {
   TableRow,
 } from "~/components/ui/table"
 import { Button } from "~/components/ui/button"
-import { Badge } from "~/components/ui/badge"
 import { api } from "~/trpc/react"
 import { Expense } from "~/types/Expense"
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
+import TrashIcon from "~/components/hero-icons/TrashIcon"
+import ComponentDialogEdit from "./ComponentDialogEdit"
 
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
@@ -29,6 +29,7 @@ export function DataTable({ columns, data }: DataTableProps) {
   })
 
   const deleteMutation = api.expense.deleteMine.useMutation()
+
 
   return (
     <div className="rounded-md border">
@@ -51,19 +52,19 @@ export function DataTable({ columns, data }: DataTableProps) {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => {
-              // console.log(row.original)
+              // console.log(row.original.id, row.id, row.original.name)
               return (
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => {
                     const rowTags = row.original.tags
-                    // console.log(rowTags)
+                    // console.log(row.id)
 
                     return (
                       <TableCell key={cell.id}>
                         {cell.column.columnDef.header === "Tags"
                           ? rowTags.map((tag) => (
                               <ExpenseTagBadge
-                                expenseId={row.original.id}
+                                expenseId={row.original.id ?? 0}
                                 tagId={tag.id}
                                 tagName={tag.name}
                               />
@@ -73,6 +74,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                     )
                   })}
                   <TableCell>
+                    <ComponentDialogEdit row={row.original} />
                     <Button
                       variant="destructive"
                       size="sm"
@@ -80,11 +82,11 @@ export function DataTable({ columns, data }: DataTableProps) {
                       onClick={() => {
                         // alert("Are you sure you want to delete this expense?")
                         deleteMutation.mutate({
-                          id: row.original.id,
+                          id: row.original.id ?? 0,
                         })
                       }}
                     >
-                      <Trash2 />
+                      <TrashIcon />
                     </Button>
                   </TableCell>
                 </TableRow>
