@@ -14,13 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
-import { Expense } from "~/types/Expense"
 
 const ComponentTableRowNew = () => {
   const [name, setName] = useState("")
   const [amount, setAmount] = useState(0)
-  const [currency, setCurrency] = useState<"GBP" | "USD" | "EUR" | "RON">("")
-  const [frequency, setFrequency] = useState<"daily" | "weekly" | "monthly" | "yearly">("")
+  const [currency, setCurrency] = useState<"GBP" | "USD" | "EUR" | "RON" | "">("")
+  const [frequency, setFrequency] = useState<"daily" | "weekly" | "monthly" | "yearly" | "">("")
   const router = useRouter()
 
   const onAddButtonClick = async () => {
@@ -47,25 +46,17 @@ const ComponentTableRowNew = () => {
       toast.error("Expense amount must be greater than 0")
       validationError = true
     }
-    // if (currency === "") {
-    //   toast.error("Expense currency can not be empty")
-    //   validationError = true
-    // }
-    // if (frequency === "") {
-    //   toast.error("Expense frequency can not be empty")
-    //   validationError = true
-    // }
+    if (currency === "") {
+      toast.error("Expense currency can not be empty")
+      validationError = true
+    }
+    if (frequency === "") {
+      toast.error("Expense frequency can not be empty")
+      validationError = true
+    }
     if (validationError) {
       return
     }
-
-    // const newExpense = {
-    //   name: name,
-    //   amount: amount,
-    //   currency: currency,
-    //   frequency: frequency,
-    //   tags: [],
-    // }
 
     const response = await fetch("/api/expense", {
       method: "POST",
@@ -99,8 +90,12 @@ const ComponentTableRowNew = () => {
         />
       </TableCell>
       <TableCell>
-        <Select onValueChange={(value) => setFrequency(value)}>
-          <SelectTrigger className="w-[80px]">
+        <Select
+          onValueChange={(value: "" | "daily" | "weekly" | "monthly" | "yearly") =>
+            setFrequency(value)
+          }
+        >
+          <SelectTrigger className="w-[100px]">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
@@ -114,7 +109,7 @@ const ComponentTableRowNew = () => {
       </TableCell>
 
       <TableCell>
-        <Select onValueChange={(value) => setCurrency(value)}>
+        <Select onValueChange={(value: "" | "GBP" | "USD" | "EUR" | "RON") => setCurrency(value)}>
           <SelectTrigger className="w-[80px]">
             <SelectValue />
           </SelectTrigger>
@@ -133,7 +128,7 @@ const ComponentTableRowNew = () => {
           className="w-[80px]"
           placeholder="0"
           value={amount}
-          onChange={(e) => setAmount(e.target.value)}
+          onChange={(e) => setAmount(Number(e.target.value))}
         />
       </TableCell>
       <TableCell>

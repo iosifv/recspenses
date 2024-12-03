@@ -4,6 +4,7 @@ import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { CURRENCIES, FREQUENCIES } from "~/server/db/schema"
+import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
 
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
@@ -27,17 +28,38 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
+import { SimpleTagBadge } from "~/components/custom/SimpleTagBadge"
+import { on } from "events"
 
 interface ExistingTagTypeCardProps {
   row: any
+  user: any
 }
 
-const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
+const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) => {
   const [name, setName] = useState(row.name)
   const [amount, setAmount] = useState(row.amount)
   const [currency, setCurrency] = useState(row.currency)
   const [frequency, setFrequency] = useState(row.frequency)
+  const [currentTagIds, setCurrentTagIds] = useState(row.tags.map((tag: any) => tag.id))
   const router = useRouter()
+
+  console.log("currentTagIds", currentTagIds)
+
+  let existingTags = user.tags.filter((tag: any) => currentTagIds.includes(tag.id))
+  let remainingTags = user.tags.filter((tag: any) => !currentTagIds.includes(tag.id))
+
+  const onAddTagButtonClick = async (tagId: string) => {
+    console.log("onAddTagButtonClick", tagId)
+    setCurrentTagIds((prev: any) => [...prev, tagId])
+    router.refresh()
+  }
+
+  const onRemoveTagButtonClick = (tagId: string) => {
+    console.log("removeTagButtonClick", tagId)
+    setCurrentTagIds((prev: any) => prev.filter((id: any) => id !== tagId))
+    router.refresh()
+  }
 
   const onSaveButtonClick = async () => {
     const editedExpense = {
@@ -46,7 +68,7 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
       amount: amount,
       currency: currency,
       frequency: frequency,
-      // tags: row.tags,
+      tags: currentTagIds,
     }
 
     const response = await fetch("/api/expense", {
@@ -97,7 +119,33 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{row.name}</DialogTitle>
+          <hr className="border-slate-500 border-1 w-full" />
           <DialogDescription>
+            <div className="flex justify-between">
+              {existingTags.map((tag: any) => (
+                <SimpleTagBadge
+                  selected={true}
+                  expenseId={row.id}
+                  tagId={tag.id}
+                  tagName={tag.name}
+                  key={tag.id}
+                  actionToHappen={() => onRemoveTagButtonClick(tag.id)}
+                />
+              ))}
+            </div>
+
+            <div className="flex justify-between">
+              {remainingTags.map((tag: any) => (
+                <SimpleTagBadge
+                  selected={false}
+                  expenseId={row.id}
+                  tagId={tag.id}
+                  tagName={tag.name}
+                  key={tag.id}
+                  actionToHappen={() => onAddTagButtonClick(tag.id)}
+                />
+              ))}
+            </div>
             <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
             <Select onValueChange={(value) => setCurrency(value)}>
               <SelectTrigger className="w-[180px]">

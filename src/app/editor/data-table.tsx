@@ -9,8 +9,6 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table"
-import { Button } from "~/components/ui/button"
-import { api } from "~/trpc/react"
 import { Expense } from "~/types/Expense"
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
 import ComponentDialogEdit from "./ComponentDialogEdit"
@@ -20,9 +18,10 @@ import ComponentTableRowNew from "./ComponentTableRowNew"
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
   data: Expense[]
+  user: any
 }
 
-export function DataTable({ columns, data }: DataTableProps) {
+export function DataTable({ columns, data, user }: DataTableProps) {
   const table = useReactTable({
     data,
     columns,
@@ -74,7 +73,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                   })}
                   <TableCell>
                     <div style={{ display: "flex", justifyContent: "right" }}>
-                      <ComponentDialogEdit row={row.original} />
+                      <ComponentDialogEdit row={row.original} user={user} />
                       <ComponentDialogDelete row={row.original} />
                     </div>
                   </TableCell>

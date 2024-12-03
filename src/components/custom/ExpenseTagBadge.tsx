@@ -25,8 +25,8 @@ export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({ expenseId, tagId, tag
 
   return (
     <Badge
-      variant={"default"}
-      className="mr-2 mb-2 rounded-full cursor-default hover:bg-slate-500"
+      variant={"outline"}
+      className="mr-2 mb-2 pt-0 pb-0 rounded-full cursor-default text-white text-xs hover:bg-gray-600"
       key={tagId}
     >
       {tagName}
