@@ -11,12 +11,3 @@ export async function POST(req: Request) {
     await api.expense.createMine({ expense: JSON.stringify(expense) })
   })
 }
-
-export async function PUT(req: Request) {
-  const body = await req.json()
-  const { expense } = body
-
-  return executeWithTryCatch(async () => {
-    await api.expense.updateMine({ expense: JSON.stringify(expense) })
-  })
-}

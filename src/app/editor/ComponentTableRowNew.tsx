@@ -35,8 +35,6 @@ const ComponentTableRowNew = () => {
       extra: {},
     }
 
-    console.log("newExpense", newExpense)
-
     let validationError = false
     if (name.trim() === "") {
       toast.error("Expense name can not be empty")

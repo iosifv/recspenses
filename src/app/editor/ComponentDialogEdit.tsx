@@ -44,8 +44,6 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
   const [currentTagIds, setCurrentTagIds] = useState(row.tags.map((tag: any) => tag.id))
   const router = useRouter()
 
-  console.log("currentTagIds", currentTagIds)
-
   let existingTags = user.tags.filter((tag: any) => currentTagIds.includes(tag.id))
   let remainingTags = user.tags.filter((tag: any) => !currentTagIds.includes(tag.id))
 
@@ -63,7 +61,7 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
 
   const onSaveButtonClick = async () => {
     const editedExpense = {
-      id: row.id,
+      // id: row.id,
       name: name,
       amount: amount,
       currency: currency,
@@ -71,7 +69,9 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
       tags: currentTagIds,
     }
 
-    const response = await fetch("/api/expense", {
+    console.log("editedExpense", editedExpense)
+
+    const response = await fetch(`/api/expense/${row.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

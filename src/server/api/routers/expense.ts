@@ -52,17 +52,17 @@ export const expenseRouter = createTRPCRouter({
         throw new Error("You are not authorized to delete this expense")
       }
 
-      await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
+      // await ctx.db.delete(expenses).where(eq(expenses.id, input.id))
     }),
 
   updateMine: publicProcedure
-    .input(z.object({ expense: z.string() }))
+    .input(z.object({ id: z.number(), expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const userId = getUserId()
       const expenseData = JSON.parse(input.expense)
 
       const dbExpense = await ctx.db.query.expenses.findFirst({
-        where: (expense: DBExpense, { eq }) => eq(expense.id, expenseData.id),
+        where: (expense: DBExpense, { eq }) => eq(expense.id, input.id),
       })
 
       if (!dbExpense) {
@@ -79,7 +79,7 @@ export const expenseRouter = createTRPCRouter({
       dbExpense.frequency = expenseData.frequency
       dbExpense.tags = expenseData.tags
 
-      await ctx.db.update(expenses).set(dbExpense).where(eq(expenses.id, expenseData.id))
+      await ctx.db.update(expenses).set(dbExpense).where(eq(expenses.id, input.id))
     }),
 
   getMine: publicProcedure.query<Expense[]>(async ({ ctx }) => {

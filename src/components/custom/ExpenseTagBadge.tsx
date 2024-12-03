@@ -13,12 +13,12 @@ export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({ expenseId, tagId, tag
   const router = useRouter()
 
   const onDeleteTagButtonClick = (tagId: string) => async () => {
-    await fetch("/api/expense/tag", {
+    await fetch(`/api/expense/${expenseId}/tag/${tagId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ expenseId: expenseId, tagId: tagId }),
+      // body: JSON.stringify({ expenseId: expenseId, tagId: tagId }),
     })
     router.refresh()
   }
