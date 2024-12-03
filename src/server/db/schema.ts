@@ -24,8 +24,10 @@ import { DBTag } from "~/types/Tag"
 export const createTable = pgTableCreator((name) => `recspenses_${name}`)
 
 // Custom enum-like types
-export const CURRENCIES = ["GBP", "USD", "EUR", "RON"] as const
-export const FREQUENCIES = ["daily", "weekly", "monthly", "yearly"] as const
+export type CURRENCY = "GBP" | "USD" | "EUR" | "RON"
+export type FREQUENCY = "daily" | "weekly" | "monthly" | "yearly"
+export const CURRENCIES: CURRENCY[] = ["GBP", "USD", "EUR", "RON"] as const
+export const FREQUENCIES: FREQUENCY[] = ["daily", "weekly", "monthly", "yearly"] as const
 
 export const users = createTable(
   "user",
@@ -54,8 +56,8 @@ export const expenses = createTable(
     tags: json("tags").default("[]").notNull(),
     name: varchar("name", { length: 256 }).notNull(),
     amount: integer("amount").notNull(),
-    currency: varchar("currency", { length: 3, enum: CURRENCIES }).notNull(),
-    frequency: varchar("frequency", { length: 10, enum: FREQUENCIES }).notNull(),
+    currency: varchar("currency", { length: 3 }).notNull().default("GBP"),
+    frequency: varchar("frequency", { length: 10 }).notNull(),
     extra: json("extra").default("{}").notNull(),
     createdAt: timestamp("created_at", { withTimezone: true })
       .default(sql`CURRENT_TIMESTAMP`)

@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server"
+import { d } from "node_modules/drizzle-kit/index-BfiZoTqG.mjs"
 
 export const executeWithTryCatch = async (func: () => Promise<any>) => {
   try {
     const result = await func()
-    return NextResponse.json({ message: "success" })
+    return NextResponse.json({ message: "success", data: result })
   } catch (error: any) {
     console.error("An error occurred:", error)
     return NextResponse.json({ error: error.message }, { status: 400 })
