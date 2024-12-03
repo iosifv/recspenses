@@ -50,9 +50,9 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 ## Todo User Journeys
 
 - [x] In my Editor Tab I can see all my expenses in their original currency
-- [ ] In my Editor Tab I can add a new expense
-- [ ] In my Editor Tab I can edit an expense
-  - [ ] I can add a new Tag to an expense
+- [x] In my Editor Tab I can add a new expense
+- [x] In my Editor Tab I can edit an expense
+  - [x] I can add a new Tag to an expense
   - [x] I can delete a Tag from an expense
 - [x] In my Editor Tab I can delete an expense
 - [x] In my Settings Tab I can Edit my Categories, Sources and Tags
