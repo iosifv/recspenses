@@ -16,6 +16,8 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  DialogClose,
+  DialogFooter,
 } from "~/components/ui/dialog"
 import {
   Select,
@@ -30,8 +32,10 @@ interface ExistingTagTypeCardProps {
 }
 
 const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
-  const [name, setName] = useState("")
-  const [amount, setAmount] = useState("")
+  const [name, setName] = useState(row.name)
+  const [amount, setAmount] = useState(row.amount)
+  const [currency, setCurrency] = useState(row.currency)
+  const [frequency, setFrequency] = useState(row.frequency)
   const router = useRouter()
 
   const onSaveButtonClick = async () => {
@@ -39,10 +43,11 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
       id: row.id,
       name: name,
       amount: amount,
-      currency: row.currency,
-      frequency: row.frequency,
-      tags: row.tags,
+      currency: currency,
+      frequency: frequency,
+      // tags: row.tags,
     }
+    console.log(row.tags)
 
     const response = await fetch("/api/expense", {
       method: "PUT",
@@ -64,6 +69,26 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
     router.refresh()
   }
 
+  const onDeleteButtonClick = async () => {
+    const response = await fetch(`/api/expense/${row.id}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+
+    const json = await response.json()
+
+    if (response.status === 400) {
+      toast.error("Failed to delete Expense.", {
+        description: json.error,
+      })
+      return
+    }
+
+    router.refresh()
+  }
+
   return (
     <Dialog>
       <DialogTrigger>
@@ -73,13 +98,8 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
         <DialogHeader>
           <DialogTitle>{row.name}</DialogTitle>
           <DialogDescription>
-            <Input
-              type="text"
-              placeholder={row.name}
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-            ></Input>
-            <Select>
+            <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
+            <Select onValueChange={(value) => setCurrency(value)}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder={row.currency} />
               </SelectTrigger>
@@ -91,7 +111,7 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
                 ))}
               </SelectContent>
             </Select>
-            <Select>
+            <Select onValueChange={(value) => setFrequency(value)}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder={row.frequency} />
               </SelectTrigger>
@@ -109,10 +129,25 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
               onChange={(e) => setAmount(e.target.value)}
               value={amount}
             ></Input>
-            <Button>Cancel</Button>
-            <Button onClick={onSaveButtonClick}>Save</Button>
           </DialogDescription>
         </DialogHeader>
+        <DialogFooter className="sm:justify-start">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Cancel
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" variant="destructive" onClick={onDeleteButtonClick}>
+              Delete
+            </Button>
+          </DialogClose>
+          <DialogClose asChild>
+            <Button type="button" onClick={onSaveButtonClick}>
+              Save
+            </Button>
+          </DialogClose>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   )

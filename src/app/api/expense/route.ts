@@ -12,15 +12,6 @@ export const dynamic = "force-dynamic"
 //   })
 // }
 
-// export async function DELETE(req: Request) {
-//   const body = await req.json()
-//   const { tagId } = body
-
-//   return executeWithTryCatch(async () => {
-//     await api.user.deleteTag({ existingTagId: tagId })
-//   })
-// }
-
 export async function PUT(req: Request) {
   const body = await req.json()
   const { expense } = body
