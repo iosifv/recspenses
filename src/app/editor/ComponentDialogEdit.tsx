@@ -1,11 +1,12 @@
 "use client"
 
 import React, { useState } from "react"
+import { useRouter } from "next/navigation"
+
 import { CURRENCIES, FREQUENCIES } from "~/server/db/schema"
 
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import EditIcon from "~/components/hero-icons/EditIcon"
 
@@ -47,7 +48,6 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row }) => {
       frequency: frequency,
       // tags: row.tags,
     }
-    console.log(row.tags)
 
     const response = await fetch("/api/expense", {
       method: "PUT",

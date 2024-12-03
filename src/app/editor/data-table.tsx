@@ -13,8 +13,9 @@ import { Button } from "~/components/ui/button"
 import { api } from "~/trpc/react"
 import { Expense } from "~/types/Expense"
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
-import TrashIcon from "~/components/hero-icons/TrashIcon"
 import ComponentDialogEdit from "./ComponentDialogEdit"
+import ComponentDialogDelete from "./ComponentDialogDelete"
+import ComponentTableRowNew from "./ComponentTableRowNew"
 
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
@@ -27,9 +28,6 @@ export function DataTable({ columns, data }: DataTableProps) {
     columns,
     getCoreRowModel: getCoreRowModel(),
   })
-
-  const deleteMutation = api.expense.deleteMine.useMutation()
-
 
   return (
     <div className="rounded-md border">
@@ -46,6 +44,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                   </TableHead>
                 )
               })}
+              <TableHead style={{ justifyContent: "right" }}>Actions</TableHead>
             </TableRow>
           ))}
         </TableHeader>
@@ -74,20 +73,10 @@ export function DataTable({ columns, data }: DataTableProps) {
                     )
                   })}
                   <TableCell>
-                    <ComponentDialogEdit row={row.original} />
-                    <Button
-                      variant="destructive"
-                      size="sm"
-                      className="p-2"
-                      onClick={() => {
-                        // alert("Are you sure you want to delete this expense?")
-                        deleteMutation.mutate({
-                          id: row.original.id ?? 0,
-                        })
-                      }}
-                    >
-                      <TrashIcon />
-                    </Button>
+                    <div style={{ display: "flex", justifyContent: "right" }}>
+                      <ComponentDialogEdit row={row.original} />
+                      <ComponentDialogDelete row={row.original} />
+                    </div>
                   </TableCell>
                 </TableRow>
               )
@@ -99,6 +88,8 @@ export function DataTable({ columns, data }: DataTableProps) {
               </TableCell>
             </TableRow>
           )}
+          {/* Create a new row for adding a new expense */}
+          <ComponentTableRowNew />
         </TableBody>
       </Table>
     </div>

@@ -19,11 +19,11 @@ export const columns = [
     header: "Frequency",
   },
   {
-    accessorKey: "amount",
-    header: "Amount",
-  },
-  {
     accessorKey: "currency",
     header: "Currency",
+  },
+  {
+    accessorKey: "amount",
+    header: "Amount",
   },
 ]
