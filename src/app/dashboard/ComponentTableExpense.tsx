@@ -1,5 +1,3 @@
-import { ExpenseForm } from "./ComponentFormExpense"
-
 interface Expense {
   name: string
   currency: string
@@ -29,7 +27,6 @@ export function ExpenseTable({ expenses }: ExpenseTableProps) {
           <div>{item.frequency}</div>
         </div>
       ))}
-      <ExpenseForm />
     </div>
   )
 }
