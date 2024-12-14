@@ -17,7 +17,7 @@ interface ChartProps {
   config: ChartConfig
 }
 
-export default function Chart({ data, config }: { data: any; config: any }) {
+export default function ComponentChart({ data, config }: { data: any; config: any }) {
   return (
     <ChartContainer config={config} className="min-h-[200px] max-h-[600px] w-full">
       <ResponsiveContainer width="100%" height={200}>

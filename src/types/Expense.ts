@@ -90,6 +90,7 @@ export class Expense {
     return true
   }
 
+  // Todo: move this only for the frontend object
   getErrorMessages(): string[] {
     return this.errorrMessages
   }
