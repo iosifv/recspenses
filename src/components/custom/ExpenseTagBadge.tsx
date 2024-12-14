@@ -7,9 +7,15 @@ interface TagBadgeProps {
   expenseId: number
   tagId: string
   tagName: string
+  canDelete: boolean
 }
 
-export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({ expenseId, tagId, tagName }) => {
+export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({
+  expenseId,
+  tagId,
+  tagName,
+  canDelete,
+}) => {
   const router = useRouter()
 
   const onDeleteTagButtonClick = (tagId: string) => async () => {
@@ -30,9 +36,11 @@ export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({ expenseId, tagId, tag
       key={tagId}
     >
       {tagName}
-      <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tagId)}>
-        <TrashIcon />
-      </div>
+      {canDelete && (
+        <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tagId)}>
+          <TrashIcon />
+        </div>
+      )}
     </Badge>
   )
 }

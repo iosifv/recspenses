@@ -4,7 +4,6 @@ import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 
 import { CURRENCIES, FREQUENCIES } from "~/server/db/schema"
-import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
 
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"

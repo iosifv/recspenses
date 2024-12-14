@@ -4,16 +4,23 @@ import ComponentCardSettings from "./ComponentCardSettings"
 import { useState } from "react"
 import ComponentChart from "./ComponentChart"
 import { ChartConfig } from "~/components/ui/chart"
+import { DataTable } from "./data-table"
+import { columns } from "./columns"
 
 interface ComponentDashboardProps {
-  myExpenses: string
+  simplifiedExpenses: any
   currencyData: string
+  myUser: any
 }
 
-const ComponentDashboard: React.FC<ComponentDashboardProps> = ({ myExpenses, currencyData }) => {
+const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
+  simplifiedExpenses,
+  currencyData,
+  myUser,
+}) => {
   const [displayCurrency, setDisplayCurrency] = useState<"GBP" | "USD" | "EUR" | "RON" | "">("GBP")
 
-  const expenseTransformed = JSON.parse(myExpenses).map((expense: any) => {
+  const expenseTransformed = simplifiedExpenses.map((expense: any) => {
     if (displayCurrency == "") {
       expense.transformed = "-"
     } else {
@@ -23,14 +30,14 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({ myExpenses, cur
     return expense
   })
 
-  const expenseChartData = JSON.parse(myExpenses).map((expense) => {
+  const expenseChartData = simplifiedExpenses.map((expense) => {
     return {
       name: expense.name,
       amount: expense.amount,
       fill: `var(--color-${expense.name.toLowerCase()})`,
     }
   })
-  const expenseChartConfig = JSON.parse(myExpenses).reduce((acc, expense, index) => {
+  const expenseChartConfig = simplifiedExpenses.reduce((acc, expense, index) => {
     return {
       ...acc,
       [expense.name.toLowerCase()]: {
@@ -63,6 +70,7 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({ myExpenses, cur
             </div>
           ))}
         </div>
+        <DataTable columns={columns} data={simplifiedExpenses as unknown as any} user={myUser} />
       </div>
       <div className="w-3/10">
         <ComponentChart data={expenseChartData} config={expenseChartConfig} />

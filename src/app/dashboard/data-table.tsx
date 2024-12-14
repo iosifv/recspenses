@@ -11,9 +11,6 @@ import {
 } from "~/components/ui/table"
 import { Expense } from "~/types/Expense"
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
-import ComponentDialogEdit from "./ComponentDialogEdit"
-import ComponentDialogDelete from "./ComponentDialogDelete"
-import ComponentTableRowNew from "./ComponentTableRowNew"
 
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
@@ -65,7 +62,7 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                                 expenseId={row.original.id ?? 0}
                                 tagId={tag.id}
                                 tagName={tag.name}
-                                canDelete={true}
+                                canDelete={false}
                               />
                             ))
                           : flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -74,8 +71,8 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                   })}
                   <TableCell>
                     <div style={{ display: "flex", justifyContent: "right" }}>
-                      <ComponentDialogEdit row={row.original} user={user} />
-                      <ComponentDialogDelete row={row.original} />
+                      {/* <ComponentDialogEdit row={row.original} user={user} />
+                      <ComponentDialogDelete row={row.original} /> */}
                     </div>
                   </TableCell>
                 </TableRow>
@@ -89,7 +86,7 @@ export function DataTable({ columns, data, user }: DataTableProps) {
             </TableRow>
           )}
           {/* Create a new row for adding a new expense */}
-          <ComponentTableRowNew />
+          {/* <ComponentTableRowNew /> */}
         </TableBody>
       </Table>
     </div>
