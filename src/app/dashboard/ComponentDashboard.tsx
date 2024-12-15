@@ -3,7 +3,6 @@
 import ComponentCardSettings from "./ComponentCardSettings"
 import { useState } from "react"
 import ComponentChart from "./ComponentChart"
-import { ChartConfig } from "~/components/ui/chart"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 
@@ -13,67 +12,67 @@ interface ComponentDashboardProps {
   myUser: any
 }
 
+const frequencyLookup = {
+  daily: {
+    daily: 1,
+    weekly: 7,
+    monthly: 30.5,
+    yearly: 365,
+  },
+  weekly: {
+    daily: 1 / 7,
+    weekly: 1,
+    monthly: 30.5 / 7,
+    yearly: 365 / 7,
+  },
+  monthly: {
+    daily: 1 / 30.5,
+    weekly: 7 / 30.5,
+    monthly: 1,
+    yearly: 365 / 30.5,
+  },
+  yearly: {
+    daily: 1 / 365,
+    weekly: 7 / 365,
+    monthly: 30.5 / 365,
+    yearly: 1,
+  },
+}
+
 const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   simplifiedExpenses,
   currencyData,
-  myUser,
 }) => {
   const [displayCurrency, setDisplayCurrency] = useState<"GBP" | "USD" | "EUR" | "RON" | "">("GBP")
+  const [displayFrequency, setDisplayFrequency] = useState<
+    "daily" | "weekly" | "monthly" | "yearly"
+  >("monthly")
+
+  const transformExpense = (expense: any) => {
+    let transform =
+      expense.amount /
+      currencyData[displayCurrency][expense.currency] /
+      frequencyLookup[displayFrequency][expense.frequency]
+    return Math.floor(transform * 100) / 100
+  }
 
   const expenseTransformed = simplifiedExpenses.map((expense: any) => {
-    if (displayCurrency == "") {
-      expense.transformed = "-"
-    } else {
-      expense.transformed =
-        Math.floor((expense.amount / currencyData[displayCurrency][expense.currency]) * 100) / 100
-    }
+    expense.transformed = transformExpense(expense)
+    expense.original = `${expense.amount} ${expense.currency} ${expense.frequency}`
     return expense
   })
-
-  const expenseChartData = simplifiedExpenses.map((expense) => {
-    return {
-      name: expense.name,
-      amount: expense.amount,
-      fill: `var(--color-${expense.name.toLowerCase()})`,
-    }
-  })
-  const expenseChartConfig = simplifiedExpenses.reduce((acc, expense, index) => {
-    return {
-      ...acc,
-      [expense.name.toLowerCase()]: {
-        label: expense.name.toUpperCase(),
-        color: `hsl(var(--chart-${(index % 5) + 1}))`,
-      },
-    }
-  }, {}) satisfies ChartConfig
 
   return (
     <div className="flex">
       <div className="w-7/10">
-        <ComponentCardSettings onCurrencyChange={setDisplayCurrency} />
-        <div className="flex flex-col items-center gap-2">
-          <div className="grid grid-cols-5 gap-4 w-full max-w-4xl text-xl font-bold">
-            <div>Name</div>
-            <div>Original</div>
-            <div>Amount</div>
-            <div>Frequency</div>
-            <div>Actions</div>
-          </div>
-          {expenseTransformed.map((item: any, index: number) => (
-            <div key={index} className="grid grid-cols-5 gap-4 w-full max-w-4xl">
-              <div>{item.name}</div>
-              <div>
-                {item.amount} ({item.currency})
-              </div>
-              <div>{item.transformed}</div>
-              <div>{item.frequency}</div>
-            </div>
-          ))}
-        </div>
-        <DataTable columns={columns} data={simplifiedExpenses as unknown as any} user={myUser} />
+        <ComponentCardSettings
+          onCurrencyChange={setDisplayCurrency}
+          onFrequencyChange={setDisplayFrequency}
+        />
+        <DataTable columns={columns} data={expenseTransformed as unknown as any} />
       </div>
       <div className="w-3/10">
-        <ComponentChart data={expenseChartData} config={expenseChartConfig} />
+        <ComponentChart data={expenseTransformed} />
       </div>
     </div>
   )

@@ -15,10 +15,9 @@ import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
 interface DataTableProps {
   columns: ColumnDef<Expense, any>[]
   data: Expense[]
-  user: any
 }
 
-export function DataTable({ columns, data, user }: DataTableProps) {
+export function DataTable({ columns, data }: DataTableProps) {
   const table = useReactTable({
     data,
     columns,
@@ -40,7 +39,6 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                   </TableHead>
                 )
               })}
-              <TableHead style={{ justifyContent: "right" }}>Actions</TableHead>
             </TableRow>
           ))}
         </TableHeader>
@@ -69,12 +67,6 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                       </TableCell>
                     )
                   })}
-                  <TableCell>
-                    <div style={{ display: "flex", justifyContent: "right" }}>
-                      {/* <ComponentDialogEdit row={row.original} user={user} />
-                      <ComponentDialogDelete row={row.original} /> */}
-                    </div>
-                  </TableCell>
                 </TableRow>
               )
             })

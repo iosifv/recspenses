@@ -15,8 +15,8 @@ export const columns = [
     header: "Name",
   },
   {
-    accessorKey: "frequency",
-    header: "Frequency",
+    accessorKey: "original",
+    header: "Original",
   },
   {
     accessorKey: "transformed",
