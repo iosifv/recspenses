@@ -42,11 +42,14 @@ const frequencyLookup = {
 const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   simplifiedExpenses,
   currencyData,
+  myUser,
 }) => {
-  const [displayCurrency, setDisplayCurrency] = useState<"GBP" | "USD" | "EUR" | "RON" | "">("GBP")
+  const [displayCurrency, setDisplayCurrency] = useState<"GBP" | "USD" | "EUR" | "RON" | "">(
+    myUser.metadata.currency,
+  )
   const [displayFrequency, setDisplayFrequency] = useState<
     "daily" | "weekly" | "monthly" | "yearly"
-  >("monthly")
+  >(myUser.metadata.frequency)
 
   const transformExpense = (expense: any) => {
     let transform =
@@ -66,6 +69,7 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
     <div className="flex">
       <div className="w-7/10">
         <ComponentCardSettings
+          metadata={myUser.metadata}
           onCurrencyChange={setDisplayCurrency}
           onFrequencyChange={setDisplayFrequency}
         />

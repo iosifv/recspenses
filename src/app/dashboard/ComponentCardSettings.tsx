@@ -8,13 +8,16 @@ import {
 import { CURRENCIES, FREQUENCIES } from "~/server/db/schema"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card"
 import { useState } from "react"
+import { api } from "~/trpc/server"
 
 interface ComponentCardSettingsProps {
+  metadata: any
   onCurrencyChange: (value: "GBP" | "USD" | "EUR" | "RON") => void
   onFrequencyChange: (value: "daily" | "weekly" | "monthly" | "yearly") => void
 }
 
 const ComponentCardSettings: React.FC<ComponentCardSettingsProps> = ({
+  metadata: { currency, frequency },
   onCurrencyChange,
   onFrequencyChange,
 }) => {
@@ -26,7 +29,7 @@ const ComponentCardSettings: React.FC<ComponentCardSettingsProps> = ({
       </CardHeader>
       <CardContent className="flex">
         <div className="w-2/10">
-          <Select onValueChange={onCurrencyChange} defaultValue={"GBP"}>
+          <Select onValueChange={onCurrencyChange} defaultValue={currency}>
             <SelectTrigger className="w-[80px]">
               <SelectValue />
             </SelectTrigger>
@@ -40,7 +43,7 @@ const ComponentCardSettings: React.FC<ComponentCardSettingsProps> = ({
           </Select>
         </div>
         <div className="w-3/10">
-          <Select onValueChange={onFrequencyChange} defaultValue={"monthly"}>
+          <Select onValueChange={onFrequencyChange} defaultValue={frequency}>
             <SelectTrigger className="w-[120px]">
               <SelectValue />
             </SelectTrigger>
