@@ -5,6 +5,7 @@ import NewTagTypeCard from "./ComponentCardTagTypeNew"
 import ExistingTagTypeCard from "./ComponentCardTagTypeExisting"
 import UserInformationHoverCard from "./ComponentHoverUserInfo"
 import { TagType } from "~/types/TagType"
+import ComponentCardMetadata from "./ComponentCardMetadata"
 
 export default async function Settings() {
   const recspensesUser = await api.user.getMe()
@@ -18,6 +19,8 @@ export default async function Settings() {
           {recspensesUser && clerkUser && (
             <UserInformationHoverCard recspensesUser={recspensesUser} clerkUser={clerkUser} />
           )}
+          <ComponentCardMetadata user={recspensesUser} />
+          <hr className="border-slate-500 border-1 w-full" />
           <div className="flex flex-wrap justify-center gap-4">
             {recspensesUser.tagTypes.map((tagType: TagType) => (
               <ExistingTagTypeCard key={tagType.id} tagType={tagType} tags={recspensesUser.tags} />

@@ -38,7 +38,7 @@ export const touchUser = async (): Promise<User> => {
       userId: userId,
       tagTypes: DEFAULT_TAG_TYPES,
       tags: DEFAULT_TAGS,
-      metadata: {},
+      metadata: { currency: "GBP", frequency: "monthly" },
     })
     // Create example expenses for the new user
 

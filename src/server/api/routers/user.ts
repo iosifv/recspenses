@@ -136,4 +136,34 @@ export const userRouter = createTRPCRouter({
         throw error
       }
     }),
+
+  updateMetadata: publicProcedure
+    .input(z.object({ key: z.string(), value: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      const userId = getUserId()
+
+      try {
+        const myUser = await ctx.db.query.users.findFirst({
+          where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
+        })
+
+        if (input.key.trim() === "") {
+          throw new Error("Key can not be empty")
+        }
+
+        if (input.value.trim() === "") {
+          throw new Error("Value can not be empty")
+        }
+
+        const metadata = myUser.metadata
+        metadata[input.key] = input.value
+
+        await ctx.db.update(users).set({ metadata: metadata }).where(eq(users.userId, userId))
+
+        return myUser
+      } catch (error: any) {
+        console.error("Error in user.addTag:\n", error.message)
+        throw error
+      }
+    }),
 })

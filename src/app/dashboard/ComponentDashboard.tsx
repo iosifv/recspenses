@@ -1,7 +1,7 @@
 "use client"
 
-import ComponentCardSettings from "./ComponentCardSettings"
 import { useState } from "react"
+import ComponentCardSettings from "./ComponentCardSettings"
 import ComponentChart from "./ComponentChart"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
