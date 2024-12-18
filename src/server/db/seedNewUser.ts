@@ -1,7 +1,7 @@
 import { TagType } from "~/types/TagType"
 import { DBTag } from "~/types/Tag"
 import { DBExpense } from "~/types/Expense"
-import { CURRENCIES, FREQUENCIES } from "./schema"
+import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
 
 export const DEFAULT_TAG_TYPES: TagType[] = [
   {

@@ -3,7 +3,7 @@
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 
-import { CURRENCIES, FREQUENCIES } from "~/server/db/schema"
+import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
 
 import { Input } from "~/components/ui/input"
 import { Button } from "~/components/ui/button"

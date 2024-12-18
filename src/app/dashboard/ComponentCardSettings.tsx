@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
-import { CURRENCIES, FREQUENCIES } from "~/server/db/schema"
+import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "~/components/ui/card"
 import { useState } from "react"
 import { api } from "~/trpc/server"

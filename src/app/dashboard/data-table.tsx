@@ -77,8 +77,6 @@ export function DataTable({ columns, data }: DataTableProps) {
               </TableCell>
             </TableRow>
           )}
-          {/* Create a new row for adding a new expense */}
-          {/* <ComponentTableRowNew /> */}
         </TableBody>
       </Table>
     </div>

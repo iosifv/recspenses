@@ -5,57 +5,31 @@ import ComponentCardSettings from "./ComponentCardSettings"
 import ComponentChart from "./ComponentChart"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
+import { CURRENCY, FREQUENCY } from "~/types/backend/CustomEnum"
+import { FxRateSnapshot } from "~/types/frontend/FxRateSnapshot"
+import { FrequencyLookup } from "~/types/frontend/FrequencyLookup"
 
 interface ComponentDashboardProps {
   simplifiedExpenses: any
-  currencyData: string
-  myUser: any
-}
-
-const frequencyLookup = {
-  daily: {
-    daily: 1,
-    weekly: 7,
-    monthly: 30.5,
-    yearly: 365,
-  },
-  weekly: {
-    daily: 1 / 7,
-    weekly: 1,
-    monthly: 30.5 / 7,
-    yearly: 365 / 7,
-  },
-  monthly: {
-    daily: 1 / 30.5,
-    weekly: 7 / 30.5,
-    monthly: 1,
-    yearly: 365 / 30.5,
-  },
-  yearly: {
-    daily: 1 / 365,
-    weekly: 7 / 365,
-    monthly: 30.5 / 365,
-    yearly: 1,
-  },
+  fxData: any
+  userData: any
 }
 
 const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   simplifiedExpenses,
-  currencyData,
-  myUser,
+  fxData,
+  userData,
 }) => {
-  const [displayCurrency, setDisplayCurrency] = useState<"GBP" | "USD" | "EUR" | "RON" | "">(
-    myUser.metadata.currency,
-  )
-  const [displayFrequency, setDisplayFrequency] = useState<
-    "daily" | "weekly" | "monthly" | "yearly"
-  >(myUser.metadata.frequency)
+  const [displayCurrency, setDisplayCurrency] = useState<CURRENCY>(userData.metadata.currency)
+  const [displayFrequency, setDisplayFrequency] = useState<FREQUENCY>(userData.metadata.frequency)
+
+  const fxRate = new FxRateSnapshot(fxData)
 
   const transformExpense = (expense: any) => {
     let transform =
       expense.amount /
-      currencyData[displayCurrency][expense.currency] /
-      frequencyLookup[displayFrequency][expense.frequency]
+      fxRate.get(displayCurrency, expense.currency) /
+      FrequencyLookup.get(displayFrequency, expense.frequency)
     return Math.floor(transform * 100) / 100
   }
 
@@ -69,7 +43,7 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
     <div className="flex">
       <div className="w-7/10">
         <ComponentCardSettings
-          metadata={myUser.metadata}
+          metadata={userData.metadata}
           onCurrencyChange={setDisplayCurrency}
           onFrequencyChange={setDisplayFrequency}
         />

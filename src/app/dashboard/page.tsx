@@ -1,22 +1,17 @@
 import { api, HydrateClient } from "~/trpc/server"
 import dynamic from "next/dynamic"
 
-import { ChartConfig } from "~/components/ui/chart"
-import { Expense } from "~/types/Expense"
 import ComponentDashboard from "./ComponentDashboard"
 
 // Move chart to client-side only
 const DynamicChart = dynamic(() => import("./ComponentChart"), { ssr: false })
 
 export default async function Dashboard() {
-  const myExpenses = await api.expense.getMine()
-  const currencyData = await api.fx.getAll()
-  const myUser = await api.user.getMe()
+  const expenseData = await api.expense.getMine()
+  const fxData = await api.fx.getAll()
+  const userData = await api.user.getMe()
 
-  const myExpensesJson = JSON.stringify(myExpenses, null, 2)
-  const currencyDataJson = JSON.stringify(currencyData, null, 2)
-
-  const simplifiedExpenses = myExpenses.map((expense) => {
+  const simplifiedExpenses = expenseData.map((expense) => {
     return {
       id: expense.id,
       name: expense.name,
@@ -40,8 +35,8 @@ export default async function Dashboard() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-black  text-white">
         <ComponentDashboard
           simplifiedExpenses={simplifiedExpenses}
-          currencyData={currencyData}
-          myUser={myUser}
+          fxData={fxData}
+          userData={userData}
         />
       </main>
     </HydrateClient>

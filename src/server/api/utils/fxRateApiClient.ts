@@ -1,4 +1,4 @@
-import { CURRENCY, CURRENCIES } from "~/server/db/schema"
+import { CURRENCY, CURRENCIES } from "~/types/backend/CustomEnum"
 
 const latestUrl = "https://api.fxratesapi.com/latest"
 const currencyList = CURRENCIES.reduce((acc, currency): string => {
@@ -32,7 +32,7 @@ export const fxRateApiClient = {
       rates: data.rates,
     }
   },
-  getAll: async (): Promise<any> => {
+  getAll: async (): Promise<FXRate> => {
     // const baseCurrencies = CURRENCIES
     // const data = await Promise.all(
     //   baseCurrencies.map(async (baseCurrency) => {
