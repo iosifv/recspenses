@@ -6,10 +6,10 @@ import ComponentChart from "./ComponentChart"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
 
-import { CURRENCY, FREQUENCY } from "~/types/backend/CustomEnum"
+import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 import { SimplifiedExpense } from "~/types/Expense"
-import { FrontendExpense, FrontendExpenses } from "~/types/frontend/FrontendExpenses"
-import { FxRateData } from "~/types/frontend/FxRateSnapshot"
+import { FrontendExpense, FrontendExpenses } from "~/types/FrontendExpenses"
+import { FxRateData } from "~/types/FxRateSnapshot"
 import { User } from "~/types/User"
 
 interface ComponentDashboardProps {

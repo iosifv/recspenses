@@ -1,4 +1,4 @@
-import { CURRENCIES, CURRENCY } from "~/types/backend/CustomEnum"
+import { CURRENCIES, CURRENCY } from "~/types/CustomEnum"
 
 export type FxRateData = {
   [key: string]: { [key: string]: number }

@@ -1,6 +1,6 @@
 import { Tag } from "./Tag"
 import { User } from "./User" // Import User for reference
-import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
+import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
 
 export type DBExpense = {
   id?: number

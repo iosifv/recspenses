@@ -1,5 +1,5 @@
-import { CURRENCY, CURRENCIES } from "~/types/backend/CustomEnum"
-import { FxRateData, FxRateSnapshot } from "~/types/frontend/FxRateSnapshot"
+import { CURRENCY, CURRENCIES } from "~/types/CustomEnum"
+import { FxRateData, FxRateSnapshot } from "~/types/FxRateSnapshot"
 
 const latestUrl = "https://api.fxratesapi.com/latest"
 const currencyList = CURRENCIES.reduce((acc, currency): string => {

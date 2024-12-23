@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select"
-import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
+import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
 
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"

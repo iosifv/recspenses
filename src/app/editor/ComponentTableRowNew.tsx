@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useRouter } from "next/navigation"
 
-import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
+import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
 import PlusIcon from "~/components/hero-icons/PlusIcon"
 
 import { toast } from "sonner"

@@ -1,4 +1,4 @@
-import { FREQUENCIES, FREQUENCY } from "~/types/backend/CustomEnum"
+import { FREQUENCIES, FREQUENCY } from "~/types/CustomEnum"
 
 const lookupTable = {
   daily: {

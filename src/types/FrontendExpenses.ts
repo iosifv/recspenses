@@ -1,9 +1,9 @@
-import { SimplifiedExpense } from "../Expense"
-import { CURRENCIES, FREQUENCIES } from "~/types/backend/CustomEnum"
-import { Tag } from "../Tag"
+import { SimplifiedExpense } from "./Expense"
+import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
+import { Tag } from "./Tag"
 import { FxRateData, FxRateSnapshot } from "./FxRateSnapshot"
 import { FrequencyLookup } from "./FrequencyLookup"
-import { CURRENCY, FREQUENCY } from "~/types/backend/CustomEnum"
+import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 
 export type FrontendExpense = {
   id?: number
