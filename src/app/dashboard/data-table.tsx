@@ -9,12 +9,13 @@ import {
   TableHeader,
   TableRow,
 } from "~/components/ui/table"
-import { Expense } from "~/types/Expense"
+
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
+import { FrontendExpense } from "~/types/frontend/FrontendExpenses"
 
 interface DataTableProps {
-  columns: ColumnDef<Expense, any>[]
-  data: Expense[]
+  columns: ColumnDef<FrontendExpense, any>[]
+  data: FrontendExpense[]
 }
 
 export function DataTable({ columns, data }: DataTableProps) {

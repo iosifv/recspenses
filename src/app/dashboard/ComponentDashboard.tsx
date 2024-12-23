@@ -5,12 +5,13 @@ import ComponentCardSettings from "./ComponentCardSettings"
 import ComponentChart from "./ComponentChart"
 import { DataTable } from "./data-table"
 import { columns } from "./columns"
+
 import { CURRENCY, FREQUENCY } from "~/types/backend/CustomEnum"
-import { FxRateSnapshot } from "~/types/frontend/FxRateSnapshot"
-import { FrequencyLookup } from "~/types/frontend/FrequencyLookup"
+import { SimplifiedExpense } from "~/types/Expense"
+import { FrontendExpense, FrontendExpenses } from "~/types/frontend/FrontendExpenses"
 
 interface ComponentDashboardProps {
-  simplifiedExpenses: any
+  simplifiedExpenses: SimplifiedExpense[]
   fxData: any
   userData: any
 }
@@ -23,21 +24,10 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   const [displayCurrency, setDisplayCurrency] = useState<CURRENCY>(userData.metadata.currency)
   const [displayFrequency, setDisplayFrequency] = useState<FREQUENCY>(userData.metadata.frequency)
 
-  const fxRate = new FxRateSnapshot(fxData)
+  const frontendExpenses = new FrontendExpenses(fxData, displayCurrency, displayFrequency)
+  frontendExpenses.add(simplifiedExpenses)
 
-  const transformExpense = (expense: any) => {
-    let transform =
-      expense.amount /
-      fxRate.get(displayCurrency, expense.currency) /
-      FrequencyLookup.get(displayFrequency, expense.frequency)
-    return Math.floor(transform * 100) / 100
-  }
-
-  const expenseTransformed = simplifiedExpenses.map((expense: any) => {
-    expense.transformed = transformExpense(expense)
-    expense.original = `${expense.amount} ${expense.currency} ${expense.frequency}`
-    return expense
-  })
+  // console.dir(frontendExpenses.getAll(), { depth: null })
 
   return (
     <div className="flex">
@@ -47,10 +37,10 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
           onCurrencyChange={setDisplayCurrency}
           onFrequencyChange={setDisplayFrequency}
         />
-        <DataTable columns={columns} data={expenseTransformed as unknown as any} />
+        <DataTable columns={columns} data={frontendExpenses.getAll() as FrontendExpense[]} />
       </div>
       <div className="w-3/10">
-        <ComponentChart data={expenseTransformed} />
+        <ComponentChart data={frontendExpenses.getAll()} />
       </div>
     </div>
   )

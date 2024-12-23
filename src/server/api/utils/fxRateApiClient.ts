@@ -32,7 +32,7 @@ export const fxRateApiClient = {
       rates: data.rates,
     }
   },
-  getAll: async (): Promise<FXRate> => {
+  getAll: async (): Promise<any> => {
     // const baseCurrencies = CURRENCIES
     // const data = await Promise.all(
     //   baseCurrencies.map(async (baseCurrency) => {
