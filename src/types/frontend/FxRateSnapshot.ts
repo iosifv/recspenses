@@ -1,5 +1,9 @@
 import { CURRENCIES, CURRENCY } from "~/types/backend/CustomEnum"
 
+export type FxRateData = {
+  [key: string]: { [key: string]: number }
+}
+
 export class FxRateSnapshot {
   private rates: { [key: string]: { [key: string]: number } } = {}
 
@@ -12,6 +16,10 @@ export class FxRateSnapshot {
 
   validate(): boolean {
     return Object.keys(this.rates).every((key) => CURRENCIES.includes(key as CURRENCY))
+  }
+
+  getAll(): FxRateData {
+    return this.rates
   }
 
   get(baseCurrency: CURRENCY, targetCurrency: CURRENCY): number {

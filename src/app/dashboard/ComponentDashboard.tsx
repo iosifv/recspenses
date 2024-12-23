@@ -9,11 +9,13 @@ import { columns } from "./columns"
 import { CURRENCY, FREQUENCY } from "~/types/backend/CustomEnum"
 import { SimplifiedExpense } from "~/types/Expense"
 import { FrontendExpense, FrontendExpenses } from "~/types/frontend/FrontendExpenses"
+import { FxRateData } from "~/types/frontend/FxRateSnapshot"
+import { User } from "~/types/User"
 
 interface ComponentDashboardProps {
   simplifiedExpenses: SimplifiedExpense[]
-  fxData: any
-  userData: any
+  fxData: FxRateData
+  userData: User
 }
 
 const ComponentDashboard: React.FC<ComponentDashboardProps> = ({

@@ -1,5 +1,4 @@
 import { z } from "zod"
-import { auth } from "@clerk/nextjs/server"
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { users } from "~/server/db/schema"
 import { getUserId } from "~/server/controller/clerkController"
@@ -7,9 +6,10 @@ import { eq } from "drizzle-orm"
 import { generateUniqueId, getRandomColour } from "~/server/api/utils/routeUtils"
 import { Tag } from "~/types/Tag"
 import { TagType } from "~/types/TagType"
+import { User } from "~/types/User"
 
 export const userRouter = createTRPCRouter({
-  getMe: publicProcedure.query(async ({ ctx }) => {
+  getMe: publicProcedure.query(async ({ ctx }): Promise<User> => {
     const userId = getUserId()
 
     try {

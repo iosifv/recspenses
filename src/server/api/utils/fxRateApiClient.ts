@@ -1,4 +1,5 @@
 import { CURRENCY, CURRENCIES } from "~/types/backend/CustomEnum"
+import { FxRateData, FxRateSnapshot } from "~/types/frontend/FxRateSnapshot"
 
 const latestUrl = "https://api.fxratesapi.com/latest"
 const currencyList = CURRENCIES.reduce((acc, currency): string => {
@@ -32,7 +33,7 @@ export const fxRateApiClient = {
       rates: data.rates,
     }
   },
-  getAll: async (): Promise<any> => {
+  getAll: async (): Promise<FxRateData> => {
     // const baseCurrencies = CURRENCIES
     // const data = await Promise.all(
     //   baseCurrencies.map(async (baseCurrency) => {
@@ -54,6 +55,8 @@ export const fxRateApiClient = {
       RON: { EUR: 0.201071, GBP: 0.166835, RON: 1, USD: 0.211031 },
     }
 
-    return simplifiedData
+    const fxRates = new FxRateSnapshot(simplifiedData)
+
+    return fxRates.getAll()
   },
 }
