@@ -23,8 +23,12 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   fxData,
   userData,
 }) => {
-  const [displayCurrency, setDisplayCurrency] = useState<CURRENCY>(userData.metadata.currency)
-  const [displayFrequency, setDisplayFrequency] = useState<FREQUENCY>(userData.metadata.frequency)
+  const [displayCurrency, setDisplayCurrency] = useState<CURRENCY>(
+    userData.metadata.currency as CURRENCY,
+  )
+  const [displayFrequency, setDisplayFrequency] = useState<FREQUENCY>(
+    userData.metadata.frequency as FREQUENCY,
+  )
 
   const frontendExpenses = new FrontendExpenses(fxData, displayCurrency, displayFrequency)
   frontendExpenses.add(simplifiedExpenses)
