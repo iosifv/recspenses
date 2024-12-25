@@ -8,7 +8,7 @@ export const fxRouter = createTRPCRouter({
       orderBy: (fxRates, { desc }) => [desc(fxRates.id)],
     })
 
-    console.log("result", result)
+    // console.log("result", result)
 
     if (!result) {
       const fxRateData = await fxRateApiClient.getAll()
