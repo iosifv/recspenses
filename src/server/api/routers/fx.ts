@@ -1,6 +1,5 @@
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc"
 import { fxRateApiClient } from "../utils/fxRateApiClient"
-import { FxRateData } from "~/types/FxRateSnapshot"
 import { fxRates } from "~/server/db/schema"
 
 export const fxRouter = createTRPCRouter({
@@ -8,6 +7,15 @@ export const fxRouter = createTRPCRouter({
     const result = await ctx.db.query.fxRates.findFirst({
       orderBy: (fxRates, { desc }) => [desc(fxRates.id)],
     })
+
+    console.log("result", result)
+
+    if (!result) {
+      const fxRateData = await fxRateApiClient.getAll()
+
+      await ctx.db.insert(fxRates).values({ data: fxRateData })
+      return fxRateData
+    }
 
     return result.data
   }),
