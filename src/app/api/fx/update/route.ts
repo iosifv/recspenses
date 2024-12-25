@@ -5,6 +5,6 @@ export const dynamic = "force-dynamic"
 
 export async function GET(req: Request): Promise<Response> {
   return executeWithTryCatch(async () => {
-    return await api.fx.getLatest()
+    return await api.fx.update()
   })
 }

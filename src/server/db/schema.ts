@@ -76,3 +76,17 @@ export const expenseRelations = relations(expenses, ({ one }) => ({
 export const usersRelations = relations(users, ({ many }) => ({
   expenses: many(expenses),
 }))
+
+export const fxRates = createTable(
+  "fx_rates",
+  {
+    id: serial("id").primaryKey(),
+    data: json("data").default("{}").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true })
+      .default(sql`CURRENT_TIMESTAMP`)
+      .notNull(),
+  },
+  (table) => ({
+    idIndex: index("exchange_rates_idx").on(table.id),
+  }),
+)
