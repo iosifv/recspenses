@@ -4,12 +4,12 @@ import { FxRateData } from "~/types/FxRateSnapshot"
 import { fxRates } from "~/server/db/schema"
 
 export const fxRouter = createTRPCRouter({
-  getLatest: publicProcedure.query(async ({ ctx }): Promise<FxRateData> => {
+  getLatest: publicProcedure.query(async ({ ctx }): Promise<any> => {
     const result = await ctx.db.query.fxRates.findFirst({
-      orderBy: { id: "desc" },
+      orderBy: (fxRates, { desc }) => [desc(fxRates.id)],
     })
-    console.log("result", result)
-    return result
+
+    return result.data
   }),
 
   update: publicProcedure.mutation(async ({ ctx }) => {

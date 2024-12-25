@@ -99,6 +99,7 @@ export const expenseRouter = createTRPCRouter({
 
     return simplifiedExpenses
   }),
+
   removeMyTag: publicProcedure
     .input(z.object({ expenseId: z.number(), tagId: z.string() }))
     .mutation(async ({ ctx, input }) => {

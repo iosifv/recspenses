@@ -11,7 +11,7 @@ import {
 } from "~/components/ui/table"
 
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
-import { FrontendExpense } from "~/types/frontend/FrontendExpenses"
+import { FrontendExpense } from "~/types/FrontendExpenses"
 
 interface DataTableProps {
   columns: ColumnDef<FrontendExpense, any>[]

@@ -5,10 +5,12 @@ import ComponentDashboard from "./ComponentDashboard"
 
 export default async function Dashboard() {
   const expenseData = await api.expense.getMine()
-  const fxData = await api.fx.getAll()
+  const fxData = await api.fx.getLatest()
   const userData = await api.user.getMe()
 
-  console.dir(expenseData, { depth: null })
+  // console.dir(expenseData, { depth: null })
+  // console.dir(fxData, { depth: null })
+  // console.dir(userData, { depth: null })
 
   return (
     <HydrateClient>
