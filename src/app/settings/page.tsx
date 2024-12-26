@@ -11,6 +11,8 @@ export default async function Settings() {
   const recspensesUser = await api.user.getMe()
   const clerkUser = await getUser()
 
+  // console.dir(recspensesUser, { depth: null })
+
   return (
     <HydrateClient>
       <main className="flex min-h-screen flex-col  bg-black text-white">

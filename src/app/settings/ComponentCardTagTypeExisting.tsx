@@ -81,6 +81,9 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
     router.refresh()
   }
 
+  // console.log(tagType)
+  // console.log(tags.filter((tag: Tag) => tag.type.id === tagType.id))
+
   return (
     <Card className="w-64 bg-slate-50 shadow-lg rounded-xl bg-gray-900 text-white">
       <CardHeader>
@@ -106,7 +109,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
       </CardHeader>
       <CardContent>
         {tags
-          .filter((tag: Tag) => tag.type.id === tagType.id)
+          .filter((tag: Tag) => tag.type === tagType.id)
           .map((tag: Tag) => (
             <SettingTagBadge id={tag.id} name={tag.name} />
           ))}
