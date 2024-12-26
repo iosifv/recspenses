@@ -25,7 +25,7 @@ export class FrontendExpenses {
   displayFrequency: FREQUENCY
 
   constructor(fxData: FxRateData, displayCurrency: CURRENCY, displayFrequency: FREQUENCY) {
-    this.fxRate = new FxRate(fxData)
+    this.fxRate = FxRate.buildFromData(fxData)
     this.displayCurrency = displayCurrency
     this.displayFrequency = displayFrequency
   }

@@ -4,7 +4,7 @@ export type FxRatePairs = { [key: string]: { [key: string]: number } }
 
 export type FxRateData = {
   id: number | null
-  data: FxRate
+  data: FxRatePairs
   createdAt: Date
 }
 
@@ -13,13 +13,18 @@ export class FxRate {
   private rates: { [key: string]: { [key: string]: number } } = {}
   private createdAt: Date
 
-  constructor(rates: { [key: string]: { [key: string]: number } }, createdAt?: Date, id?: number) {
+  constructor(rates: FxRatePairs, createdAt?: Date, id?: number | null) {
     this.rates = rates
     if (!this.validate()) {
+      console.error("Invalid currency data. Dumping object: ")
+      console.dir(this, { depth: null })
       throw new Error("Invalid currency data")
     }
     this.createdAt = createdAt || new Date()
     this.id = id || null
+  }
+  static buildFromData(fxRateData: FxRateData): FxRate {
+    return new FxRate(fxRateData.data, fxRateData.createdAt, fxRateData.id)
   }
 
   validate(): boolean {
@@ -36,5 +41,13 @@ export class FxRate {
       throw new Error(`Rate not found for ${baseCurrency} to ${targetCurrency}`)
     }
     return baseRates[targetCurrency] as number
+  }
+
+  dump(): FxRateData {
+    return {
+      id: this.id,
+      data: this.rates,
+      createdAt: this.createdAt,
+    }
   }
 }
