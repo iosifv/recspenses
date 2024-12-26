@@ -9,7 +9,7 @@ import { columns } from "./columns"
 import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 import { SimplifiedExpense } from "~/types/Expense"
 import { FrontendExpense, FrontendExpenses } from "~/types/FrontendExpenses"
-import { FxRateData } from "~/types/FxRateSnapshot"
+import { FxRateData } from "~/types/FxRate"
 import { User } from "~/types/User"
 
 interface ComponentDashboardProps {

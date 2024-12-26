@@ -1,7 +1,7 @@
 import { SimplifiedExpense } from "./Expense"
 import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
 import { Tag } from "./Tag"
-import { FxRateData, FxRateSnapshot } from "./FxRateSnapshot"
+import { FxRateData, FxRate } from "./FxRate"
 import { FrequencyLookup } from "./FrequencyLookup"
 import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 
@@ -20,12 +20,12 @@ export type FrontendExpense = {
 
 export class FrontendExpenses {
   frontendExpenses: FrontendExpense[] = []
-  fxRate: FxRateSnapshot
+  fxRate: FxRate
   displayCurrency: CURRENCY
   displayFrequency: FREQUENCY
 
   constructor(fxData: FxRateData, displayCurrency: CURRENCY, displayFrequency: FREQUENCY) {
-    this.fxRate = new FxRateSnapshot(fxData)
+    this.fxRate = new FxRate(fxData)
     this.displayCurrency = displayCurrency
     this.displayFrequency = displayFrequency
   }
