@@ -2,6 +2,7 @@ import "~/styles/globals.css"
 
 import { ClerkProvider, SignInButton, SignedIn, SignedOut, UserButton } from "@clerk/nextjs"
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/next"
 import { TopNav } from "./ComponentTopNav"
 
 import { GeistSans } from "geist/font/sans"
@@ -25,7 +26,9 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <TopNav />
           <TRPCReactProvider>{children}</TRPCReactProvider>
           <Toaster />
+
           <SpeedInsights />
+          <Analytics />
         </body>
       </html>
     </ClerkProvider>
