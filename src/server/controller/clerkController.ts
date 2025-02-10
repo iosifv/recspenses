@@ -5,8 +5,8 @@ import { eq } from "drizzle-orm"
 import { DEFAULT_TAG_TYPES, DEFAULT_TAGS, exampleExpenses } from "~/server/db/seedNewUser"
 import { User } from "~/types/User"
 
-export const getUserId = () => {
-  const { userId } = auth()
+export const getUserId = async () => {
+  const { userId } = await auth()
   if (!userId) {
     throw new Error("Not logged in")
   }

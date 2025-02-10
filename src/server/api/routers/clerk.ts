@@ -9,7 +9,7 @@ export const clerkRouter = createTRPCRouter({
   }),
 
   getMyId: publicProcedure.query(async ({}) => {
-    const { userId } = auth()
+    const { userId } = await auth()
 
     return userId ?? null
   }),
