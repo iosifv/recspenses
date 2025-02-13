@@ -115,12 +115,12 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
       <DialogTrigger>
         <EditIcon />
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="max-w-lg overflow-x-auto">
         <DialogHeader>
           <DialogTitle>{row.name}</DialogTitle>
-          <hr className="border-slate-500 border-1 w-full" />
+          <hr className="border-slate-500 border-1 w-full py-2" />
           <DialogDescription>
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-start">
               {existingTags.map((tag: any) => (
                 <SimpleTagBadge
                   selected={true}
@@ -133,7 +133,7 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
               ))}
             </div>
 
-            <div className="flex justify-between">
+            <div className="flex flex-wrap justify-start">
               {remainingTags.map((tag: any) => (
                 <SimpleTagBadge
                   selected={false}
@@ -178,7 +178,7 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
             ></Input>
           </DialogDescription>
         </DialogHeader>
-        <DialogFooter className="sm:justify-start">
+        <DialogFooter className="flex justify-end">
           <DialogClose asChild>
             <Button type="button" variant="secondary">
               Cancel
@@ -189,6 +189,7 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
               Delete
             </Button>
           </DialogClose>
+
           <DialogClose asChild>
             <Button type="button" onClick={onSaveButtonClick}>
               Save

@@ -22,7 +22,7 @@ export const getUser = () => {
 }
 
 export const touchUser = async (): Promise<User> => {
-  const userId = getUserId()
+  const userId = await getUserId()
 
   if (!userId) {
     throw new Error("Not logged in")

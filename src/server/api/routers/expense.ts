@@ -25,7 +25,7 @@ export const expenseRouter = createTRPCRouter({
   createMine: publicProcedure
     .input(z.object({ expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
       const expenseData = JSON.parse(input.expense)
 
       await ctx.db.insert(expenses).values({
@@ -41,10 +41,12 @@ export const expenseRouter = createTRPCRouter({
   deleteMine: publicProcedure
     .input(z.object({ id: z.number() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
       const expense = await ctx.db.query.expenses.findFirst({
         where: (expenses, { eq }) => eq(expenses.id, input.id),
       })
+      console.log("expense", expense)
+      console.log("userId", userId)
       if (!expense) {
         throw new Error("Expense not found")
       }
@@ -58,7 +60,7 @@ export const expenseRouter = createTRPCRouter({
   updateMine: publicProcedure
     .input(z.object({ id: z.number(), expense: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
       const expenseData = JSON.parse(input.expense)
 
       const dbExpense = await ctx.db.query.expenses.findFirst({
@@ -103,7 +105,7 @@ export const expenseRouter = createTRPCRouter({
   removeMyTag: publicProcedure
     .input(z.object({ expenseId: z.number(), tagId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      // const userId = getUserId()
+      // const userId = await getUserId()
 
       const dbExpense = await ctx.db.query.expenses.findFirst({
         where: (expense: DBExpense, { eq }) => eq(expense.id, input.expenseId),

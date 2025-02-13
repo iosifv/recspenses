@@ -55,7 +55,7 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => {
                     const rowTags = row.original.tags
-                    // console.log(row.id)
+                    console.log("cell.id")
 
                     return (
                       <TableCell key={cell.id}>

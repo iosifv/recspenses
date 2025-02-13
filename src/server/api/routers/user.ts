@@ -10,7 +10,7 @@ import { User } from "~/types/User"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }): Promise<User> => {
-    const userId = getUserId()
+    const userId = await getUserId()
 
     try {
       const myUser = await ctx.db.query.users.findFirst({
@@ -27,7 +27,7 @@ export const userRouter = createTRPCRouter({
   addTag: publicProcedure
     .input(z.object({ newTagName: z.string(), existingTagType: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
 
       try {
         const myUser = await ctx.db.query.users.findFirst({
@@ -58,7 +58,7 @@ export const userRouter = createTRPCRouter({
   deleteTag: publicProcedure
     .input(z.object({ existingTagId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
 
       try {
         const myUser = await ctx.db.query.users.findFirst({
@@ -78,7 +78,7 @@ export const userRouter = createTRPCRouter({
   addTagType: publicProcedure
     .input(z.object({ newTagTypeName: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
 
       try {
         const myUser = await ctx.db.query.users.findFirst({
@@ -107,7 +107,7 @@ export const userRouter = createTRPCRouter({
   deleteTagType: publicProcedure
     .input(z.object({ existingTagTypeId: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
 
       try {
         const myUser = await ctx.db.query.users.findFirst({
@@ -140,7 +140,7 @@ export const userRouter = createTRPCRouter({
   updateMetadata: publicProcedure
     .input(z.object({ key: z.string(), value: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      const userId = getUserId()
+      const userId = await getUserId()
 
       try {
         const myUser = await ctx.db.query.users.findFirst({
