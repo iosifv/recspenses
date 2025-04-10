@@ -109,9 +109,9 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
       </CardHeader>
       <CardContent>
         {tags
-          .filter((tag: Tag) => tag.type === tagType.id)
+          .filter((tag: Tag) => tag.type.id === tagType.id)
           .map((tag: Tag) => (
-            <SettingTagBadge id={tag.id} name={tag.name} />
+            <SettingTagBadge key={tag.id} id={tag.id} name={tag.name} />
           ))}
       </CardContent>
       <CardFooter>
