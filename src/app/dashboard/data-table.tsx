@@ -58,6 +58,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                         {cell.column.columnDef.header === "Tags"
                           ? rowTags.map((tag) => (
                               <ExpenseTagBadge
+                                key={tag.id}
                                 expenseId={row.original.id ?? 0}
                                 tagId={tag.id}
                                 tagName={tag.name}

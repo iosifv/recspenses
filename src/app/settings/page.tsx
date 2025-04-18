@@ -11,7 +11,8 @@ export default async function Settings() {
   const recspensesUser = await api.user.getMe()
   const clerkUser = await getUser()
 
-  // console.dir(recspensesUser, { depth: null })
+  // console.dir(recspensesUser.tagTypes, { depth: null })
+  // console.dir(recspensesUser.tags, { depth: null })
 
   return (
     <HydrateClient>

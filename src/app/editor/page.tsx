@@ -2,23 +2,17 @@ import { api, HydrateClient } from "~/trpc/server"
 
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
+import type { Expense } from "~/types/Expense"
 
 export default async function Editor() {
   const myExpenses = await api.expense.getMine()
   const myUser = await api.user.getMe()
 
-  const simplifiedExpenses = myExpenses.map((expense) => {
-    return {
-      id: expense.id,
-      name: expense.name,
-      amount: expense.amount,
-      currency: expense.currency,
-      frequency: expense.frequency,
-      tags: expense.tags.map((tag) => ({ id: tag.id, name: tag.name })),
-      createdAt: expense.createdAt.toISOString(),
-      updatedAt: expense.updatedAt.toISOString(),
-    }
-  })
+  console.log("myExpenses", myExpenses)
+  // If the return type is not already Expense[], you can cast:
+  const expenses = myExpenses as Expense[]
+
+  const tableExpenses = expenses.map((expense: Expense) => expense.toFrontendExpense())
 
   return (
     <HydrateClient>
@@ -29,7 +23,7 @@ export default async function Editor() {
           <div className="container mx-auto py-10">
             <DataTable
               columns={columns}
-              data={simplifiedExpenses as unknown as any}
+              data={tableExpenses as unknown as any}
               user={myUser}
             />
           </div>

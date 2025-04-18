@@ -7,6 +7,8 @@ interface TagBadgeProps {
   expenseId: number
   tagId: string
   tagName: string
+  tagTypeColour: string
+  tagColour: string
   canDelete: boolean
 }
 
@@ -14,6 +16,8 @@ export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({
   expenseId,
   tagId,
   tagName,
+  tagTypeColour,
+  tagColour,
   canDelete,
 }) => {
   const router = useRouter()
@@ -33,8 +37,25 @@ export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({
     <Badge
       variant={"outline"}
       className="mr-2 mb-2 pt-0 pb-0 rounded-full cursor-default text-white text-xs hover:bg-gray-600"
+      style={{
+        borderColor: tagTypeColour,
+        borderWidth: "2px",
+        // display: "flex",
+        // alignItems: "center",
+      }}
       key={tagId}
     >
+      {/* Dot with tagColour */}
+      <span
+        style={{
+          display: "inline-block",
+          width: 10,
+          height: 10,
+          borderRadius: "50%",
+          backgroundColor: tagColour,
+          marginRight: 10,
+        }}
+      />
       {tagName}
       {canDelete && (
         <div className="ml-2 p-1 cursor-pointer" onClick={onDeleteTagButtonClick(tagId)}>

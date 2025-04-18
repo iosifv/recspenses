@@ -1,4 +1,5 @@
 import { Tag } from "./Tag"
+import { TagType } from "./TagType"
 import { User } from "./User" // Import User for reference
 import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
 
@@ -15,14 +16,31 @@ export type DBExpense = {
   updatedAt: Date
 }
 
-// Define a type for the simplified expense
+/**
+ * @deprecated
+ */
 export type SimplifiedExpense = {
   id?: number
   name: string
   amount: number
   currency: (typeof CURRENCIES)[number]
   frequency: (typeof FREQUENCIES)[number]
-  tags: { id: string; name: string }[]
+  tags: { 
+    id: string; name: string, tagTypeColour: string, tagColour: string
+  }[]
+  createdAt: Date
+  updatedAt: Date
+}
+
+export type FrontendExpense = {
+  id?: number
+  name: string
+  amount: number
+  currency: (typeof CURRENCIES)[number]
+  frequency: (typeof FREQUENCIES)[number]
+  tags: { 
+    id: string; name: string, tagTypeColour: string, tagColour: string
+  }[]
   createdAt: Date
   updatedAt: Date
 }
@@ -52,10 +70,25 @@ export class Expense {
 
     this.tags = dbExpense.tags.map((tagId) => {
       const foundTag = user.tags.find((tag) => tag.id === tagId)
-      return foundTag ? foundTag : Tag.buildWithUnknownId(tagId)
+      if (foundTag) {
+        // Ensure TagType is hydrated
+        let hydratedType = foundTag.type;
+        if (!hydratedType || !hydratedType.id) {
+          // Try to find TagType by tag type id
+          hydratedType = user.tagTypes.find((tt) => tt.id === (foundTag.type?.id || foundTag.type))
+            || TagType.buildWithUnknownId(foundTag.type?.id || "unknown");
+        }
+        return new Tag(foundTag.id, foundTag.name, foundTag.description, hydratedType);
+      } else {
+        return Tag.buildWithUnknownId(tagId);
+      }
     })
   }
 
+  /**
+   * Converts the expense to a simplified expense object.
+   * @deprecated 
+   */
   toSimplifiedExpense(): SimplifiedExpense {
     return {
       id: this.id,
@@ -63,7 +96,27 @@ export class Expense {
       amount: this.amount,
       currency: this.currency,
       frequency: this.frequency,
-      tags: this.tags.map((tag) => ({ id: tag.id, name: tag.name })),
+      tags: this.tags.map((tag) => ({ 
+        id: tag.id, name: tag.name, tagTypeColour: tag.type.color, tagColour: '#fff'
+      })),
+      createdAt: this.createdAt,
+      updatedAt: this.updatedAt,
+    }
+  }
+
+  toFrontendExpense(): FrontendExpense {
+    return {
+      id: this.id,
+      name: this.name,
+      amount: this.amount,
+      currency: this.currency,
+      frequency: this.frequency,
+      tags: this.tags.map((tag: Tag) => ({ 
+        id: tag.id, 
+        name: tag.name, 
+        tagTypeColour: tag.type.color, 
+        tagColour: '#fff'
+      })),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     }

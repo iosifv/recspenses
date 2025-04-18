@@ -55,17 +55,20 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => {
                     const rowTags = row.original.tags
-                    console.log("cell.id")
+                    // console.log("cell.id")
 
                     return (
                       <TableCell key={cell.id}>
                         {cell.column.columnDef.header === "Tags"
                           ? rowTags.map((tag) => (
                               <ExpenseTagBadge
+                                key={tag.id}
                                 expenseId={row.original.id ?? 0}
                                 tagId={tag.id}
                                 tagName={tag.name}
                                 canDelete={true}
+                                tagTypeColour={tag.tagTypeColour}
+                                tagColour={tag.tagColour}
                               />
                             ))
                           : flexRender(cell.column.columnDef.cell, cell.getContext())}

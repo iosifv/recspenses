@@ -84,7 +84,31 @@ export const expenseRouter = createTRPCRouter({
       await ctx.db.update(expenses).set(dbExpense).where(eq(expenses.id, input.id))
     }),
 
-  getMine: publicProcedure.query<SimplifiedExpense[]>(async ({ ctx }) => {
+    getMine: publicProcedure.query<Expense[]>(async ({ ctx }) => {
+      const user = await touchUser()
+  
+      const dbExpenses = await ctx.db.query.expenses.findMany({
+        where: (expense: DBExpense, { eq }) => eq(expense.userId, user.userId),
+        orderBy: (expenses, { asc }) => [asc(expenses.name)],
+      })
+  
+      let expenses: Expense[] = []
+  
+      dbExpenses.forEach((dbExpense: DBExpense) => {
+        const newExpense = new Expense(user, dbExpense)
+
+        expenses.push(newExpense)
+      })
+  
+      return expenses
+    }),
+
+
+
+  /**
+   * @deprecated
+   */
+  getMineSimple: publicProcedure.query<SimplifiedExpense[]>(async ({ ctx }) => {
     const user = await touchUser()
 
     const dbExpenses = await ctx.db.query.expenses.findMany({
@@ -96,7 +120,8 @@ export const expenseRouter = createTRPCRouter({
 
     dbExpenses.forEach((dbExpense: DBExpense) => {
       const newExpense = new Expense(user, dbExpense)
-      simplifiedExpenses.push(newExpense.toSimplifiedExpense())
+      const se = newExpense.toSimplifiedExpense()
+      simplifiedExpenses.push(se)
     })
 
     return simplifiedExpenses
