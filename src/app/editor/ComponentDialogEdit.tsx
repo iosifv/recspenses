@@ -119,32 +119,35 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
         <DialogHeader>
           <DialogTitle>{row.name}</DialogTitle>
           <hr className="border-slate-500 border-1 w-full py-2" />
-          <DialogDescription>
-            <div className="flex flex-wrap justify-start">
-              {existingTags.map((tag: any) => (
-                <SimpleTagBadge
-                  selected={true}
-                  expenseId={row.id}
-                  tagId={tag.id}
-                  tagName={tag.name}
-                  key={tag.id}
-                  actionToHappen={() => onRemoveTagButtonClick(tag.id)}
-                />
-              ))}
-            </div>
+          <DialogDescription>Edit the expense details and tags below.</DialogDescription>
 
-            <div className="flex flex-wrap justify-start">
-              {remainingTags.map((tag: any) => (
-                <SimpleTagBadge
-                  selected={false}
-                  expenseId={row.id}
-                  tagId={tag.id}
-                  tagName={tag.name}
-                  key={tag.id}
-                  actionToHappen={() => onAddTagButtonClick(tag.id)}
-                />
-              ))}
-            </div>
+          <div className="flex flex-wrap justify-start mt-2">
+            {existingTags.map((tag: any) => (
+              <SimpleTagBadge
+                selected={true}
+                expenseId={row.id}
+                tagId={tag.id}
+                tagName={tag.name}
+                key={tag.id}
+                actionToHappen={() => onRemoveTagButtonClick(tag.id)}
+              />
+            ))}
+          </div>
+
+          <div className="flex flex-wrap justify-start mt-2">
+            {remainingTags.map((tag: any) => (
+              <SimpleTagBadge
+                selected={false}
+                expenseId={row.id}
+                tagId={tag.id}
+                tagName={tag.name}
+                key={tag.id}
+                actionToHappen={() => onAddTagButtonClick(tag.id)}
+              />
+            ))}
+          </div>
+
+          <div className="mt-4 flex flex-col gap-2">
             <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
             <Select onValueChange={(value) => setCurrency(value)}>
               <SelectTrigger className="w-[180px]">
@@ -175,8 +178,8 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
               placeholder={row.amount}
               onChange={(e) => setAmount(e.target.value)}
               value={amount}
-            ></Input>
-          </DialogDescription>
+            />
+          </div>
         </DialogHeader>
         <DialogFooter className="flex justify-end">
           <DialogClose asChild>

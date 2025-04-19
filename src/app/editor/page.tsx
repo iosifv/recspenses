@@ -9,7 +9,7 @@ export default async function Editor() {
   const myUser = await api.user.getMe()
 
   console.log("myExpenses", myExpenses)
-  // If the return type is not already Expense[], you can cast:
+  // If the return type is not already Expense[], we cast:
   const expenses = myExpenses as Expense[]
 
   const tableExpenses = expenses.map((expense: Expense) => expense.toFrontendExpense())

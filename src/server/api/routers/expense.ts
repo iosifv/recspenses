@@ -84,24 +84,22 @@ export const expenseRouter = createTRPCRouter({
       await ctx.db.update(expenses).set(dbExpense).where(eq(expenses.id, input.id))
     }),
 
-    getMine: publicProcedure.query<Expense[]>(async ({ ctx }) => {
-      const user = await touchUser()
-  
-      const dbExpenses = await ctx.db.query.expenses.findMany({
-        where: (expense: DBExpense, { eq }) => eq(expense.userId, user.userId),
-        orderBy: (expenses, { asc }) => [asc(expenses.name)],
-      })
-  
-      let expenses: Expense[] = []
-  
-      dbExpenses.forEach((dbExpense: DBExpense) => {
-        const newExpense = new Expense(user, dbExpense)
+  getMine: publicProcedure.query<Expense[]>(async ({ ctx }) => {
+    const user = await touchUser()
+   
+    const dbExpenses = await ctx.db.query.expenses.findMany({
+      where: (expense: DBExpense, { eq }) => eq(expense.userId, user.userId),
+      orderBy: (expenses, { asc }) => [asc(expenses.name)],
+    })
 
-        expenses.push(newExpense)
-      })
-  
-      return expenses
-    }),
+    let expenses: Expense[] = []
+    dbExpenses.forEach((dbExpense: DBExpense) => {
+      const newExpense = new Expense(user, dbExpense)
+      expenses.push(newExpense)
+    })
+
+    return expenses
+  }),
 
 
 
