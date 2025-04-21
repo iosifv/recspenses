@@ -5,6 +5,9 @@ import { FxRateData, FxRate } from "./FxRate"
 import { FrequencyLookup } from "./FrequencyLookup"
 import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 
+/**
+ * @deprecated
+ */
 export type FrontendExpense = {
   id?: number
   name: string
@@ -18,6 +21,9 @@ export type FrontendExpense = {
   updatedAt: Date
 }
 
+/**
+ * @deprecated
+ */
 export class FrontendExpenses {
   frontendExpenses: FrontendExpense[] = []
   fxRate: FxRate

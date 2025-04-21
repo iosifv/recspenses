@@ -10,15 +10,16 @@ import {
   TableRow,
 } from "~/components/ui/table"
 import { Expense } from "~/types/Expense"
+import { User } from "~/types/User"
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
 import ComponentDialogEdit from "./ComponentDialogEdit"
 import ComponentDialogDelete from "./ComponentDialogDelete"
 import ComponentTableRowNew from "./ComponentTableRowNew"
 
 interface DataTableProps {
-  columns: ColumnDef<Expense, any>[]
-  data: Expense[]
-  user: any
+  columns: ColumnDef<Record<string, any>, any>[]
+  data: Array<ReturnType<typeof Expense.prototype.toPlainObject>>
+  user: ReturnType<typeof User.prototype.toPlainObject>
 }
 
 export function DataTable({ columns, data, user }: DataTableProps) {
@@ -67,8 +68,8 @@ export function DataTable({ columns, data, user }: DataTableProps) {
                                 tagId={tag.id}
                                 tagName={tag.name}
                                 canDelete={true}
-                                tagTypeColour={tag.tagTypeColour}
-                                tagColour={tag.tagColour}
+                                tagTypeColour={tag.type?.color}
+                                tagColour={tag.color}
                               />
                             ))
                           : flexRender(cell.column.columnDef.cell, cell.getContext())}

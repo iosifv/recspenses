@@ -3,16 +3,18 @@ import { api, HydrateClient } from "~/trpc/server"
 import { columns } from "./columns"
 import { DataTable } from "./data-table"
 import type { Expense } from "~/types/Expense"
+import type { User } from "~/types/User"
 
 export default async function Editor() {
-  const myExpenses = await api.expense.getMine()
+  const myExpenses = (await api.expense.getMine()) as Expense[]
   const myUser = await api.user.getMe()
+  const plainExpenses = myExpenses.map((expense: Expense) => expense.toPlainObject())
+  const plainUser = myUser.toPlainObject()
 
-  console.log("myExpenses", myExpenses)
-  // If the return type is not already Expense[], we cast:
-  const expenses = myExpenses as Expense[]
-
-  const tableExpenses = expenses.map((expense: Expense) => expense.toFrontendExpense())
+  // console.log("myExpenses", myExpenses)
+  // console.log("myUser", myUser)
+  // console.log("plainExpenses", plainExpenses)
+  // console.log("plainUser", plainUser)
 
   return (
     <HydrateClient>
@@ -21,15 +23,8 @@ export default async function Editor() {
           {/* <h1 className="text-3xl font-extrabold tracking-tight sm:text-[5rem]">editor</h1> */}
 
           <div className="container mx-auto py-10">
-            <DataTable
-              columns={columns}
-              data={tableExpenses as unknown as any}
-              user={myUser}
-            />
+            <DataTable columns={columns} data={plainExpenses} user={plainUser} />
           </div>
-
-          {/* <pre>{JSON.stringify(myExpenses, null, 2)}</pre>
-          <pre>{JSON.stringify(myExpenses[0]?.tags[0], null, 2)}</pre> */}
         </div>
       </main>
     </HydrateClient>

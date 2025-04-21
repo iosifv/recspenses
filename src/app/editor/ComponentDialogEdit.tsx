@@ -28,11 +28,10 @@ import {
   SelectValue,
 } from "~/components/ui/select"
 import { SimpleTagBadge } from "~/components/custom/SimpleTagBadge"
-import { on } from "events"
 
 interface ExistingTagTypeCardProps {
-  row: any
-  user: any
+  row: Record<string, any>
+  user: Record<string, any>
 }
 
 const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) => {
@@ -45,6 +44,9 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
 
   let existingTags = user.tags.filter((tag: any) => currentTagIds.includes(tag.id))
   let remainingTags = user.tags.filter((tag: any) => !currentTagIds.includes(tag.id))
+
+  // console.log("existingTags", existingTags)
+  // console.log("remainingTags", remainingTags)
 
   const onAddTagButtonClick = async (tagId: string) => {
     console.log("onAddTagButtonClick", tagId)
@@ -122,16 +124,21 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
           <DialogDescription>Edit the expense details and tags below.</DialogDescription>
 
           <div className="flex flex-wrap justify-start mt-2">
-            {existingTags.map((tag: any) => (
-              <SimpleTagBadge
-                selected={true}
-                expenseId={row.id}
-                tagId={tag.id}
-                tagName={tag.name}
-                key={tag.id}
-                actionToHappen={() => onRemoveTagButtonClick(tag.id)}
-              />
-            ))}
+            {existingTags.map((tag: any) => {
+              // console.log("tag", tag)
+              return (
+                <SimpleTagBadge
+                  selected={true}
+                  expenseId={row.id}
+                  tagId={tag.id}
+                  tagName={tag.name}
+                  tagTypeColour={tag.type.color}
+                  tagColour={tag.color}
+                  key={tag.id}
+                  actionToHappen={() => onRemoveTagButtonClick(tag.id)}
+                />
+              )
+            })}
           </div>
 
           <div className="flex flex-wrap justify-start mt-2">
@@ -141,6 +148,8 @@ const ComponentDialogEdit: React.FC<ExistingTagTypeCardProps> = ({ row, user }) 
                 expenseId={row.id}
                 tagId={tag.id}
                 tagName={tag.name}
+                tagTypeColour={tag.type.color}
+                tagColour={tag.color}
                 key={tag.id}
                 actionToHappen={() => onAddTagButtonClick(tag.id)}
               />

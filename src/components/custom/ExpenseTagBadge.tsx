@@ -40,8 +40,6 @@ export const ExpenseTagBadge: React.FC<TagBadgeProps> = ({
       style={{
         borderColor: tagTypeColour,
         borderWidth: "2px",
-        // display: "flex",
-        // alignItems: "center",
       }}
       key={tagId}
     >

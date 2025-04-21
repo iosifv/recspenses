@@ -16,36 +16,38 @@ export type DBExpense = {
   updatedAt: Date
 }
 
-/**
- * @deprecated
- */
-export type SimplifiedExpense = {
-  id?: number
-  name: string
-  amount: number
-  currency: (typeof CURRENCIES)[number]
-  frequency: (typeof FREQUENCIES)[number]
-  tags: { 
-    id: string; name: string, tagTypeColour: string, tagColour: string
-  }[]
-  createdAt: Date
-  updatedAt: Date
-}
+// /**
+//  * @deprecated
+//  */
+// export type SimplifiedExpense = {
+//   id?: number
+//   name: string
+//   amount: number
+//   currency: (typeof CURRENCIES)[number]
+//   frequency: (typeof FREQUENCIES)[number]
+//   tags: {
+//     id: string; name: string, tagTypeColour: string, tagColour: string
+//   }[]
+//   createdAt: Date
+//   updatedAt: Date
+// }
 
-export type FrontendExpense = {
-  id?: number
-  name: string
-  amount: number
-  currency: (typeof CURRENCIES)[number]
-  frequency: (typeof FREQUENCIES)[number]
-  tags: { 
-    id: string; name: string, tagTypeColour: string, tagColour: string
-  }[]
-  createdAt: Date
-  updatedAt: Date
-}
+// export type FrontendExpense = {
+//   id?: number
+//   name: string
+//   amount: number
+//   currency: (typeof CURRENCIES)[number]
+//   frequency: (typeof FREQUENCIES)[number]
+//   tags: {
+//     id: string; name: string, tagTypeColour: string, tagColour: string
+//   }[]
+//   createdAt: Date
+//   updatedAt: Date
+// }
 
-export class Expense {
+import { PlainObjectConvertible } from "./PlainObjectConvertible"
+
+export class Expense implements PlainObjectConvertible {
   id?: number
   userId: string
   tags: Tag[] // stored as JSON in DB
@@ -72,55 +74,58 @@ export class Expense {
       const foundTag = user.tags.find((tag) => tag.id === tagId)
       if (foundTag) {
         // Ensure TagType is hydrated
-        let hydratedType = foundTag.type;
+        let hydratedType = foundTag.type
         if (!hydratedType || !hydratedType.id) {
           // Try to find TagType by tag type id
-          hydratedType = user.tagTypes.find((tt) => tt.id === (foundTag.type?.id || foundTag.type))
-            || TagType.buildWithUnknownId(foundTag.type?.id || "unknown");
+          hydratedType =
+            user.tagTypes.find((tt) => tt.id === (foundTag.type?.id || foundTag.type)) ||
+            TagType.buildWithUnknownId(foundTag.type?.id || "unknown")
         }
-        return new Tag(foundTag.id, foundTag.name, foundTag.description, hydratedType);
+        return new Tag(
+          foundTag.id,
+          foundTag.name,
+          foundTag.description,
+          foundTag.color,
+          hydratedType,
+        )
       } else {
-        return Tag.buildWithUnknownId(tagId);
+        return Tag.buildWithUnknownId(tagId)
       }
     })
   }
 
-  /**
-   * Converts the expense to a simplified expense object.
-   * @deprecated 
-   */
-  toSimplifiedExpense(): SimplifiedExpense {
-    return {
-      id: this.id,
-      name: this.name,
-      amount: this.amount,
-      currency: this.currency,
-      frequency: this.frequency,
-      tags: this.tags.map((tag) => ({ 
-        id: tag.id, name: tag.name, tagTypeColour: tag.type.color, tagColour: '#fff'
-      })),
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    }
-  }
+  // toSimplifiedExpense(): SimplifiedExpense {
+  //   return {
+  //     id: this.id,
+  //     name: this.name,
+  //     amount: this.amount,
+  //     currency: this.currency,
+  //     frequency: this.frequency,
+  //     tags: this.tags.map((tag) => ({
+  //       id: tag.id, name: tag.name, tagTypeColour: tag.type.color, tagColour: '#fff'
+  //     })),
+  //     createdAt: this.createdAt,
+  //     updatedAt: this.updatedAt,
+  //   }
+  // }
 
-  toFrontendExpense(): FrontendExpense {
-    return {
-      id: this.id,
-      name: this.name,
-      amount: this.amount,
-      currency: this.currency,
-      frequency: this.frequency,
-      tags: this.tags.map((tag: Tag) => ({ 
-        id: tag.id, 
-        name: tag.name, 
-        tagTypeColour: tag.type.color, 
-        tagColour: '#fff'
-      })),
-      createdAt: this.createdAt,
-      updatedAt: this.updatedAt,
-    }
-  }
+  // toFrontendExpense(): FrontendExpense {
+  //   return {
+  //     id: this.id,
+  //     name: this.name,
+  //     amount: this.amount,
+  //     currency: this.currency,
+  //     frequency: this.frequency,
+  //     tags: this.tags.map((tag: Tag) => ({
+  //       id: tag.id,
+  //       name: tag.name,
+  //       tagTypeColour: tag.type.color,
+  //       tagColour: '#fff'
+  //     })),
+  //     createdAt: this.createdAt,
+  //     updatedAt: this.updatedAt,
+  //   }
+  // }
 
   // errorrMessages: string[] = []
   // validate(): boolean {
@@ -146,5 +151,22 @@ export class Expense {
   // // Todo: move this only for the frontend object
   // getErrorMessages(): string[] {
   //   return this.errorrMessages
-  // }
+  //   }
+
+  toPlainObject(): Record<string, any> {
+    return {
+      id: this.id,
+      userId: this.userId,
+      tags: this.tags.map((tag) =>
+        typeof tag.toPlainObject === "function" ? tag.toPlainObject() : tag,
+      ),
+      name: this.name,
+      amount: this.amount,
+      currency: this.currency,
+      frequency: this.frequency,
+      extra: this.extra,
+      createdAt: this.createdAt instanceof Date ? this.createdAt.toISOString() : this.createdAt,
+      updatedAt: this.updatedAt instanceof Date ? this.updatedAt.toISOString() : this.updatedAt,
+    }
+  }
 }

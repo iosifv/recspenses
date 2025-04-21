@@ -6,18 +6,26 @@ import { eq } from "drizzle-orm"
 import { generateUniqueId, getRandomColour } from "~/server/api/utils/routeUtils"
 import { Tag } from "~/types/Tag"
 import { TagType } from "~/types/TagType"
-import { User } from "~/types/User"
+import { User, DBUser } from "~/types/User"
 
 export const userRouter = createTRPCRouter({
   getMe: publicProcedure.query(async ({ ctx }): Promise<User> => {
     const userId = await getUserId()
 
     try {
-      const myUser = await ctx.db.query.users.findFirst({
-        where: (users: { userId: any }, { eq }: any) => eq(users.userId, userId),
-      })
+      const myUser = (await ctx.db.query.users.findFirst({
+        where: (users: DBUser, { eq }: any) => eq(users.userId, userId),
+      })) as DBUser
 
-      return myUser
+      const user = new User(myUser)
+      console.log("BACKEND - DBUser", myUser.tags)
+      console.log("BACKEND - User", user.tags)
+
+      if (!myUser) {
+        throw new Error("User not found")
+      }
+
+      return user
     } catch (error) {
       console.error("Database error:\n", error)
       throw error
