@@ -28,18 +28,18 @@ export class User implements PlainObjectConvertible {
     this.updatedAt = dbUser.updatedAt
     this.seenAt = dbUser.seenAt
 
-    console.log("BACKEND - user.constructor()", dbUser.tags)
+    // console.log("BACKEND - user.constructor()", dbUser.tags)
 
     this.tagTypes = dbUser.tagTypes.map((tagType) => {
-      console.log(tagType)
+      // console.log(tagType)
       return new TagType(tagType.id, tagType.name, tagType.description, tagType.color)
     })
 
     this.tags = dbUser.tags.map((tag: DBTag) => {
-      console.log("this.tagTypes", this.tagTypes)
-      console.log("tag", tag)
+      // console.log("this.tagTypes", this.tagTypes)
+      // console.log("tag", tag)
       const foundType = this.tagTypes.find((tt: TagType) => tt.id === tag.type)
-      console.log("foundType", foundType)
+      // console.log("foundType", foundType)
       if (!foundType) {
         return Tag.buildWithUnknownId(tag.id)
       }

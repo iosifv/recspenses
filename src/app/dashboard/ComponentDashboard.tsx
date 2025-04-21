@@ -7,31 +7,29 @@ import { DataTable } from "./data-table"
 import { columns } from "./columns"
 
 import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
-import { SimplifiedExpense } from "~/types/Expense"
-import { FrontendExpense, FrontendExpenses } from "~/types/FrontendExpenses"
 import { FxRateData } from "~/types/FxRate"
-import { User } from "~/types/User"
+import { FrontendExpense, FrontendExpenses } from "~/types/FrontendExpenses"
 
 interface ComponentDashboardProps {
-  simplifiedExpenses: SimplifiedExpense[]
+  plainExpenses: Record<string, unknown>[]
   fxData: FxRateData
-  userData: User
+  plainUser: Record<string, unknown>
 }
 
 const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
-  simplifiedExpenses,
+  plainExpenses,
   fxData,
-  userData,
+  plainUser,
 }) => {
   const [displayCurrency, setDisplayCurrency] = useState<CURRENCY>(
-    userData.metadata.currency as CURRENCY,
+    plainUser.metadata.currency as CURRENCY,
   )
   const [displayFrequency, setDisplayFrequency] = useState<FREQUENCY>(
-    userData.metadata.frequency as FREQUENCY,
+    plainUser.metadata.frequency as FREQUENCY,
   )
 
   const frontendExpenses = new FrontendExpenses(fxData, displayCurrency, displayFrequency)
-  frontendExpenses.add(simplifiedExpenses)
+  frontendExpenses.add(plainExpenses)
 
   // console.dir(frontendExpenses.getAll(), { depth: null })
 
@@ -39,7 +37,7 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
     <div className="flex">
       <div className="w-7/10">
         <ComponentCardSettings
-          metadata={userData.metadata}
+          metadata={plainUser.metadata}
           onCurrencyChange={setDisplayCurrency}
           onFrequencyChange={setDisplayFrequency}
         />

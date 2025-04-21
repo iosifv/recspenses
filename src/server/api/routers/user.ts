@@ -18,8 +18,8 @@ export const userRouter = createTRPCRouter({
       })) as DBUser
 
       const user = new User(myUser)
-      console.log("BACKEND - DBUser", myUser.tags)
-      console.log("BACKEND - User", user.tags)
+      // console.log("BACKEND - DBUser", myUser.tags)
+      // console.log("BACKEND - User", user.tags)
 
       if (!myUser) {
         throw new Error("User not found")

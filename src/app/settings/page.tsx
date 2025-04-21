@@ -10,9 +10,10 @@ import ComponentCardMetadata from "./ComponentCardMetadata"
 export default async function Settings() {
   const recspensesUser = await api.user.getMe()
   const clerkUser = await getUser()
+  const plainRecspensesUser = recspensesUser.toPlainObject()
 
-  // console.dir(recspensesUser.tagTypes, { depth: null })
-  // console.dir(recspensesUser.tags, { depth: null })
+  console.dir(plainRecspensesUser.tagTypes, { depth: null })
+  console.dir(plainRecspensesUser.tags, { depth: null })
 
   return (
     <HydrateClient>
@@ -22,11 +23,15 @@ export default async function Settings() {
           {recspensesUser && clerkUser && (
             <UserInformationHoverCard recspensesUser={recspensesUser} clerkUser={clerkUser} />
           )}
-          <ComponentCardMetadata user={recspensesUser} />
+          <ComponentCardMetadata user={plainRecspensesUser} />
           <hr className="border-slate-500 border-1 w-full" />
           <div className="flex flex-wrap justify-center gap-4">
-            {recspensesUser.tagTypes.map((tagType: TagType) => (
-              <ExistingTagTypeCard key={tagType.id} tagType={tagType} tags={recspensesUser.tags} />
+            {plainRecspensesUser.tagTypes.map((tagType: TagType) => (
+              <ExistingTagTypeCard
+                key={tagType.id}
+                tagType={tagType}
+                tags={plainRecspensesUser.tags}
+              />
             ))}
             <NewTagTypeCard />
           </div>

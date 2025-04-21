@@ -49,8 +49,8 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
     router.refresh()
   }
 
-  console.log(tagType)
-  console.log(tags)
+  // console.log(tagType)
+  // console.log(tags)
 
   // const onDeleteTagButtonClick = (tagId: string) => async () => {
   //   await fetch("/api/user/tag", {
@@ -112,7 +112,7 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
       </CardHeader>
       <CardContent>
         {tags
-          .filter((tag: Tag) => tag.type === tagType.id)
+          .filter((tag: Tag) => tag.type.id === tagType.id)
           .map((tag: Tag) => (
             <SettingTagBadge key={tag.id} id={tag.id} name={tag.name} />
           ))}
