@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import ComponentCardSettings from "./ComponentCardSettings"
 import ComponentChart from "./ComponentChart"
 import { DataTable } from "./data-table"
@@ -8,7 +8,8 @@ import { columns } from "./columns"
 
 import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 import { FxRateData } from "~/types/FxRate"
-import { FrontendExpense, FrontendExpenses } from "~/types/FrontendExpenses"
+import { ExpensePlainObject } from "~/types/Expense"
+import { DashboardData } from "~/types/DashboardData"
 
 interface ComponentDashboardProps {
   plainExpenses: Record<string, unknown>[]
@@ -28,10 +29,13 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
     plainUser.metadata.frequency as FREQUENCY,
   )
 
-  const frontendExpenses = new FrontendExpenses(fxData, displayCurrency, displayFrequency)
-  frontendExpenses.add(plainExpenses)
+  const dashboardData = new DashboardData(fxData, displayCurrency, displayFrequency)
+  dashboardData.add(plainExpenses as ExpensePlainObject[])
+  const dashboardExpenseArray = dashboardData.getAllExpenses()
 
-  // console.dir(frontendExpenses.getAll(), { depth: null })
+  useEffect(() => {
+    console.dir(dashboardExpenseArray, { depth: null })
+  }, [dashboardData])
 
   return (
     <div className="flex">
@@ -41,10 +45,10 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
           onCurrencyChange={setDisplayCurrency}
           onFrequencyChange={setDisplayFrequency}
         />
-        <DataTable columns={columns} data={frontendExpenses.getAll() as FrontendExpense[]} />
+        <DataTable columns={columns} data={dashboardExpenseArray} />
       </div>
       <div className="w-3/10">
-        <ComponentChart data={frontendExpenses.getAll()} />
+        <ComponentChart data={dashboardExpenseArray} />
       </div>
     </div>
   )

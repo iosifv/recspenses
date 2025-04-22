@@ -11,11 +11,11 @@ import {
 } from "~/components/ui/table"
 
 import { ExpenseTagBadge } from "~/components/custom/ExpenseTagBadge"
-import { FrontendExpense } from "~/types/FrontendExpenses"
+import { DashboardExpense } from "~/types/DashboardData"
 
 interface DataTableProps {
-  columns: ColumnDef<FrontendExpense, any>[]
-  data: FrontendExpense[]
+  columns: ColumnDef<DashboardExpense, any>[]
+  data: DashboardExpense[]
 }
 
 export function DataTable({ columns, data }: DataTableProps) {
@@ -62,6 +62,8 @@ export function DataTable({ columns, data }: DataTableProps) {
                                 expenseId={row.original.id ?? 0}
                                 tagId={tag.id}
                                 tagName={tag.name}
+                                tagTypeColour={tag.type?.colour || "#fff"}
+                                tagColour={tag.colour || "#fff"}
                                 canDelete={false}
                               />
                             ))

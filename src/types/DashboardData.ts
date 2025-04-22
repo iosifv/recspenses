@@ -1,14 +1,10 @@
-import { SimplifiedExpense } from "./Expense"
+import { ExpensePlainObject } from "./Expense"
 import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
-import { Tag } from "./Tag"
 import { FxRateData, FxRate } from "./FxRate"
 import { FrequencyLookup } from "./FrequencyLookup"
 import { CURRENCY, FREQUENCY } from "~/types/CustomEnum"
 
-/**
- * @deprecated
- */
-export type FrontendExpense = {
+export type DashboardExpense = {
   id?: number
   name: string
   amount: number
@@ -16,16 +12,14 @@ export type FrontendExpense = {
   original: string
   currency: (typeof CURRENCIES)[number]
   frequency: (typeof FREQUENCIES)[number]
-  tags: { id: string; name: string }[]
+  // TODO fix the colour part here
+  tags: { id: string; name: string; type: { id: string; colour: string } }[]
   createdAt: Date
   updatedAt: Date
 }
 
-/**
- * @deprecated
- */
-export class FrontendExpenses {
-  frontendExpenses: FrontendExpense[] = []
+export class DashboardData {
+  dashboardExpenseArray: DashboardExpense[] = []
   fxRate: FxRate
   displayCurrency: CURRENCY
   displayFrequency: FREQUENCY
@@ -36,7 +30,7 @@ export class FrontendExpenses {
     this.displayFrequency = displayFrequency
   }
 
-  transform(expense: SimplifiedExpense): number {
+  transform(expense: ExpensePlainObject): number {
     let transform =
       expense.amount /
       this.fxRate.get(this.displayCurrency, expense.currency) /
@@ -44,25 +38,33 @@ export class FrontendExpenses {
     return Math.floor(transform * 100) / 100
   }
 
-  add(simplifiedExpenses: SimplifiedExpense[]) {
-    simplifiedExpenses.forEach((se: SimplifiedExpense) => {
-      this.frontendExpenses.push({
-        id: se.id,
-        name: se.name,
-        amount: se.amount,
-        transformed: this.transform(se),
-        original: `${se.amount} ${se.currency} ${se.frequency}`,
-        currency: se.currency,
-        frequency: se.frequency,
-        tags: se.tags,
-        createdAt: se.createdAt,
-        updatedAt: se.updatedAt,
-      } as FrontendExpense)
+  /**
+   * Add an array of plain JS objects as returned by Expense.toPlainObject().
+   * Dates may be ISO strings. All fields are assumed serializable.
+   */
+  add(plainExpenses: ExpensePlainObject[]) {
+    plainExpenses.forEach((pe) => {
+      this.dashboardExpenseArray.push({
+        id: pe.id,
+        name: pe.name,
+        amount: pe.amount,
+        transformed: this.transform({
+          amount: pe.amount,
+          currency: pe.currency,
+          frequency: pe.frequency,
+        } as ExpensePlainObject),
+        original: `${pe.amount} ${pe.currency} ${pe.frequency}`,
+        currency: pe.currency,
+        frequency: pe.frequency,
+        tags: pe.tags,
+        createdAt: pe.createdAt,
+        updatedAt: pe.updatedAt,
+      } as DashboardExpense)
     })
   }
 
-  getAll(): FrontendExpense[] {
-    return this.frontendExpenses
+  getAllExpenses(): DashboardExpense[] {
+    return this.dashboardExpenseArray
   }
 
   // errorrMessages: string[] = []

@@ -2,6 +2,7 @@ import { Tag } from "./Tag"
 import { TagType } from "./TagType"
 import { User } from "./User" // Import User for reference
 import { CURRENCIES, FREQUENCIES } from "~/types/CustomEnum"
+import { PlainObjectConvertible } from "./PlainObjectConvertible"
 
 export type DBExpense = {
   id?: number
@@ -16,36 +17,18 @@ export type DBExpense = {
   updatedAt: Date
 }
 
-// /**
-//  * @deprecated
-//  */
-// export type SimplifiedExpense = {
-//   id?: number
-//   name: string
-//   amount: number
-//   currency: (typeof CURRENCIES)[number]
-//   frequency: (typeof FREQUENCIES)[number]
-//   tags: {
-//     id: string; name: string, tagTypeColour: string, tagColour: string
-//   }[]
-//   createdAt: Date
-//   updatedAt: Date
-// }
-
-// export type FrontendExpense = {
-//   id?: number
-//   name: string
-//   amount: number
-//   currency: (typeof CURRENCIES)[number]
-//   frequency: (typeof FREQUENCIES)[number]
-//   tags: {
-//     id: string; name: string, tagTypeColour: string, tagColour: string
-//   }[]
-//   createdAt: Date
-//   updatedAt: Date
-// }
-
-import { PlainObjectConvertible } from "./PlainObjectConvertible"
+export type ExpensePlainObject = {
+  id?: number
+  userId: string
+  tags: any[]
+  name: string
+  amount: number
+  currency: (typeof CURRENCIES)[number]
+  frequency: (typeof FREQUENCIES)[number]
+  extra: Record<string, unknown>
+  createdAt: string | Date
+  updatedAt: string | Date
+}
 
 export class Expense implements PlainObjectConvertible {
   id?: number
@@ -94,39 +77,6 @@ export class Expense implements PlainObjectConvertible {
     })
   }
 
-  // toSimplifiedExpense(): SimplifiedExpense {
-  //   return {
-  //     id: this.id,
-  //     name: this.name,
-  //     amount: this.amount,
-  //     currency: this.currency,
-  //     frequency: this.frequency,
-  //     tags: this.tags.map((tag) => ({
-  //       id: tag.id, name: tag.name, tagTypeColour: tag.type.color, tagColour: '#fff'
-  //     })),
-  //     createdAt: this.createdAt,
-  //     updatedAt: this.updatedAt,
-  //   }
-  // }
-
-  // toFrontendExpense(): FrontendExpense {
-  //   return {
-  //     id: this.id,
-  //     name: this.name,
-  //     amount: this.amount,
-  //     currency: this.currency,
-  //     frequency: this.frequency,
-  //     tags: this.tags.map((tag: Tag) => ({
-  //       id: tag.id,
-  //       name: tag.name,
-  //       tagTypeColour: tag.type.color,
-  //       tagColour: '#fff'
-  //     })),
-  //     createdAt: this.createdAt,
-  //     updatedAt: this.updatedAt,
-  //   }
-  // }
-
   // errorrMessages: string[] = []
   // validate(): boolean {
   //   if (this.name.trim() === "") {
@@ -148,12 +98,7 @@ export class Expense implements PlainObjectConvertible {
   //   return true
   // }
 
-  // // Todo: move this only for the frontend object
-  // getErrorMessages(): string[] {
-  //   return this.errorrMessages
-  //   }
-
-  toPlainObject(): Record<string, any> {
+  toPlainObject(): ExpensePlainObject {
     return {
       id: this.id,
       userId: this.userId,

@@ -12,9 +12,9 @@ export default async function Dashboard() {
   const plainExpenses = myExpenses.map((expense: Expense) => expense.toPlainObject())
   const plainUser = myUser.toPlainObject()
 
-  console.dir(plainUser, { depth: null })
-  console.dir(plainExpenses, { depth: null })
-  console.dir(fxData, { depth: null })
+  // console.dir(plainUser, { depth: null })
+  // console.dir(plainExpenses, { depth: null })
+  // console.dir(fxData, { depth: null })
 
   return (
     <HydrateClient>
