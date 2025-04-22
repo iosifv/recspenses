@@ -38,19 +38,23 @@ export default async function Settings() {
             </div>
           </section>
           <section className="w-full max-w-5xl mx-auto bg-gradient-to-br from-slate-900 to-slate-800 shadow-2xl rounded-2xl p-8 mt-8 flex flex-col items-center border border-slate-700">
-  <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 mb-2 text-center">Tag Types</h2>
-  <p className="text-base text-slate-300 mb-6 text-center">Organize your tags by type. Add, edit, or delete tag types and tags below.</p>
-  <div className="flex flex-wrap justify-center gap-6 w-full">
-    {plainRecspensesUser.tagTypes.map((tagType: TagType) => (
-      <ExistingTagTypeCard
-        key={tagType.id}
-        tagType={tagType}
-        tags={plainRecspensesUser.tags}
-      />
-    ))}
-    <NewTagTypeCard />
-  </div>
-</section>
+            <h2 className="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-sky-400 to-emerald-400 mb-2 text-center">
+              Tag Types
+            </h2>
+            <p className="text-base text-slate-300 mb-6 text-center">
+              Organize your tags by type. Add, edit, or delete tag types and tags below.
+            </p>
+            <div className="flex flex-wrap justify-center gap-6 w-full">
+              {plainRecspensesUser.tagTypes.map((tagType: TagType) => (
+                <ExistingTagTypeCard
+                  key={tagType.id}
+                  tagType={tagType}
+                  tags={plainRecspensesUser.tags}
+                />
+              ))}
+              <NewTagTypeCard />
+            </div>
+          </section>
         </div>
       </main>
     </HydrateClient>

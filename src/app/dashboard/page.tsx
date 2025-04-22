@@ -5,16 +5,16 @@ import ComponentDashboard from "./ComponentDashboard"
 import { Expense } from "~/types/Expense"
 
 export default async function Dashboard() {
-  const myExpenses = (await api.expense.getMine()) as Expense[]
   const myUser = await api.user.getMe()
+  const myExpenses = (await api.expense.getMine()) as Expense[]
   const fxData = await api.fx.getLatest()
 
   const plainExpenses = myExpenses.map((expense: Expense) => expense.toPlainObject())
   const plainUser = myUser.toPlainObject()
 
-  // console.dir(expenseData, { depth: null })
-  // console.dir(fxData, { depth: null })
-  // console.dir(userData, { depth: null })
+  console.dir(plainUser, { depth: null })
+  console.dir(plainExpenses, { depth: null })
+  console.dir(fxData, { depth: null })
 
   return (
     <HydrateClient>
