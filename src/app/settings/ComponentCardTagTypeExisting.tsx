@@ -88,45 +88,49 @@ const ExistingTagTypeCard: React.FC<ExistingTagTypeCardProps> = ({ tagType, tags
   // console.log(tags.filter((tag: Tag) => tag.type.id === tagType.id))
 
   return (
-    <Card className="w-64 bg-slate-50 shadow-lg rounded-xl bg-gray-900 text-white">
-      <CardHeader>
-        <div className="flex justify-between">
-          <div>
-            <CardTitle>{tagType.name}</CardTitle>
-            <div
-              style={{
-                marginLeft: "0px",
-                width: "125px",
-                height: "8px",
-                borderRadius: "3px",
-                backgroundColor: tagType.color,
-              }}
-            ></div>
-            <CardDescription>{tagType.description}</CardDescription>
+    <Card className="w-72 min-h-[340px] bg-gradient-to-br from-slate-800 to-gray-900 shadow-2xl rounded-2xl border border-slate-700 text-white flex flex-col justify-between">
+      <CardHeader className="pb-2">
+        <div className="flex justify-between items-start">
+          <div className="flex-1">
+            <CardTitle className="flex items-center gap-2 text-xl font-bold">
+              <span className="inline-block w-4 h-4 rounded-full" style={{ backgroundColor: tagType.color }}></span>
+              {tagType.name}
+            </CardTitle>
+            <CardDescription className="text-slate-300 mt-1 mb-2 text-sm">
+              {tagType.description}
+            </CardDescription>
           </div>
-
-          <div className="ml-2 p-0 cursor-pointer" onClick={onDeleteTagTypeButtonClick(tagType.id)}>
-            <TrashIcon />
-          </div>
+          <button
+            className="ml-2 p-2 rounded-full hover:bg-red-500/20 transition-colors"
+            onClick={onDeleteTagTypeButtonClick(tagType.id)}
+            title="Delete Tag Type"
+          >
+            <TrashIcon className="w-5 h-5 text-red-400 hover:text-red-600" />
+          </button>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-wrap gap-2 mb-2">
         {tags
           .filter((tag: Tag) => tag.type.id === tagType.id)
           .map((tag: Tag) => (
             <SettingTagBadge key={tag.id} id={tag.id} name={tag.name} />
           ))}
       </CardContent>
-      <CardFooter>
+      <CardFooter className="pt-2 flex gap-2">
         <Input
           type="text"
           id="new-tag"
           placeholder="New Tag"
+          className="rounded-lg bg-slate-900 border border-slate-700 focus:ring-2 focus:ring-emerald-400 text-white flex-1"
           onChange={(e) => setTag(e.target.value)}
           value={tag}
         />
-        <Button onClick={onAddTagTypeButtonClick}>
-          <PlusIcon />
+        <Button
+          onClick={onAddTagTypeButtonClick}
+          className="bg-emerald-500 hover:bg-emerald-600 rounded-lg px-3 py-2"
+          title="Add Tag"
+        >
+          <PlusIcon className="w-5 h-5" />
         </Button>
       </CardFooter>
     </Card>

@@ -32,24 +32,32 @@ const NewTagTypeCard = () => {
   return (
     <Card
       key="new-tag-type"
-      className="w-64 h-64 bg-slate-50 shadow-lg rounded-xl bg-gray-800 text-white"
+      className="w-72 min-h-[340px] bg-gradient-to-br from-slate-800 to-gray-900 shadow-2xl rounded-2xl border border-slate-700 text-white flex flex-col justify-between"
     >
-      <CardHeader>
-        <CardTitle>New Tag Type</CardTitle>
-        <CardDescription>Card Description</CardDescription>
+      <CardHeader className="pb-2">
+        <CardTitle className="text-xl font-bold text-emerald-400 flex items-center gap-2">
+          + New Tag Type
+        </CardTitle>
+        <CardDescription className="text-slate-300 mt-1 mb-2 text-sm">
+          Create a new tag type to organize your expenses.
+        </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-3 mb-2">
         <Input
           type="text"
           id="new-tag-type"
-          placeholder="Create New Tag Type"
+          placeholder="Tag Type Name"
+          className="rounded-lg bg-slate-900 border border-slate-700 focus:ring-2 focus:ring-emerald-400 text-white"
           onChange={(e) => setTagType(e.target.value)}
           value={tagType}
         />
-        <Button onClick={onNewTagTypeButtonClick}>Create</Button>
-        <br />
+        <Button
+          onClick={onNewTagTypeButtonClick}
+          className="bg-emerald-500 hover:bg-emerald-600 rounded-lg px-3 py-2 mt-1"
+        >
+          Create
+        </Button>
       </CardContent>
-      <CardFooter>Footer</CardFooter>
     </Card>
   )
 }
