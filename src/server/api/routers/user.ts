@@ -84,7 +84,13 @@ export const userRouter = createTRPCRouter({
     }),
 
   addTagType: publicProcedure
-    .input(z.object({ newTagTypeName: z.string() }))
+    .input(
+      z.object({
+        newTagTypeName: z.string(),
+        newTagTypeDescription: z.string(),
+        newTagTypeColor: z.string(),
+      }),
+    )
     .mutation(async ({ ctx, input }) => {
       const userId = await getUserId()
 
@@ -96,7 +102,8 @@ export const userRouter = createTRPCRouter({
         const newTagType: TagType = {
           id: generateUniqueId(input.newTagTypeName),
           name: input.newTagTypeName,
-          color: getRandomColour(),
+          description: input.newTagTypeDescription,
+          color: input.newTagTypeColor,
         }
 
         myUser.tagTypes.push(newTagType)

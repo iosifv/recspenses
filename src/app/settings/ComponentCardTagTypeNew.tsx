@@ -16,6 +16,8 @@ import { useRouter } from "next/navigation"
 
 const NewTagTypeCard = () => {
   const [tagType, setTagType] = useState("")
+  const [description, setDescription] = useState("")
+  const [color, setColor] = useState("#10b981") // emerald-500 default
   const router = useRouter()
 
   const onNewTagTypeButtonClick = () => {
@@ -24,7 +26,7 @@ const NewTagTypeCard = () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ tagType }),
+      body: JSON.stringify({ tagType, description, color }),
     })
     router.refresh()
   }
@@ -51,9 +53,29 @@ const NewTagTypeCard = () => {
           onChange={(e) => setTagType(e.target.value)}
           value={tagType}
         />
+        <Input
+          type="text"
+          id="new-tag-type-description"
+          placeholder="Description (optional)"
+          className="rounded-lg bg-slate-900 border border-slate-700 focus:ring-2 focus:ring-emerald-400 text-white"
+          onChange={(e) => setDescription(e.target.value)}
+          value={description}
+        />
+        <div className="flex items-center gap-2">
+          <label htmlFor="new-tag-type-color" className="text-sm text-slate-300">Color:</label>
+          <Input
+            type="color"
+            id="new-tag-type-color"
+            className="w-8 h-8 p-0 border-none bg-transparent cursor-pointer"
+            onChange={(e) => setColor(e.target.value)}
+            value={color}
+          />
+          <span className="text-xs text-slate-400 ml-2">{color}</span>
+        </div>
         <Button
           onClick={onNewTagTypeButtonClick}
-          className="bg-emerald-500 hover:bg-emerald-600 rounded-lg px-3 py-2 mt-1"
+          className="bg-emerald-500 hover:bg-emerald-600 rounded-lg px-3 py-2 mt-1 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={tagType.trim() === ""}
         >
           Create
         </Button>
