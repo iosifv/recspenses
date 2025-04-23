@@ -46,7 +46,7 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
         <DataTable columns={columns} data={dashboardExpenseArray} />
       </div>
       <div className="w-3/10">
-        <ComponentChart data={dashboardExpenseArray} />
+        <ComponentChart data={dashboardExpenseArray} plainUser={plainUser} />
       </div>
     </div>
   )
