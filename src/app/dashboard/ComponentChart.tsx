@@ -7,6 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "~/components/ui/chart"
+import { DashboardExpense } from "~/types/DashboardData"
 
 // interface ChartProps {
 //   data: Array<{
@@ -17,11 +18,11 @@ import {
 //   config: ChartConfig
 // }
 
-export default function ComponentChart({ data }: { data: any }) {
+export default function ComponentChart({ data }: { data: DashboardExpense[] }) {
   const expenseChartData = data.map((expense) => {
     return {
       name: expense.name,
-      amount: expense.amount,
+      amount: expense.transformed,
       fill: `var(--color-${expense.name.toLowerCase()})`,
     }
   })
@@ -40,7 +41,7 @@ export default function ComponentChart({ data }: { data: any }) {
       <ResponsiveContainer width="100%" height={200}>
         <PieChart>
           <ChartTooltip content={<ChartTooltipContent hideLabel />} />
-          <Pie data={data} dataKey="amount" label nameKey="name" />
+          <Pie data={expenseChartData} dataKey="amount" label nameKey="name" />
         </PieChart>
       </ResponsiveContainer>
     </ChartContainer>

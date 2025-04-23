@@ -51,7 +51,6 @@ export function DataTable({ columns, data }: DataTableProps) {
                 <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
                   {row.getVisibleCells().map((cell) => {
                     const rowTags = row.original.tags
-                    // console.log(row.id)
 
                     return (
                       <TableCell key={cell.id}>
@@ -62,7 +61,7 @@ export function DataTable({ columns, data }: DataTableProps) {
                                 expenseId={row.original.id ?? 0}
                                 tagId={tag.id}
                                 tagName={tag.name}
-                                tagTypeColour={tag.type?.colour || "#fff"}
+                                tagTypeColour={tag.type?.color || "#fff"}
                                 tagColour={tag.colour || "#fff"}
                                 canDelete={false}
                               />

@@ -33,9 +33,7 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   dashboardData.add(plainExpenses as ExpensePlainObject[])
   const dashboardExpenseArray = dashboardData.getAllExpenses()
 
-  useEffect(() => {
-    console.dir(dashboardExpenseArray, { depth: null })
-  }, [dashboardData])
+  console.log(dashboardExpenseArray)
 
   return (
     <div className="flex">
