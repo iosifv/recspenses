@@ -198,7 +198,7 @@ export default function ComponentChart({
                       </Pie>
                       <Legend layout="horizontal" verticalAlign="bottom" align="center" />
                     </PieChart>
-                  </ResponsiveContainer>
+                  </ResponsiveContainer>{" "}
                 </ChartContainer>
               </CardContent>
             </Card>
