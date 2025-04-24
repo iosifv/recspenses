@@ -28,6 +28,9 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   const [displayFrequency, setDisplayFrequency] = useState<FREQUENCY>(
     plainUser.metadata.frequency as FREQUENCY,
   )
+  const [displayOthers, setDisplayOthers] = useState<boolean>(
+    plainUser.metadata.displayOthers as boolean,
+  )
 
   const dashboardData = new DashboardData(fxData, displayCurrency, displayFrequency)
   dashboardData.add(plainExpenses as ExpensePlainObject[])
@@ -36,17 +39,24 @@ const ComponentDashboard: React.FC<ComponentDashboardProps> = ({
   console.log(dashboardExpenseArray)
 
   return (
-    <div className="flex">
-      <div className="w-7/10">
+    <div className="flex flex-col space-y-6">
+      <div className="w-full">
+        <ComponentChart 
+          data={dashboardExpenseArray} 
+          plainUser={plainUser} 
+          displayOthers={displayOthers}
+        />
+      </div>
+      <div className="w-full">
         <ComponentCardSettings
           metadata={plainUser.metadata}
           onCurrencyChange={setDisplayCurrency}
           onFrequencyChange={setDisplayFrequency}
+          onDisplayOthersChange={setDisplayOthers}
         />
-        <DataTable columns={columns} data={dashboardExpenseArray} />
-      </div>
-      <div className="w-3/10">
-        <ComponentChart data={dashboardExpenseArray} plainUser={plainUser} />
+        <div className="mt-6">
+          <DataTable columns={columns} data={dashboardExpenseArray} />
+        </div>
       </div>
     </div>
   )

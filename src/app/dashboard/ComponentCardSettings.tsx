@@ -14,12 +14,14 @@ interface ComponentCardSettingsProps {
   metadata: any
   onCurrencyChange: (value: "GBP" | "USD" | "EUR" | "RON") => void
   onFrequencyChange: (value: "daily" | "weekly" | "monthly" | "yearly") => void
+  onDisplayOthersChange: (value: boolean) => void
 }
 
 const ComponentCardSettings: React.FC<ComponentCardSettingsProps> = ({
-  metadata: { currency, frequency },
+  metadata: { currency, frequency, displayOthers },
   onCurrencyChange,
   onFrequencyChange,
+  onDisplayOthersChange,
 }) => {
   return (
     <Card className="w-128 h-32 bg-slate-50 shadow-lg rounded-xl bg-gray-800 text-white">
@@ -53,6 +55,20 @@ const ComponentCardSettings: React.FC<ComponentCardSettingsProps> = ({
                   {frequency}
                 </SelectItem>
               ))}
+            </SelectContent>
+          </Select>
+        </div>
+        <div className="w-1/10">
+          <Select
+            onValueChange={(value) => onDisplayOthersChange(value === "true")}
+            defaultValue="true"
+          >
+            <SelectTrigger className="w-[120px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="true">Yes</SelectItem>
+              <SelectItem value="false">No</SelectItem>
             </SelectContent>
           </Select>
         </div>
