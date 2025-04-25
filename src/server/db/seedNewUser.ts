@@ -24,48 +24,57 @@ export const DEFAULT_TAG_TYPES: TagType[] = [
   },
 ] satisfies TagType[]
 
+const DEFAULT_TAG_COLOR = "#448AFF"
+
 export const DEFAULT_TAGS: DBTag[] = [
   {
     id: "example",
     name: "Example",
     description: "Example expenses created by the app",
     type: DEFAULT_TAG_TYPES[0]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
   {
     id: "living",
     name: "Living",
     description: "All living expenses",
     type: DEFAULT_TAG_TYPES[0]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
   {
     id: "entertainment",
     name: "Entertainment",
     description: "All entertainment expenses",
     type: DEFAULT_TAG_TYPES[0]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
   {
     id: "salary",
     name: "Salary",
     description: "All salary income",
     type: DEFAULT_TAG_TYPES[1]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
   {
     id: "savings",
     name: "Savings",
     description: "All savings income",
     type: DEFAULT_TAG_TYPES[1]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
   {
     id: "credit-card",
     name: "Credit Card",
     description: "All credit card expenses",
     type: DEFAULT_TAG_TYPES[2]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
   {
     id: "debit-card",
     name: "Debit Card",
     description: "All debit card expenses",
     type: DEFAULT_TAG_TYPES[2]!.id,
+    color: DEFAULT_TAG_COLOR,
   },
 ] satisfies DBTag[]
 

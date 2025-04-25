@@ -48,6 +48,9 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
   - [ ] Use that json to export users data from settings page
 - [ ] Analytics (w/ posthog)
 - [ ] Ratelimiting (w/ upstash)
+- [ ] Add color picker for tags
+- [ ] Limit color choices
+- [ ] Make sure the colours are consistent on tags and tag types
 
 ## Todo User Journeys
 
@@ -64,8 +67,8 @@ This is a [T3 Stack](https://create.t3.gg/) training project. At least that's ho
 - [x] In my Settings Tab I can see information about me
 - [ ] In my Settings Tab I can Export all my expenses to a json file
 - [ ] In my Settings Tab I can Import my expenses from a json file
-- [ ] In my Dashboard Tab I can see my expenses analytics transformed into one currency
-- [ ] In my Dashboard Tab I can pick which currency I want to see my expenses in
+- [x] In my Dashboard Tab I can see my expenses analytics transformed into one currency
+- [x] In my Dashboard Tab I can pick which currency I want to see my expenses in
 
 ## Development
 

@@ -12,8 +12,8 @@ export default async function Settings() {
   const clerkUser = await getUser()
   const plainRecspensesUser = recspensesUser.toPlainObject()
 
-  console.dir(plainRecspensesUser.tagTypes, { depth: null })
-  console.dir(plainRecspensesUser.tags, { depth: null })
+  // console.dir(plainRecspensesUser.tagTypes, { depth: null })
+  // console.dir(plainRecspensesUser.tags, { depth: null })
 
   return (
     <HydrateClient>

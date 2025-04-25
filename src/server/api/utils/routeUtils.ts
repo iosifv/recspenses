@@ -7,6 +7,9 @@ export function generateUniqueId(baseName: string): string {
 }
 
 // Function to generate a random color in hex format
+/**
+ * @deprecated
+ */
 export function getRandomColour() {
   const randomColor = Math.floor(Math.random() * 16777215).toString(16)
   return `#${randomColor}`

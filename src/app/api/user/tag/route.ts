@@ -5,10 +5,10 @@ export const dynamic = "force-dynamic"
 
 export async function POST(req: Request) {
   const body = await req.json()
-  const { tagType, tag } = body
+  const { tagType, tag, color } = body
 
   return executeWithTryCatch(async () => {
-    await api.user.addTag({ newTagName: tag, existingTagType: tagType })
+    await api.user.addTag({ newTagName: tag, existingTagType: tagType, color: color })
   })
 }
 
